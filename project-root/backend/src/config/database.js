@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const config = require('./default');
+const config = require('./default'); // Assuming it exports DB_CONFIG
 
 const sequelize = new Sequelize(
     config.DB_CONFIG.database,
@@ -8,13 +8,13 @@ const sequelize = new Sequelize(
     {
         host: config.DB_CONFIG.host,
         dialect: config.DB_CONFIG.dialect,
-        logging: false, // Disable SQL query logs
+        logging: process.env.LOG_LEVEL === 'debug',
     }
 );
 
 sequelize
     .authenticate()
-    .then(() => console.log('PostgreSQL connected successfully.'))
-    .catch((err) => console.error('Unable to connect to PostgreSQL:', err));
+    .then(() => console.log('Database connected successfully.'))
+    .catch((err) => console.error('Database connection failed:', err));
 
 module.exports = sequelize;

@@ -57,7 +57,12 @@ const TrafficLog = sequelize.define('TrafficLog', {
     },
 }, {
     tableName: 'traffic_logs',
-    timestamps: false, // Already using a timestamp field
+    timestamps: true,
+    createdAt: 'created_at', // Maps to your schema fields
+    updatedAt: false, 
+
+
+
 });
 
 module.exports = TrafficLog;

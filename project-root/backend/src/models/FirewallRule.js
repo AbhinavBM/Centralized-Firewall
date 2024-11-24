@@ -24,7 +24,15 @@ const FirewallRule = sequelize.define('FirewallRule', {
     domain: {
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+            isUrl: true, // Ensures valid domain format if provided
+        },
     },
+    indexes: [
+        {
+            fields: ['endpoint_id', 'type'], // Optimizes frequent queries
+        },
+    ],
     ip_address: {
         type: DataTypes.STRING,
         allowNull: true,

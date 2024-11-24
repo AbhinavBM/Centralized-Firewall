@@ -18,10 +18,16 @@ const Endpoint = sequelize.define('Endpoint', {
     ip_address: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true, // Prevent duplicate IPs
+        validate: {
+            isIP: true, // Ensures valid IP address format
+        },
     },
     status: {
         type: DataTypes.ENUM('online', 'offline'),
         allowNull: false,
+        defaultValue: 'offline', 
+
     },
     last_sync: {
         type: DataTypes.DATE,

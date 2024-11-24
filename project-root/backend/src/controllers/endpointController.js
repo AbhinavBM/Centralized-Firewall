@@ -1,25 +1,21 @@
-const Endpoint = require('../models/Endpoint');
+const { pool } = require('../config/db'); // Assuming pool is configured for PostgreSQL
 
 // Create a new endpoint
 const createEndpoint = async (req, res) => {
     const { hostname, os, ip_address, status } = req.body;
 
     try {
-        // Validate required fields
         if (!hostname || !ip_address || !status) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
-        // Create new endpoint
-        const endpoint = await Endpoint.create({
-            hostname,
-            os,
-            ip_address,
-            status,
-        });
+        // Insert the new endpoint
+        const result = await pool.query(
+            'INSERT INTO endpoints (hostname, os, ip_address, status) VALUES ($1, $2, $3, $4) RETURNING *',
+            [hostname, os, ip_address, status]
+        );
 
-        // Respond with the created endpoint
-        res.status(201).json(endpoint);
+        return res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -29,11 +25,8 @@ const createEndpoint = async (req, res) => {
 // Get all endpoints
 const getEndpoints = async (req, res) => {
     try {
-        // Fetch all endpoints
-        const endpoints = await Endpoint.findAll();
-        
-        // Respond with all the endpoints
-        res.status(200).json(endpoints);
+        const result = await pool.query('SELECT * FROM endpoints');
+        res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -46,22 +39,17 @@ const updateEndpoint = async (req, res) => {
     const { hostname, os, ip_address, status } = req.body;
 
     try {
-        // Find the endpoint to update
-        const endpoint = await Endpoint.findByPk(id);
-        if (!endpoint) {
+        const result = await pool.query('SELECT * FROM endpoints WHERE id = $1', [id]);
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: 'Endpoint not found' });
         }
 
-        // Update the endpoint
-        endpoint.hostname = hostname || endpoint.hostname;
-        endpoint.os = os || endpoint.os;
-        endpoint.ip_address = ip_address || endpoint.ip_address;
-        endpoint.status = status || endpoint.status;
+        const updatedResult = await pool.query(
+            'UPDATE endpoints SET hostname = $1, os = $2, ip_address = $3, status = $4 WHERE id = $5 RETURNING *',
+            [hostname || result.rows[0].hostname, os || result.rows[0].os, ip_address || result.rows[0].ip_address, status || result.rows[0].status, id]
+        );
 
-        await endpoint.save();
-
-        // Respond with the updated endpoint
-        res.status(200).json(endpoint);
+        return res.status(200).json(updatedResult.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -73,17 +61,15 @@ const deleteEndpoint = async (req, res) => {
     const { id } = req.params;
 
     try {
-        // Find the endpoint to delete
-        const endpoint = await Endpoint.findByPk(id);
-        if (!endpoint) {
+        const result = await pool.query('SELECT * FROM endpoints WHERE id = $1', [id]);
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: 'Endpoint not found' });
         }
 
         // Delete the endpoint
-        await endpoint.destroy();
+        await pool.query('DELETE FROM endpoints WHERE id = $1', [id]);
 
-        // Respond with a success message
-        res.status(200).json({ message: 'Endpoint deleted successfully' });
+        return res.status(200).json({ message: 'Endpoint deleted successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -92,7 +78,7 @@ const deleteEndpoint = async (req, res) => {
 
 module.exports = {
     createEndpoint,
+    getEndpoints,
     updateEndpoint,
     deleteEndpoint,
-    getEndpoints,
 };

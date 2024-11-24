@@ -22,7 +22,8 @@ const Application = sequelize.define('Application', {
         allowNull: false,
     },
     status: {
-        type: DataTypes.ENUM('allowed', 'blocked'),
+        type: DataTypes.ENUM('allowed', 'blocked', 'pending', 'suspended'),
+        defaultValue: 'allowed',
         allowNull: false,
     },
 }, {
@@ -31,5 +32,9 @@ const Application = sequelize.define('Application', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
 });
+
+// Associations
+Application.belongsTo(Endpoint, { foreignKey: 'endpoint_id' });
+Endpoint.hasMany(Application, { foreignKey: 'endpoint_id' });
 
 module.exports = Application;
