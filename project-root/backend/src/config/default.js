@@ -3,8 +3,8 @@ module.exports = {
     DB_CONFIG: {
         host: process.env.DB_HOST || 'localhost',
         user: process.env.DB_USER || 'postgres',
-        password: process.env.DB_PASSWORD || '',
-        database: process.env.DB_NAME || 'firewall_db',
+        password: process.env.DB_PASSWORD || 'Abhi@1234',
+        database: process.env.DB_NAME || 'postgres',
         dialect: 'postgres',
     },
     JWT_SECRET: process.env.JWT_SECRET || 'your-secret-key',

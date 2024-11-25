@@ -24,18 +24,18 @@ app.use(morgan('dev')); // Logs requests in development
 app.use(express.json()); // Parses JSON bodies
 
 // Route Imports
-const authRouter = require('./routes/authRouter');
-const endpointRouter = require('./routes/endpointRouter');
-const firewallRouter = require('./routes/firewallRouter');
-const trafficRouter = require('./routes/trafficRouter');
-const applicationRouter = require('./routes/applicationRouter');
+const authRouter = require('./routes/authRoutes');
+// const endpointRouter = require('./routes/endpointRoutes');
+const firewallRouter = require('./routes/firewallRoutes');
+// const trafficRouter = require('./routes/trafficRoutes');
+// const applicationRouter = require('./routes/applicationRoutes');
 
 // Routes
 app.use('/auth', authRouter);
-app.use('/endpoints', endpointRouter);
+// app.use('/endpoints', endpointRouter);
 app.use('/firewall', firewallRouter);
-app.use('/traffic', trafficRouter);
-app.use('/applications', applicationRouter);
+// app.use('/traffic', trafficRouter);
+// app.use('/applications', applicationRouter);
 
 // Catch-all for unmatched routes (404 handler)
 app.use((req, res, next) => {
