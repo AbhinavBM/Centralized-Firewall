@@ -1,52 +1,24 @@
-const express = require('express');
-const morgan = require('morgan'); // For logging
-const helmet = require('helmet'); // For security headers
-const cors = require('cors'); // For handling CORS
-const errorHandler = require('./middlewares/errorMiddleware'); // Custom error handler
-require('dotenv').config();
+const app = require('./app'); // Import the configured Express app
+const sequelize = require('../src/config/database'); // Sequelize instance for database connection
 
-// Ensure required environment variables are loaded
-const requiredEnvVars = ['PORT', 'DB_HOST', 'DB_NAME', 'JWT_SECRET'];
-requiredEnvVars.forEach((varName) => {
-    if (!process.env[varName]) {
-        console.error(`Environment variable ${varName} is not set.`);
-        process.exit(1); // Exit if required environment variable is missing
+// Get the port from environment variables or use default
+const PORT = process.env.PORT || 3000;
+
+// Start the server
+const startServer = async () => {
+    try {
+        // Test database connection
+        await sequelize.authenticate();
+        console.log('Database connected successfully.');
+
+        // Start listening on the specified port
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (err) {
+        console.error('Failed to start server:', err);
+        process.exit(1); // Exit on failure
     }
-});
+};
 
-// Initialize Express
-const app = express();
-
-// Middleware
-app.use(helmet()); // Adds security headers
-app.use(cors()); // Enables CORS
-app.use(morgan('dev')); // Logs requests in development
-app.use(express.json()); // Parses JSON bodies
-
-// Route Imports
-const authRouter = require('./routes/authRoutes');
-// const endpointRouter = require('./routes/endpointRoutes');
-const firewallRouter = require('./routes/firewallRoutes');
-// const trafficRouter = require('./routes/trafficRoutes');
-// const applicationRouter = require('./routes/applicationRoutes');
-
-// Routes
-app.use('/auth', authRouter);
-// app.use('/endpoints', endpointRouter);
-app.use('/firewall', firewallRouter);
-// app.use('/traffic', trafficRouter);
-// app.use('/applications', applicationRouter);
-
-// Catch-all for unmatched routes (404 handler)
-app.use((req, res, next) => {
-    res.status(404).json({
-        success: false,
-        message: `Route ${req.method} ${req.originalUrl} not found.`,
-    });
-});
-
-// Error Handling Middleware
-app.use(errorHandler);
-
-// Export the app
-module.exports = app;
+startServer();
