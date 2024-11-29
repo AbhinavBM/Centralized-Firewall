@@ -1,20 +1,27 @@
 const { Sequelize } = require('sequelize');
-const config = require('./default'); // Assuming it exports DB_CONFIG
+const config = require('./default');
 
-const sequelize = new Sequelize(
-    config.DB_CONFIG.database,
-    config.DB_CONFIG.user,
-    config.DB_CONFIG.password,
-    {
-        host: config.DB_CONFIG.host,
-        dialect: config.DB_CONFIG.dialect,
-        logging: process.env.LOG_LEVEL === 'debug',
+// Initialize sequelize instance
+const sequelize = new Sequelize(config.database.database, config.database.user, config.database.password, {
+    host: config.database.host,
+    dialect: config.database.dialect,
+    logging: process.env.LOG_LEVEL === 'debug', // Log SQL queries if debug level is enabled
+    define: {
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+    },
+});
+
+// Test the connection
+const authenticate = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Database connected successfully');
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        process.exit(1);
     }
-);
+};
 
-// sequelize
-//     .authenticate()
-//     .then(() => console.log('Database connected successfully.'))
-//     .catch((err) => console.error('Database connection failed:', err));
-
-module.exports = sequelize;
+module.exports = { sequelize, authenticate };

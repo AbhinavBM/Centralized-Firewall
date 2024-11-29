@@ -1,54 +1,51 @@
 const express = require('express');
-const morgan = require('morgan'); // For logging
-const helmet = require('helmet'); // For security headers
-const cors = require('cors'); // For handling CORS
-const errorHandler = require('./middlewares/errorMiddleware'); // Custom error handler
+const morgan = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+const errorHandler = require('./middlewares/errorMiddleware');
 require('dotenv').config(); // Load environment variables
 
-// Ensure required environment variables are loaded
 const requiredEnvVars = ['PORT', 'DB_HOST', 'DB_NAME', 'JWT_SECRET'];
 requiredEnvVars.forEach((varName) => {
     if (!process.env[varName]) {
         console.error(`Environment variable ${varName} is not set.`);
-        process.exit(1); // Exit if a required environment variable is missing
+        process.exit(1); // Exit if missing
     }
 });
 
-// Initialize Express
 const app = express();
 
 // Middleware
-app.use(helmet()); // Adds security headers to HTTP responses
-app.use(cors()); // Enables CORS for cross-origin requests
-app.use(morgan('dev')); // Logs requests in development mode
-app.use(express.json()); // Parses incoming JSON payloads
-app.use(express.urlencoded({ extended: false })); // Parses URL-encoded payloads
+app.use(helmet());
+app.use(cors());
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// Route Imports
+// Routes
 const authRouter = require('./routes/authRoutes');
-const firewallRouter = require('./routes/firewallRoutes');
-// Uncomment and add routes as they are implemented
+// const firewallRouter = require('./routes/firewallRoutes');
+// Uncomment when routes are ready:
 // const endpointRouter = require('./routes/endpointRoutes');
 // const trafficRouter = require('./routes/trafficRoutes');
 // const applicationRouter = require('./routes/applicationRoutes');
 
 // Register Routes
-app.use('/auth', authRouter); // Authentication routes
-app.use('/firewall', firewallRouter); // Firewall-related routes
+app.use('/api/auth', authRouter);
+// app.use('/firewall', firewallRouter);
 // app.use('/endpoints', endpointRouter);
 // app.use('/traffic', trafficRouter);
 // app.use('/applications', applicationRouter);
 
-// Catch-all for unmatched routes (404 handler)
-app.use((req, res, next) => {
+// 404 handler for unmatched routes
+app.use((req, res) => {
     res.status(404).json({
         success: false,
         message: `Route ${req.method} ${req.originalUrl} not found.`,
     });
 });
 
-// Centralized Error Handling Middleware
+// Centralized error handling
 app.use(errorHandler);
 
-// Export the Express app
 module.exports = app;

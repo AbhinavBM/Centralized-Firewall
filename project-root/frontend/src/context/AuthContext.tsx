@@ -1,35 +1,37 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
+import { authReducer } from '../state/reducers/authReducer';
+import { AuthAction } from '../state/actions/authActions';
+import { User } from '../interfaces/user';
 
-interface AuthContextType {
-    user: any | null;
-    login: (userData: any) => void;
-    logout: () => void;
+interface AuthContextProps {
+    state: AuthState;
+    dispatch: React.Dispatch<AuthAction>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+interface AuthState {
+    user: User | null;
+}
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-    return context;
+const initialState: AuthState = {
+    user: null,
 };
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<any | null>(null);
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-    const login = (userData: any) => {
-        setUser(userData);
-    };
-
-    const logout = () => {
-        setUser(null);
-    };
+export const AuthProvider: React.FC = ({ children }) => {
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ state, dispatch }}>
             {children}
         </AuthContext.Provider>
     );
+};
+
+export const useAuthContext = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuthContext must be used within an AuthProvider');
+    }
+    return context;
 };

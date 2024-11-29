@@ -1,26 +1,19 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware to validate JWT
-const authenticateJWT = (req, res, next) => {
-    // Get the token from the authorization header
-    const token = req.header('Authorization')?.split(' ')[1];
-
+const authMiddleware = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    
     if (!token) {
-        return res.status(403).json({ message: 'Access Denied: No Token Provided' });
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
     }
 
-    // Verify the token
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ message: 'Access Denied: Invalid Token' });
-        }
-
-        // Attach the user information to the request object
-        req.user = user;
-
-        // Pass control to the next middleware or route handler
+    try {
+        const decoded = jwt.verify(token, 'your-jwt-secret');
+        req.user = decoded;
         next();
-    });
+    } catch (err) {
+        res.status(400).json({ message: 'Invalid token' });
+    }
 };
 
-module.exports = authenticateJWT;
+module.exports = authMiddleware;
