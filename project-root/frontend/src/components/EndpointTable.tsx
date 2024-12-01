@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllEndpoints, deleteEndpoint, updateEndpoint } from '../api/auth/endpointService';
 import { Endpoint } from '../interfaces/endpoint';
-import './styles/endpointStyles.css'; // Import CSS file
+import './styles/EndpointTable.css'; // Import CSS file
 
 const EndpointTable: React.FC = () => {
     const [endpoints, setEndpoints] = useState<Endpoint[]>([]);
@@ -70,20 +70,32 @@ const EndpointTable: React.FC = () => {
                 <thead>
                     <tr>
                         <th>Hostname</th>
+                        <th>IP Address</th>
+                        <th>OS</th>
                         <th>Status</th>
+                        <th>Password</th> {/* Added Password column */}
+                        <th>Last Sync</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {endpoints.length === 0 ? (
                         <tr>
-                            <td colSpan={3}>No endpoints found</td>
+                            <td colSpan={9}>No endpoints found</td>
                         </tr>
                     ) : (
                         endpoints.map((endpoint) => (
                             <tr key={endpoint.id}>
                                 <td>{endpoint.hostname}</td>
+                                <td>{endpoint.ip_address}</td>
+                                <td>{endpoint.os || 'N/A'}</td>
                                 <td>{endpoint.status}</td>
+                                <td>{endpoint.password || 'N/A'}</td> {/* Display real password */}
+                                <td>{new Date(endpoint.last_sync).toLocaleString()}</td>
+                                <td>{new Date(endpoint.created_at).toLocaleString()}</td>
+                                <td>{new Date(endpoint.updated_at).toLocaleString()}</td>
                                 <td>
                                     <button onClick={() => handleUpdate(endpoint.id)} disabled={loading}>
                                         {loading ? 'Updating...' : 'Update'}

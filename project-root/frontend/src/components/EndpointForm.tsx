@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { createEndpoint } from '../api/auth/endpointService';
 import { Endpoint } from '../interfaces/endpoint'; // Import the Endpoint interface
-import './styles/endpointStyles.css'; // Import CSS file
+import './styles/EndpointForm.css'; // Import CSS file
 
 const EndpointForm: React.FC = () => {
     const [hostname, setHostname] = useState('');
     const [password, setPassword] = useState('');
+    const [os, setOs] = useState<string | null>(''); // New field for OS
+    const [ipAddress, setIpAddress] = useState(''); // New field for IP Address
+    const [status, setStatus] = useState('offline'); // New field for status
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -19,9 +22,9 @@ const EndpointForm: React.FC = () => {
             const endpointData: Endpoint = {
                 id: '', // UUID will be assigned by the backend
                 hostname,
-                os: null, // or the OS value, if available
-                ip_address: '', // IP address can be added, if needed
-                status: 'offline', // Default status, or customize based on input
+                os, // Added OS field
+                ip_address: ipAddress, // Added IP Address field
+                status, // Added status field
                 last_sync: new Date().toISOString(),
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
@@ -32,6 +35,9 @@ const EndpointForm: React.FC = () => {
             alert('Endpoint created successfully!');
             setHostname('');
             setPassword('');
+            setOs('');
+            setIpAddress('');
+            setStatus('offline');
         } catch (error: any) {
             console.error('Error creating endpoint:', error);
             setError('Error creating endpoint. Please try again later.');
@@ -65,6 +71,38 @@ const EndpointForm: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                </div>
+                <div>
+                    <label htmlFor="os">Operating System</label>
+                    <input
+                        type="text"
+                        id="os"
+                        placeholder="Enter operating system"
+                        value={os || ''}
+                        onChange={(e) => setOs(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="ipAddress">IP Address</label>
+                    <input
+                        type="text"
+                        id="ipAddress"
+                        placeholder="Enter IP address"
+                        value={ipAddress}
+                        onChange={(e) => setIpAddress(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="status">Status</label>
+                    <select
+                        id="status"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value="offline">Offline</option>
+                        <option value="online">Online</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
                 </div>
                 {error && <p className="error">{error}</p>}
                 <button type="submit" disabled={loading}>
