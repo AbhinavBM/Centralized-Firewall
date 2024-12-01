@@ -52,6 +52,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isSignup }) => {
 
       // Save token in localStorage
       localStorage.setItem('authToken', token);
+      localStorage.setItem('user', JSON.stringify(user)); // Convert user object to JSON string before saving
 
       navigate('/dashboard');
     } catch (err) {
