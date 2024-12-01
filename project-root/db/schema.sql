@@ -9,16 +9,17 @@ CREATE TABLE users (
 );
 
 -- Endpoints Table
-CREATE TABLE endpoints (
-    id UUID PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS endpoints (
+    id SERIAL PRIMARY KEY,
     hostname VARCHAR(255) NOT NULL,
     os VARCHAR(255),
-    ip_address VARCHAR(15) NOT NULL,
-    status VARCHAR(20) CHECK (status IN ('online', 'offline')) NOT NULL,
-    last_sync TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+    ip_address VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    password VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Create the enum for application status
 CREATE TYPE application_status AS ENUM ('allowed', 'blocked', 'pending', 'suspended');

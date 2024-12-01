@@ -3,15 +3,15 @@ const router = express.Router();
 const authenticateJWT = require('../middlewares/authMiddleware'); // Import JWT middleware
 const {
     createEndpoint,
+    getEndpoints,
     updateEndpoint,
     deleteEndpoint,
-    getEndpoints,
 } = require('../controllers/endpointController');
 
-// Endpoint routes with authentication middleware
-router.post('/', authenticateJWT, createEndpoint);        // Create a new endpoint
-router.get('/', authenticateJWT, getEndpoints);          // Fetch all endpoints
-router.put('/:id', authenticateJWT, updateEndpoint);     // Update an endpoint by ID
-router.delete('/:id', authenticateJWT, deleteEndpoint);  // Delete an endpoint by ID
+// Define routes
+router.post('/', createEndpoint);
+router.get('/', getEndpoints);
+router.put('/:id', updateEndpoint);
+router.delete('/:id', deleteEndpoint);
 
 module.exports = router;

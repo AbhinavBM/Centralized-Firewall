@@ -5,10 +5,13 @@ VALUES
     (gen_random_uuid(), 'regular_user', '$2b$10$encryptedpasswordhash2', 'user', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Seeding Endpoints Table
-INSERT INTO endpoints (id, hostname, os, ip_address, status, last_sync, created_at, updated_at)
+INSERT INTO endpoints (hostname, os, ip_address, status, password, created_at, updated_at)
 VALUES
-    (gen_random_uuid(), 'server-01', 'Linux', '192.168.1.1', 'online', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (gen_random_uuid(), 'server-02', 'Windows', '192.168.1.2', 'offline', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    ('server-01', 'Linux', '192.168.1.1', 'active', 'securePass123', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('server-02', 'Windows', '192.168.1.2', 'inactive', 'WindowsPass456', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('server-03', 'MacOS', '192.168.1.3', 'active', 'MacPass789', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('server-04', 'Ubuntu', '192.168.1.4', 'active', 'UbuntuPass234', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('server-05', 'CentOS', '192.168.1.5', 'inactive', 'CentOSPass567', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Seeding Applications Table
 INSERT INTO applications (id, endpoint_id, name, status, created_at, updated_at)

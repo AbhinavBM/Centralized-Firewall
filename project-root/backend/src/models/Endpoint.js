@@ -1,46 +1,32 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { sequelize } = require('../config/database');
 
-const Endpoint = sequelize.define('Endpoint', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-    },
-    hostname: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    os: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    ip_address: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true, // Prevent duplicate IPs
-        validate: {
-            isIP: true, // Ensures valid IP address format
+const Endpoint = sequelize.define(
+    'Endpoint',
+    {
+        hostname: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        os: {
+            type: DataTypes.STRING,
+        },
+        ip_address: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        password: {
+            type: DataTypes.STRING,
         },
     },
-    status: {
-        type: DataTypes.ENUM('online', 'offline'),
-        allowNull: false,
-        defaultValue: 'offline',
-    },
-    last_sync: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: true, // Password is optional
-    },
-}, {
-    tableName: 'endpoints',
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-});
+    {
+        tableName: 'endpoints',
+        timestamps: true, // Use createdAt and updatedAt
+    }
+);
 
 module.exports = Endpoint;
