@@ -26,12 +26,15 @@ const Endpoint = sequelize.define('Endpoint', {
     status: {
         type: DataTypes.ENUM('online', 'offline'),
         allowNull: false,
-        defaultValue: 'offline', 
-
+        defaultValue: 'offline',
     },
     last_sync: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: true, // Password is optional
     },
 }, {
     tableName: 'endpoints',

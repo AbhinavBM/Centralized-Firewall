@@ -26,14 +26,14 @@ app.use(express.urlencoded({ extended: false }));
 const authRouter = require('./routes/authRoutes');
 // const firewallRouter = require('./routes/firewallRoutes');
 // Uncomment when routes are ready:
-// const endpointRouter = require('./routes/endpointRoutes');
+const endpointRouter = require('./routes/endpointRoutes');
 // const trafficRouter = require('./routes/trafficRoutes');
 // const applicationRouter = require('./routes/applicationRoutes');
 
 // Register Routes
 app.use('/api/auth', authRouter);
 // app.use('/firewall', firewallRouter);
-// app.use('/endpoints', endpointRouter);
+app.use('/api/endpoints', endpointRouter);
 // app.use('/traffic', trafficRouter);
 // app.use('/applications', applicationRouter);
 

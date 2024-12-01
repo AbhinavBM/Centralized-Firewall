@@ -17,7 +17,7 @@ const signup = async (req, res) => {
 
         const newUser = await User.create({ username, password_hash, role });
 
-        const token = jwt.sign({ userId: newUser.id }, 'your-jwt-secret', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: newUser.id, role: newUser.role }, 'your-jwt-secret', { expiresIn: '1h' });
 
         res.status(201).json({ token, user: { username: newUser.username, role: newUser.role } });
     } catch (err) {
@@ -27,7 +27,7 @@ const signup = async (req, res) => {
 
 // Login controller
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body; // Including role in the login request
 
     try {
         const user = await User.findOne({ where: { username } });
@@ -41,7 +41,12 @@ const login = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userId: user.id }, 'your-jwt-secret', { expiresIn: '1h' });
+        // Check if role matches (optional, but useful for added security)
+        if (role && role !== user.role) {
+            return res.status(400).json({ message: 'Invalid role' });
+        }
+
+        const token = jwt.sign({ userId: user.id, role: user.role }, 'your-jwt-secret', { expiresIn: '1h' });
 
         res.status(200).json({ token, user: { username: user.username, role: user.role } });
     } catch (err) {
