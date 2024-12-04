@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS endpoints (
     ip_address VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     password VARCHAR(255),
+    application_ids UUID[] DEFAULT '{}', -- Array of application IDs
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,42 +28,37 @@ CREATE TYPE application_status AS ENUM ('allowed', 'blocked', 'pending', 'suspen
 -- Create the applications table with foreign key references
 CREATE TABLE applications (
     id UUID PRIMARY KEY,
-    endpoint_id UUID REFERENCES endpoints(id) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
-    status application_status NOT NULL, -- Using ENUM for better scalability
+    name VARCHAR(255) NOT NULL, -- Name of the application policy
+    description TEXT, -- Description of the application policy
+    status application_status NOT NULL, -- ENUM for application status (e.g., Active, Inactive)
+    allowed_domains TEXT[], -- Array of allowed domains
+    allowed_ips TEXT[], -- Array of allowed IPs
+    allowed_protocols TEXT[], -- Array of allowed protocols (e.g., TCP, UDP)
+    firewall_policies JSONB, -- Custom policies in JSON format
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- Trigger function to automatically update the `updated_at` field
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-   NEW.updated_at = CURRENT_TIMESTAMP;
-   RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create the trigger to update `updated_at` before update
-CREATE TRIGGER set_updated_at
-BEFORE UPDATE ON applications
-FOR EACH ROW
-EXECUTE FUNCTION update_updated_at_column();
-
-
--- Firewall Rules Table
-CREATE TABLE firewall_rules (
+CREATE TABLE applications (
     id UUID PRIMARY KEY,
-    endpoint_id UUID REFERENCES endpoints(id) ON DELETE CASCADE,
-    application_id UUID REFERENCES applications(id) ON DELETE CASCADE,
-    type VARCHAR(20) CHECK (type IN ('block', 'allow')) NOT NULL,
-    domain VARCHAR(255),
-    ip_address VARCHAR(15),
-    protocol VARCHAR(10) CHECK (protocol IN ('TCP', 'UDP', 'ICMP')) NOT NULL,
+    name VARCHAR(255) NOT NULL, -- Name of the application policy
+    description TEXT, -- Description of the application policy
+    status application_status NOT NULL, -- ENUM for application status (e.g., Active, Inactive)
+    allowed_domains TEXT[], -- Array of allowed domains
+    allowed_ips TEXT[], -- Array of allowed IPs
+    allowed_protocols TEXT[], -- Array of allowed protocols (e.g., TCP, UDP)
+    firewall_policies JSONB, -- Custom policies in JSON format
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
-
+CREATE TABLE endpoint_application_mapping (
+    id UUID PRIMARY KEY, -- Unique identifier for the mapping
+    endpoint_id UUID NOT NULL REFERENCES endpoints(id) ON DELETE CASCADE, -- Foreign key to endpoints
+    application_id UUID NOT NULL REFERENCES applications(id) ON DELETE CASCADE, -- Foreign key to applications
+    applied_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP, -- Timestamp when the policy was applied
+    status VARCHAR(50) DEFAULT 'Active', -- Status of the mapping (e.g., Active, Inactive)
+    UNIQUE (endpoint_id, application_id) -- Ensure a unique mapping of endpoint and application
+);
 -- Traffic Logs Table
 CREATE TABLE traffic_logs (
     id UUID PRIMARY KEY,

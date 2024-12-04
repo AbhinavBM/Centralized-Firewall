@@ -14,10 +14,51 @@ VALUES
     ('server-05', 'CentOS', '192.168.1.5', 'inactive', 'CentOSPass567', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Seeding Applications Table
-INSERT INTO applications (id, endpoint_id, name, status, created_at, updated_at)
-VALUES
-    (gen_random_uuid(), (SELECT id FROM endpoints WHERE hostname = 'server-01' LIMIT 1), 'Nginx', 'allowed', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (gen_random_uuid(), (SELECT id FROM endpoints WHERE hostname = 'server-02' LIMIT 1), 'SQL Server', 'blocked', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+-- Insert Random Values into applications table
+INSERT INTO applications (
+    id, name, description, status, allowed_domains, allowed_ips, allowed_protocols, firewall_policies
+) VALUES
+(
+    'd1b5a517-8c55-4640-b1f9-81c4cbb6bb3c',
+    'WebApp Security',
+    'Application policy for web applications with security configurations.',
+    'allowed',  -- Using a valid enum value
+    '{"example.com", "sub.example.com"}',
+    '{"192.168.1.1", "10.0.0.1"}',
+    '{"TCP", "UDP"}',
+    '{"rule1": {"action": "allow", "port": "80"}, "rule2": {"action": "block", "port": "22"}}'
+),
+(
+    'c2f8aaf1-47f1-4216-a660-b1b1e3d5a736',
+    'Database Security',
+    'Policy for securing database connections.',
+    'blocked',  -- Using a valid enum value
+    '{"db.example.com"}',
+    '{"192.168.2.1", "172.16.0.1"}',
+    '{"TCP"}',
+    '{"rule1": {"action": "allow", "port": "5432"}, "rule2": {"action": "block", "port": "3306"}}'
+),
+(
+    'cf0f84da-cfb7-4235-a5ad-79f3a3b6c8a1',
+    'File Transfer Policy',
+    'Policy to manage secure file transfer applications.',
+    'pending',  -- Using a valid enum value
+    '{"ftp.example.org", "file.example.net"}',
+    '{"192.168.3.1"}',
+    '{"TCP", "UDP"}',
+    '{"rule1": {"action": "allow", "port": "21"}, "rule2": {"action": "allow", "port": "20"}}'
+),
+(
+    'f7a9e380-3d27-4318-bf5a-85c3e83cfdec',
+    'Mail Server Security',
+    'Security configuration for mail server application.',
+    'suspended',  -- Using a valid enum value
+    '{"mail.example.com"}',
+    '{"192.168.10.1", "10.10.10.1"}',
+    '{"TCP"}',
+    '{"rule1": {"action": "allow", "port": "25"}, "rule2": {"action": "block", "port": "110"}}'
+);
+
 
 -- Seeding Firewall Rules Table
 INSERT INTO firewall_rules (id, endpoint_id, application_id, type, domain, ip_address, protocol, created_at, updated_at)
