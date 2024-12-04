@@ -15,49 +15,53 @@ VALUES
 
 -- Seeding Applications Table
 -- Insert Random Values into applications table
-INSERT INTO applications (
-    id, name, description, status, allowed_domains, allowed_ips, allowed_protocols, firewall_policies
-) VALUES
-(
-    'd1b5a517-8c55-4640-b1f9-81c4cbb6bb3c',
-    'WebApp Security',
-    'Application policy for web applications with security configurations.',
-    'allowed',  -- Using a valid enum value
-    '{"example.com", "sub.example.com"}',
-    '{"192.168.1.1", "10.0.0.1"}',
-    '{"TCP", "UDP"}',
-    '{"rule1": {"action": "allow", "port": "80"}, "rule2": {"action": "block", "port": "22"}}'
-),
-(
-    'c2f8aaf1-47f1-4216-a660-b1b1e3d5a736',
-    'Database Security',
-    'Policy for securing database connections.',
-    'blocked',  -- Using a valid enum value
-    '{"db.example.com"}',
-    '{"192.168.2.1", "172.16.0.1"}',
-    '{"TCP"}',
-    '{"rule1": {"action": "allow", "port": "5432"}, "rule2": {"action": "block", "port": "3306"}}'
-),
-(
-    'cf0f84da-cfb7-4235-a5ad-79f3a3b6c8a1',
-    'File Transfer Policy',
-    'Policy to manage secure file transfer applications.',
-    'pending',  -- Using a valid enum value
-    '{"ftp.example.org", "file.example.net"}',
-    '{"192.168.3.1"}',
-    '{"TCP", "UDP"}',
-    '{"rule1": {"action": "allow", "port": "21"}, "rule2": {"action": "allow", "port": "20"}}'
-),
-(
-    'f7a9e380-3d27-4318-bf5a-85c3e83cfdec',
-    'Mail Server Security',
-    'Security configuration for mail server application.',
-    'suspended',  -- Using a valid enum value
-    '{"mail.example.com"}',
-    '{"192.168.10.1", "10.10.10.1"}',
-    '{"TCP"}',
-    '{"rule1": {"action": "allow", "port": "25"}, "rule2": {"action": "block", "port": "110"}}'
-);
+-- Insert seed data into the applications table
+INSERT INTO applications (name, description, status, allowed_domains, allowed_ips, allowed_protocols, firewall_policies, created_at, updated_at)
+VALUES
+    (
+        'Web Application A',
+        'Policy for managing web application A',
+        'Active',
+        ARRAY['example.com', 'api.example.com'],
+        ARRAY['192.168.1.1', '10.0.0.5'],
+        ARRAY['TCP', 'UDP'],
+        '{"rules": [{"action": "allow", "port": 80}, {"action": "allow", "port": 443}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Internal API',
+        'Policy for internal API access',
+        'Inactive',
+        ARRAY['internal.example.com'],
+        ARRAY['172.16.0.2', '172.16.0.3'],
+        ARRAY['TCP'],
+        '{"rules": [{"action": "deny", "port": 8080}, {"action": "allow", "port": 3000}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Database Access Policy',
+        'Policy for database access control',
+        'Active',
+        NULL,
+        ARRAY['192.168.100.10', '192.168.100.11'],
+        ARRAY['TCP'],
+        '{"rules": [{"action": "allow", "port": 5432}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Public API',
+        'Policy for public API endpoints',
+        'Active',
+        ARRAY['api.public.com', 'api2.public.com'],
+        NULL,
+        ARRAY['TCP', 'UDP'],
+        '{"rules": [{"action": "allow", "port": 8000}, {"action": "allow", "port": 9000}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    );
 
 
 -- Seeding Firewall Rules Table

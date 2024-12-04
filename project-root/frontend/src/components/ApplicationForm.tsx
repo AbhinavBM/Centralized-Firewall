@@ -1,35 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { addApplication } from '../store/applicationsSlice';
+import { addApplication, editApplication } from '../store/applicationsSlice';
+import { AppDispatch } from '../store';
+import { useNavigate, useParams } from 'react-router-dom'; 
+import { Application } from '../interfaces/application'; 
+import { useSelector } from 'react-redux';
+import { RootState } from '../store'; // Ensure RootState is correctly imported
 
-const ApplicationForm: React.FC = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState<'allowed' | 'blocked' | 'pending' | 'suspended'>('allowed');
-  const [allowedDomains, setAllowedDomains] = useState<string>('');
-  const [allowedIPs, setAllowedIPs] = useState<string>('');
-  const [allowedProtocols, setAllowedProtocols] = useState<string>('');
-  const [firewallPolicies, setFirewallPolicies] = useState<string>('');
-  const dispatch = useDispatch();
+interface Props {
+  application?: Application;  // Optional application prop for edit mode
+}
+
+const ApplicationForm: React.FC<Props> = ({ application }) => {
+  const [name, setName] = useState(application?.name || '');
+  const [description, setDescription] = useState(application?.description || '');
+  const [status, setStatus] = useState<'allowed' | 'blocked' | 'pending' | 'suspended'>(application?.status || 'allowed');
+  const [allowedDomains, setAllowedDomains] = useState<string>(application?.allowed_domains.join(', ') || '');
+  const [allowedIPs, setAllowedIPs] = useState<string>(application?.allowed_ips.join(', ') || '');
+  const [allowedProtocols, setAllowedProtocols] = useState<string>(application?.allowed_protocols.join(', ') || '');
+  const [firewallPolicies, setFirewallPolicies] = useState<string>(JSON.stringify(application?.firewall_policies || {}));
+
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate(); 
+  const { id } = useParams<{ id: string }>(); 
+
+  // Use the selector to get the applications from the Redux store
+  const applications = useSelector((state: RootState) => state.applications.applications);
+
+  useEffect(() => {
+    if (id && !application) {
+      // Find the application in the store by ID
+      const applicationFromStore = applications.find((app) => app.id === id);
+      if (applicationFromStore) {
+        setName(applicationFromStore.name);
+        setDescription(applicationFromStore.description);
+        setStatus(applicationFromStore.status);
+        setAllowedDomains(applicationFromStore.allowed_domains.join(', '));
+        setAllowedIPs(applicationFromStore.allowed_ips.join(', '));
+        setAllowedProtocols(applicationFromStore.allowed_protocols.join(', '));
+        setFirewallPolicies(JSON.stringify(applicationFromStore.firewall_policies));
+      }
+    }
+  }, [id, application, applications]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(
-      addApplication({
-        name,
-        description,
-        status,
-        allowed_domains: allowedDomains.split(',').map((domain) => domain.trim()),
-        allowed_ips: allowedIPs.split(',').map((ip) => ip.trim()),
-        allowed_protocols: allowedProtocols.split(',').map((protocol) => protocol.trim()),
-        firewall_policies: JSON.parse(firewallPolicies || '{}'),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        id: Math.random().toString(36).substring(7), // Temporary ID
-      })
-    );
+    const newApp = {
+      name,
+      description,
+      status,
+      allowed_domains: allowedDomains.split(',').map((domain) => domain.trim()),
+      allowed_ips: allowedIPs.split(',').map((ip) => ip.trim()),
+      allowed_protocols: allowedProtocols.split(',').map((protocol) => protocol.trim()),
+      firewall_policies: firewallPolicies ? JSON.parse(firewallPolicies) : {},
+      created_at: application ? application.created_at : new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      id: application?.id || Math.random().toString(36).substring(7),
+    };
 
+    if (application) {
+      dispatch(editApplication({ id: application.id, application: newApp }));
+    } else {
+      dispatch(addApplication(newApp));
+    }
+
+    // Reset form fields
     setName('');
     setDescription('');
     setStatus('allowed');
@@ -37,11 +73,14 @@ const ApplicationForm: React.FC = () => {
     setAllowedIPs('');
     setAllowedProtocols('');
     setFirewallPolicies('');
+
+    // Navigate back to the list after submission
+    navigate('/applications'); 
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create Application</h2>
+      <h2>{application ? 'Update Application' : 'Create Application'}</h2>
       <input
         type="text"
         value={name}
@@ -83,7 +122,7 @@ const ApplicationForm: React.FC = () => {
         onChange={(e) => setFirewallPolicies(e.target.value)}
         placeholder="Firewall Policies (JSON format)"
       />
-      <button type="submit">Create Application</button>
+      <button type="submit">{application ? 'Update Application' : 'Create Application'}</button>
     </form>
   );
 };

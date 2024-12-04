@@ -38,12 +38,20 @@ CREATE TABLE applications (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+-- Define ENUM type if not already defined
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'application_status') THEN
+        CREATE TYPE application_status AS ENUM ('Active', 'Inactive');
+    END IF;
+END$$;
 
+-- Create the applications table
 CREATE TABLE applications (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL, -- Name of the application policy
     description TEXT, -- Description of the application policy
-    status application_status NOT NULL, -- ENUM for application status (e.g., Active, Inactive)
+    status application_status NOT NULL, -- ENUM for application status
     allowed_domains TEXT[], -- Array of allowed domains
     allowed_ips TEXT[], -- Array of allowed IPs
     allowed_protocols TEXT[], -- Array of allowed protocols (e.g., TCP, UDP)
@@ -51,6 +59,7 @@ CREATE TABLE applications (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE TABLE endpoint_application_mapping (
     id UUID PRIMARY KEY, -- Unique identifier for the mapping
     endpoint_id UUID NOT NULL REFERENCES endpoints(id) ON DELETE CASCADE, -- Foreign key to endpoints

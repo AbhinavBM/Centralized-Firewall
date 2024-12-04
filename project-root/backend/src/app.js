@@ -28,7 +28,7 @@ const authRouter = require('./routes/authRoutes');
 // Uncomment when routes are ready:
 const endpointRouter = require('./routes/endpointRoutes');
 // const trafficRouter = require('./routes/trafficRoutes');
-// const applicationRouter = require('./routes/applicationRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
 // Register Routes
 app.use('/api/auth', authRouter);
@@ -36,7 +36,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/endpoints', endpointRouter);
 // app.use('/traffic', trafficRouter);
 // app.use('/applications', applicationRouter);
-
+app.use('/api/applications', applicationRoutes);
 // 404 handler for unmatched routes
 app.use((req, res) => {
     res.status(404).json({

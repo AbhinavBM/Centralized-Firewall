@@ -16,7 +16,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <AuthProvider> {/* Now AuthProvider can accept children */}
         <Router>
-        <NavBar />
+          <NavBar />
           <Routes>
             {/* Auth Routes */}
             <Route path="/" element={<LoginPage />} />
@@ -29,6 +29,8 @@ const App: React.FC = () => {
             <Route path="/applications" element={<ApplicationsPage />} /> {/* List of Applications */}
             <Route path="/applications/create" element={<ApplicationFormPage />} /> {/* Create Application */}
             <Route path="/applications/:id" element={<ApplicationListPage />} /> {/* View Specific Application */}
+            <Route path="/edit-application/:id" element={<ApplicationFormPage />} /> {/* Edit Route */}
+
           </Routes>
         </Router>
       </AuthProvider>

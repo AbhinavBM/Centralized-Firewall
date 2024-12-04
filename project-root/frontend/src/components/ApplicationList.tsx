@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../store';  // Import AppDispatch
+import { RootState, AppDispatch } from '../store';
 import { loadApplications } from '../store/applicationsSlice';
 import ApplicationItem from './ApplicationItem';
-import { Application } from '../interfaces/application'; // Ensure correct import for the Application type
+import { Application } from '../interfaces/application';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ApplicationList: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();  // Type dispatch correctly
+  const dispatch = useDispatch<AppDispatch>();
   const { applications, loading, error } = useSelector((state: RootState) => state.applications);
+  const navigate = useNavigate(); // Replace useHistory with useNavigate
 
   useEffect(() => {
-    dispatch(loadApplications());  // Dispatch the async thunk action
+    dispatch(loadApplications());
   }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;

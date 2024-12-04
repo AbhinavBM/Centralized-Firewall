@@ -1,67 +1,57 @@
-const {
-    createApplicationService,
-    updateApplicationService,
-    deleteApplicationService,
-    getApplicationsService,
-} = require('../services/applicationService');
+const Application = require('../models/Application');
 
-// Create a new application
-const createApplication = async (req, res) => {
-    const { endpoint_id, name, status } = req.body;
-    try {
-        const application = await createApplicationService(endpoint_id, name, status);
-        res.status(201).json({
-            message: 'Application created successfully',
-            application,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message || 'Error creating application' });
-    }
+exports.getAllApplications = async (req, res) => {
+  try {
+    const applications = await Application.findAll();
+    res.status(200).json(applications);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Get all applications
-const getApplications = async (req, res) => {
-    try {
-        const applications = await getApplicationsService();
-        res.status(200).json(applications);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message || 'Error fetching applications' });
+exports.getApplicationById = async (req, res) => {
+  try {
+    const application = await Application.findByPk(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
     }
+    res.status(200).json(application);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Update an application by ID
-const updateApplication = async (req, res) => {
-    const { id } = req.params;
-    const { endpoint_id, name, status } = req.body;
-    try {
-        const application = await updateApplicationService(id, endpoint_id, name, status);
-        res.status(200).json({
-            message: 'Application updated successfully',
-            application,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message || 'Error updating application' });
-    }
+exports.createApplication = async (req, res) => {
+  try {
+    const application = await Application.create(req.body);
+    res.status(201).json(application);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Delete an application by ID
-const deleteApplication = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const result = await deleteApplicationService(id);
-        res.status(200).json(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message || 'Error deleting application' });
+exports.updateApplication = async (req, res) => {
+  try {
+    const application = await Application.findByPk(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
     }
+    await application.update(req.body);
+    res.status(200).json(application);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-module.exports = {
-    createApplication,
-    updateApplication,
-    deleteApplication,
-    getApplications,
+exports.deleteApplication = async (req, res) => {
+  try {
+    const application = await Application.findByPk(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
+    await application.destroy();
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
