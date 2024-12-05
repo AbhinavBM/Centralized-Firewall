@@ -1,5 +1,5 @@
 // context/AuthContext.tsx
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 import { authReducer } from '../state/reducers/authReducer';
 import { AuthAction } from '../state/actions/authActions';
 import { User } from '../interfaces/user';
@@ -21,7 +21,11 @@ const initialState: AuthState = {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC = ({ children }) => {
+interface AuthProviderProps {
+  children: ReactNode; // Explicitly typing 'children' prop
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   return (

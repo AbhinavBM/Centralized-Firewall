@@ -1,40 +1,38 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Endpoint = require('./Endpoint');
+const { sequelize } = require('../config/database');
 
 const Application = sequelize.define('Application', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-    },
-    endpoint_id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        references: {
-            model: Endpoint,
-            key: 'id',
-        },
-        onDelete: 'CASCADE',
-    },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    status: {
-        type: DataTypes.ENUM('allowed', 'blocked', 'pending', 'suspended'),
-        defaultValue: 'allowed',
-        allowNull: false,
-    },
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+  },
+  status: {
+    type: DataTypes.ENUM('Active', 'Inactive'),
+    allowNull: false,
+  },
+  allowed_domains: {
+    type: DataTypes.ARRAY(DataTypes.TEXT),
+  },
+  allowed_ips: {
+    type: DataTypes.ARRAY(DataTypes.TEXT),
+  },
+  allowed_protocols: {
+    type: DataTypes.ARRAY(DataTypes.TEXT),
+  },
+  firewall_policies: {
+    type: DataTypes.JSONB,
+  },
 }, {
-    tableName: 'applications',
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+  tableName: 'applications',
+  timestamps: true,
 });
-
-// Associations
-Application.belongsTo(Endpoint, { foreignKey: 'endpoint_id' });
-Endpoint.hasMany(Application, { foreignKey: 'endpoint_id' });
 
 module.exports = Application;

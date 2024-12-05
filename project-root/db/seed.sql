@@ -14,10 +14,55 @@ VALUES
     ('server-05', 'CentOS', '192.168.1.5', 'inactive', 'CentOSPass567', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Seeding Applications Table
-INSERT INTO applications (id, endpoint_id, name, status, created_at, updated_at)
+-- Insert Random Values into applications table
+-- Insert seed data into the applications table
+INSERT INTO applications (name, description, status, allowed_domains, allowed_ips, allowed_protocols, firewall_policies, created_at, updated_at)
 VALUES
-    (gen_random_uuid(), (SELECT id FROM endpoints WHERE hostname = 'server-01' LIMIT 1), 'Nginx', 'allowed', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    (gen_random_uuid(), (SELECT id FROM endpoints WHERE hostname = 'server-02' LIMIT 1), 'SQL Server', 'blocked', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+    (
+        'Web Application A',
+        'Policy for managing web application A',
+        'Active',
+        ARRAY['example.com', 'api.example.com'],
+        ARRAY['192.168.1.1', '10.0.0.5'],
+        ARRAY['TCP', 'UDP'],
+        '{"rules": [{"action": "allow", "port": 80}, {"action": "allow", "port": 443}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Internal API',
+        'Policy for internal API access',
+        'Inactive',
+        ARRAY['internal.example.com'],
+        ARRAY['172.16.0.2', '172.16.0.3'],
+        ARRAY['TCP'],
+        '{"rules": [{"action": "deny", "port": 8080}, {"action": "allow", "port": 3000}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Database Access Policy',
+        'Policy for database access control',
+        'Active',
+        NULL,
+        ARRAY['192.168.100.10', '192.168.100.11'],
+        ARRAY['TCP'],
+        '{"rules": [{"action": "allow", "port": 5432}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    ),
+    (
+        'Public API',
+        'Policy for public API endpoints',
+        'Active',
+        ARRAY['api.public.com', 'api2.public.com'],
+        NULL,
+        ARRAY['TCP', 'UDP'],
+        '{"rules": [{"action": "allow", "port": 8000}, {"action": "allow", "port": 9000}]}',
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
+    );
+
 
 -- Seeding Firewall Rules Table
 INSERT INTO firewall_rules (id, endpoint_id, application_id, type, domain, ip_address, protocol, created_at, updated_at)

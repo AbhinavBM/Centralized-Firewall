@@ -1,8 +1,12 @@
 export interface Application {
-    id: string; // UUID
-    endpoint_id: string; // Reference to Endpoint
-    name: string;
-    status: 'allowed' | 'blocked' | 'pending' | 'suspended';
-    created_at: string; // Timestamp
-    updated_at: string; // Timestamp
+  id: string;
+  name: string;
+  description: string;
+  status: 'allowed' | 'blocked' | 'pending' | 'suspended';
+  allowed_domains: string[];
+  allowed_ips: string[];
+  allowed_protocols: string[];
+  firewall_policies: Record<string, any>;
+  created_at: string;
+  updated_at: string;
 }
