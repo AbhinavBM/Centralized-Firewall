@@ -20,6 +20,18 @@ install_dependencies() {
     echo "All dependencies installed successfully."
 }
 
+# Add iptables rule for NFQUEUE
+setup_iptables_rule() {
+    echo "Adding iptables rule to forward packets to NFQUEUE (queue-num 0)..."
+    iptables -I INPUT -j NFQUEUE --queue-num 0
+    if [ $? -eq 0 ]; then
+        echo "iptables rule added successfully."
+    else
+        echo "Failed to add iptables rule. Please check your iptables configuration."
+        exit 1
+    fi
+}
+
 # Create a systemd service file for the endpoint
 setup_service() {
     echo "Creating systemd service for the endpoint..."
