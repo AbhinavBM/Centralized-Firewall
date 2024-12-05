@@ -14,8 +14,8 @@ install_dependencies() {
     echo "Installing required dependencies: python3, pip3, clang, llvm, bpfcc-tools, iptables..."
     apt install -y python3 python3-pip clang llvm bpfcc-tools linux-headers-$(uname -r) iptables
 
-    echo "Installing Python libraries: requests and bcc..."
-    pip3 install requests bcc
+    echo "Installing Python libraries: netfilterqueue, scapy, requests, bcc..."
+    pip3 install netfilterqueue scapy requests bcc
 
     echo "All dependencies installed successfully."
 }
