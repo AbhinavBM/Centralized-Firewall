@@ -6,30 +6,35 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Install required dependencies
+# Install required system dependencies
 install_dependencies() {
     echo "Updating package list..."
     apt update
 
     echo "Installing required dependencies: python3, pip3, clang, llvm, bpfcc-tools, iptables..."
-    apt install -y python3 python3-pip clang llvm bpfcc-tools linux-headers-$(uname -r) iptables
+    apt install -y python3 python3-pip clang llvm bpfcc-tools linux-headers-$(uname -r) iptables python3-venv
 
-    echo "Installing Python libraries: netfilterqueue, scapy, requests, bcc..."
-    pip3 install netfilterqueue scapy requests bcc
+    echo "Installing development libraries for netfilterqueue..."
+    apt install -y libnfnetlink-dev libnetfilter-queue-dev
 
-    echo "All dependencies installed successfully."
+    echo "All system dependencies installed successfully."
 }
 
-# Add iptables rule for NFQUEUE
-setup_iptables_rule() {
-    echo "Adding iptables rule to forward packets to NFQUEUE (queue-num 0)..."
-    iptables -I INPUT -j NFQUEUE --queue-num 0
-    if [ $? -eq 0 ]; then
-        echo "iptables rule added successfully."
-    else
-        echo "Failed to add iptables rule. Please check your iptables configuration."
-        exit 1
-    fi
+# Set up Python virtual environment and install Python packages
+setup_python_environment() {
+    echo "Setting up Python virtual environment..."
+
+    # Create a virtual environment
+    VENV_PATH=$(pwd)/venv
+    python3 -m venv $VENV_PATH
+
+    # Activate the virtual environment
+    source $VENV_PATH/bin/activate
+
+    echo "Installing required Python libraries: netfilterqueue, scapy, requests, bcc..."
+    pip install netfilterqueue scapy requests bcc
+
+    echo "Python dependencies installed successfully."
 }
 
 # Create a systemd service file for the endpoint
@@ -44,7 +49,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 $(pwd)/endpoint_firewall.py
+ExecStart=$(pwd)/venv/bin/python3 $(pwd)/endpoint_firewall.py
 WorkingDirectory=$(pwd)
 Restart=always
 User=root
@@ -65,15 +70,23 @@ EOL
     echo "Endpoint service setup complete."
 }
 
+# Add iptables rule to forward packets to NFQUEUE
+setup_iptables() {
+    echo "Adding iptables rule to forward packets to NFQUEUE..."
+    iptables -I INPUT -j NFQUEUE --queue-num 0
+    echo "Iptables rule added successfully."
+}
+
 # Main function
 main() {
     echo "Starting installation process for Linux endpoint..."
 
     install_dependencies
+    setup_python_environment
+    setup_iptables
     setup_service
 
     echo "Installation complete. The endpoint firewall service is now running and will start automatically on boot."
 }
 
 main
- 
