@@ -29,8 +29,11 @@ const authRouter = require('./routes/authRoutes');
 const endpointRouter = require('./routes/endpointRoutes');
 // const trafficRouter = require('./routes/trafficRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const mappingRoutes = require('./routes/endpointMappingRoutes');
 
 // Register Routes
+app.use('/api/mappings', mappingRoutes);
+
 app.use('/api/auth', authRouter);
 // app.use('/firewall', firewallRouter);
 app.use('/api/endpoints', endpointRouter);

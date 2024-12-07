@@ -6,6 +6,7 @@ import SignupPage from './pages/SignupPage';
 import Dashboard from './components/Dashboard';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import MappingPage from './pages/MappingPage'; // Import the Mappings Page
 import ApplicationsPage from './pages/ApplicationsPage';
 import ApplicationFormPage from './components/ApplicationForm'; // New page for creating applications
 import ApplicationListPage from './components/ApplicationList'; // New page for listing applications
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route path="/applications/create" element={<ApplicationFormPage />} /> {/* Create Application */}
             <Route path="/applications/:id" element={<ApplicationListPage />} /> {/* View Specific Application */}
             <Route path="/edit-application/:id" element={<ApplicationFormPage />} /> {/* Edit Route */}
+            <Route path="/mappings" element={<MappingPage />} /> {/* Mappings Page */}
 
           </Routes>
         </Router>
