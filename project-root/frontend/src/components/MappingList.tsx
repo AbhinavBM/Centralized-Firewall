@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getAllEndpoints } from '../api/auth/endpointService';
-import { fetchMappings } from '../api/auth/mappingService';
+import { fetchMappingById } from '../api/auth/mappingService';
 import { Endpoint } from '../interfaces/endpoint';
-import { Mapping } from '../interfaces/mapping';
+import { Mapping } from '../interfaces/Mapping';
 
 interface EndpointListProps {
   setEndpoints: React.Dispatch<React.SetStateAction<Endpoint[]>>;
@@ -36,7 +36,7 @@ const EndpointList: React.FC<EndpointListProps> = ({
   // Fetch mappings for the selected endpoint
   const handleSelect = async (endpointId: string) => {
     try {
-      const data = await fetchMappings(endpointId);
+      const data = await fetchMappingById(endpointId);
       setMappings(data); // Pass the fetched mappings to parent component
       const selectedEndpoint = endpoints.find((endpoint) => endpoint.id === endpointId);
       setSelectedEndpoint(selectedEndpoint || null);

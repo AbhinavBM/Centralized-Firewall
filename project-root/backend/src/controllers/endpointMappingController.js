@@ -100,20 +100,43 @@ const getAllMappings = async (req, res) => {
 // Get a specific mapping by ID
 const getMapping = async (req, res) => {
   try {
-    const mapping = await EndpointApplicationMapping.findByPk(req.params.id, {
-      include: [Endpoint, Application],
-    });
+    const { id } = req.params; // Get the endpoint_id from the URL parameters
 
-    if (!mapping) {
-      return res.status(404).json({ error: 'Mapping not found' });
+    // Validate the input ID (ensure it's a valid number or UUID)
+    if (!id || isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid Endpoint ID format' });
     }
 
-    res.status(200).json(mapping);
+    // Fetch the EndpointApplicationMapping for the given endpoint_id and include the associated Application details
+    const mappings = await EndpointApplicationMapping.findAll({
+      where: { endpoint_id: id }, // Filter by endpoint_id
+      include: [
+        {
+          model: Application, // Include Application details
+          attributes: ['id', 'name', 'description'], // Select only relevant fields for Application
+        },
+      ],
+    });
+
+    // If no mappings found, return an appropriate error
+    if (mappings.length === 0) {
+      return res.status(404).json({ error: 'No applications found for this Endpoint' });
+    }
+
+    // Extract the applications from the mappings and return the response
+    const applications = mappings.map(mapping => mapping.Application);
+
+    res.status(200).json({
+      endpoint_id: id,
+      applications,
+    });
   } catch (error) {
-    console.error('Error fetching mapping:', error.message);
+    console.error('Error fetching applications for Endpoint:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
 
 
 // Update a mapping

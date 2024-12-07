@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Mapping } from '../../interfaces/mapping';  // Assuming Mapping interface is defined in this path.
+import { Mapping } from '../../interfaces/Mapping';  // Assuming Mapping interface is defined in this path.
 
 const API_URL = 'http://localhost:3000/api/mappings';
 
@@ -46,6 +46,7 @@ export const fetchMappings = async (): Promise<Mapping[]> => {
 export const fetchMappingById = async (id: string): Promise<Mapping | null> => {
   try {
     const response = await axios.get<Mapping>(`${API_URL}/${id}`);
+    console.log(response);
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -59,6 +60,12 @@ export const fetchMappingById = async (id: string): Promise<Mapping | null> => {
     }
   }
 };
+
+
+
+
+
+
 
 // Update a mapping
 export const updateMapping = async (
