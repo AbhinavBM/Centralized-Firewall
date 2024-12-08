@@ -9,7 +9,7 @@ export const createMapping = async (
   application_id: string
 ): Promise<Mapping> => {
   try {
-    const response = await axios.post<Mapping>(API_URL, { endpoint_id, application_id });
+    const response = await axios.post<Mapping>(`${API_URL}/mappings`, { endpoint_id, application_id });
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -23,7 +23,6 @@ export const createMapping = async (
     }
   }
 };
-
 // Get all mappings
 export const fetchMappings = async (): Promise<Mapping[]> => {
   try {
@@ -75,7 +74,11 @@ export const updateMapping = async (
   status: string
 ): Promise<Mapping> => {
   try {
-    const response = await axios.put<Mapping>(`${API_URL}/${id}`, { endpoint_id, application_id, status });
+    const response = await axios.put<Mapping>(`${API_URL}/mappings/${id}`, {
+      endpoint_id,
+      application_id,
+      status,
+    });
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
@@ -89,7 +92,6 @@ export const updateMapping = async (
     }
   }
 };
-
 // Delete a mapping
 export const deleteMapping = async (id: string): Promise<void> => {
   try {

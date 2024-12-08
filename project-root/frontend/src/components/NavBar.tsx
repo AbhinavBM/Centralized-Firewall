@@ -1,3 +1,4 @@
+// src/components/NavBar.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './styles/NavBar.css';
@@ -23,6 +24,9 @@ const NavBar: React.FC = () => {
         </li>
         <li>
           <Link to="/mappings">Mappings</Link> {/* Added Mappings Link */}
+        </li>
+        <li>
+          <Link to="/logs">Logs</Link> {/* Added Logs Link */}
         </li>
       </ul>
     </nav>

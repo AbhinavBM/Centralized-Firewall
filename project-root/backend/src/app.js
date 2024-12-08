@@ -30,9 +30,11 @@ const endpointRouter = require('./routes/endpointRoutes');
 // const trafficRouter = require('./routes/trafficRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const mappingRoutes = require('./routes/endpointMappingRoutes');
+const logRoutes = require('./routes/LogRoutes'); // Import routes
 
 // Register Routes
 app.use('/api/mappings', mappingRoutes);
+app.use('/api/logs', logRoutes);
 
 app.use('/api/auth', authRouter);
 // app.use('/firewall', firewallRouter);
