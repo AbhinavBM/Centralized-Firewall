@@ -68,6 +68,10 @@ CREATE TABLE endpoint_application_mapping (
     status VARCHAR(50) DEFAULT 'Active', -- Status of the mapping (e.g., Active, Inactive)
     UNIQUE (endpoint_id, application_id) -- Ensure a unique mapping of endpoint and application
 );
+ALTER TABLE endpoint_application_mapping 
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
 -- Traffic Logs Table
 CREATE TABLE traffic_logs (
     id UUID PRIMARY KEY,
