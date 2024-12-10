@@ -1,218 +1,206 @@
-import netfilterqueue
-import subprocess
-import pickle
-from scapy.all import IP
-from threading import Thread
-from time import sleep
-import requests
+import os
+from dotenv import load_dotenv
 import socket
 import struct
+import requests
+from time import sleep
+from threading import Thread
 from bcc import BPF
+from datetime import datetime
 
-# Constants
-MODEL_PATH = "/path/to/your_model.pkl"
-NETWORK_INTERFACE = "eth0"  # Replace with your network interface
-API_BASE_URL = "https://api-server"  # Replace with actual API server URL
-AUTH_TOKEN = "your_bearer_token"  # Replace with your actual token
+# Load environment variables from .env file
+load_dotenv()
+
+# Constants loaded from .env file
+END_ID = os.getenv("END_ID")
+NETWORK_INTERFACE = os.getenv("NETWORK_INTERFACE")
+API_BASE_URL = os.getenv("API_BASE_URL")
+AUTH_TOKEN = os.getenv("AUTH_TOKEN")
+INTERVAL_FETCH_RULES = int(os.getenv("INTERVAL_FETCH_RULES", 60))  # Default to 60 if not provided
+
 HEADERS = {"Authorization": f"Bearer {AUTH_TOKEN}"}
 
-# eBPF Program
+# eBPF Program with a map for rules
 BPF_PROGRAM = """
 #include <uapi/linux/bpf.h>
 #include <linux/if_ether.h>
 #include <linux/ip.h>
 #include <linux/tcp.h>
+#include <linux/udp.h>
+#include <string.h>
 
+#define MAX_RULES 100
+
+struct rule_t {
+    u32 src_ip;
+    u32 dest_ip;
+    u16 src_port;
+    u16 dest_port;
+    u8 protocol;
+    char action[10];  // "ACCEPT" or "DROP"
+};
+
+BPF_ARRAY(rules, struct rule_t, MAX_RULES);
 BPF_PERF_OUTPUT(events);
 
 struct packet_t {
     u32 src_ip;
     u32 dest_ip;
     u8 protocol;
+    u16 src_port;
+    u16 dest_port;
+    char action[10];
 };
 
-int monitor_packets(struct __sk_buff *skb) {
-    struct ethhdr *eth = bpf_hdr_pointer(skb, 0, sizeof(*eth));
-    if (!eth) return 0;
+int xdp_prog(struct xdp_md *ctx) {
+    struct ethhdr *eth = bpf_hdr_pointer(ctx, 0, sizeof(*eth));
+    if (!eth) return XDP_PASS;
 
-    // Only process IP packets
     if (eth->h_proto != htons(ETH_P_IP)) {
-        return 0;
+        return XDP_PASS;  // Not an IP packet
     }
 
-    struct iphdr *ip = bpf_hdr_pointer(skb, sizeof(*eth), sizeof(*ip));
-    if (!ip) return 0;
+    struct iphdr *ip = bpf_hdr_pointer(ctx, sizeof(*eth), sizeof(*ip));
+    if (!ip) return XDP_PASS;
 
-    // Collect packet data
     struct packet_t packet = {};
     packet.src_ip = ip->saddr;
     packet.dest_ip = ip->daddr;
     packet.protocol = ip->protocol;
 
-    // Submit packet data to user space
-    events.perf_submit(skb, &packet, sizeof(packet));
-    return 0;
+    if (ip->protocol == IPPROTO_TCP || ip->protocol == IPPROTO_UDP) {
+        struct tcphdr *tcp = bpf_hdr_pointer(ctx, sizeof(*eth) + sizeof(*ip), sizeof(*tcp));
+        if (tcp) {
+            packet.src_port = ntohs(tcp->source);
+            packet.dest_port = ntohs(tcp->dest);
+        }
+    }
+
+    // Iterate through rules map
+    for (int i = 0; i < MAX_RULES; i++) {
+        struct rule_t *rule = rules.lookup(&i);
+        if (!rule) break;
+
+        if (rule->src_ip == packet.src_ip &&
+            rule->dest_ip == packet.dest_ip &&
+            rule->src_port == packet.src_port &&
+            rule->dest_port == packet.dest_port &&
+            rule->protocol == packet.protocol) {
+            memcpy(packet.action, rule->action, sizeof(packet.action));
+            events.perf_submit(ctx, &packet, sizeof(packet));
+            if (strncmp(rule->action, "DROP", 4) == 0) {
+                return XDP_DROP;
+            }
+            return XDP_PASS;
+        }
+    }
+
+    memcpy(packet.action, "ACCEPT", sizeof(packet.action));
+    events.perf_submit(ctx, &packet, sizeof(packet));
+    return XDP_PASS;
 }
 """
 
-# Load ML Model
-def load_model():
-    print("Loading ML model...")
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
-    print("Model loaded successfully.")
-    return model
-
-# Check if IP exists in iptables
-def check_iptables(ip):
-    #For testing purpose only
-    if ip=="192.168.138.1":
-    	return True   
-    try:
-        result = subprocess.run(
-            ["iptables", "-L", "-n", "-v"],
-            stdout=subprocess.PIPE,
-            text=True,
-        )
-        return ip in result.stdout
-    except Exception as e:
-        print(f"Error checking iptables: {e}")
-        return False
-
-# Add rule to iptables
-def add_iptables_rule(ip, action="DROP"):
-    try:
-        subprocess.run(["iptables", "-A", "INPUT", "-s", ip, "-j", action], check=True)
-        print(f"Added {action} rule for IP: {ip}")
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to add iptables rule: {e}")
-
-# Fetch policies from the API server
-def fetch_policies(endpoint_id):
-    url = f"{API_BASE_URL}/api/endpoints/{endpoint_id}/status"
-    try:
-        response = requests.put(url, json={"status": "online"}, headers=HEADERS)
-        response.raise_for_status()
-        print(f"Policies fetched successfully for endpoint_id: {endpoint_id}")
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching policies: {e}")
-        return []
-
-# Upload traffic logs to the API server
-def send_traffic_log(endpoint_id, application_id, src_ip, dest_ip, protocol, status="allowed"):
+# Function to send traffic log
+def send_traffic_log(src_ip, dest_ip, src_port, dest_port, protocol, action, packet_data):
     url = f"{API_BASE_URL}/api/traffic-logs"
+    timestamp = datetime.utcnow().isoformat()  # Get the current timestamp in ISO format
     data = {
-        "endpoint_id": endpoint_id,
-        "application_id": application_id,
-        "timestamp": "2024-11-25T10:00:00Z",  # Replace with actual timestamp
+        "endpoint_id": END_ID,
         "source_ip": src_ip,
         "destination_ip": dest_ip,
+        "source_port": src_port,
+        "destination_port": dest_port,
         "protocol": protocol,
-        "status": status,
-        "traffic_type": "inbound",
-        "data_transferred": 2048,  # Example data size
+        "action": action,
+        "packet_data": packet_data.hex(),  # Encode packet data as hex
+        "timestamp": timestamp  # Add timestamp field
     }
     try:
         response = requests.post(url, json=data, headers=HEADERS)
         response.raise_for_status()
-        print("Traffic log uploaded successfully.")
+        print(f"Traffic log uploaded successfully at {timestamp}.")
     except requests.exceptions.RequestException as e:
         print(f"Error uploading traffic log: {e}")
 
-# Send heartbeat signal to the API server
-def send_heartbeat(endpoint_id):
-    url = f"{API_BASE_URL}/api/endpoints/{endpoint_id}/status"
-    data = {"status": "online"}
+# Function to send alert when a packet is dropped
+def send_alert(src_ip, dest_ip, src_port, dest_port, protocol, packet_data):
+    url = f"{API_BASE_URL}/api/alerts"
+    timestamp = datetime.utcnow().isoformat()  # Get the current timestamp in ISO format
+    data = {
+        "endpoint_id": END_ID,
+        "src_ip": src_ip,
+        "dest_ip": dest_ip,
+        "src_port": src_port,
+        "dest_port": dest_port,
+        "protocol": protocol,
+        "alert_type": "denied_packet",
+        "message": "Packet was denied based on iptables rules.",
+        "packet_data": packet_data.hex(),  # Encode packet data as hex
+        "timestamp": timestamp  # Add timestamp field
+    }
+    try:
+        response = requests.post(url, json=data, headers=HEADERS)
+        response.raise_for_status()
+        print(f"Alert sent successfully at {timestamp}.")
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending alert: {e}")
+
+# Event handler for eBPF events
+def handle_event(cpu, data, size):
+    event = b["events"].event(data)
+    src_ip = socket.inet_ntoa(struct.pack("=I", event.src_ip))
+    dest_ip = socket.inet_ntoa(struct.pack("=I", event.dest_ip))
+    protocol = "TCP" if event.protocol == 6 else "UDP"
+    action = event.action.decode('utf-8')
+    src_port = event.src_port
+    dest_port = event.dest_port
+
+    print(f"Packet: {src_ip}:{src_port} -> {dest_ip}:{dest_port} ({protocol}) - {action}")
+
+    Thread(target=send_traffic_log, args=(src_ip, dest_ip, src_port, dest_port, protocol, action)).start()
+    if action == "DROP":
+        Thread(target=send_alert, args=(src_ip, dest_ip, src_port, dest_port, protocol)).start()
+
+# Fetch rules periodically
+def fetch_rules():
     while True:
         try:
-            response = requests.put(url, json=data, headers=HEADERS)
+            response = requests.get(f"{API_BASE_URL}/api/rules", headers=HEADERS)
             response.raise_for_status()
-            print("Heartbeat sent successfully.")
-        except requests.exceptions.RequestException as e:
-            print(f"Error sending heartbeat: {e}")
-        sleep(30)
+            rules = response.json()
 
-# Process packet and integrate with ML model
-def process_packet(packet, model):
-    scapy_packet = IP(packet.get_payload())
-    src_ip = scapy_packet.src
-    dest_ip = scapy_packet.dst
-    protocol = scapy_packet.proto  # Protocol (6=TCP, 17=UDP, etc.)
+            # Update eBPF rules map
+            bpf_map = b["rules"]
+            for i, rule in enumerate(rules[:100]):  # Limit to MAX_RULES
+                bpf_map[i] = (
+                    socket.inet_aton(rule["src_ip"]),
+                    socket.inet_aton(rule["dest_ip"]),
+                    socket.htons(rule["src_port"]),
+                    socket.htons(rule["dest_port"]),
+                    rule["protocol"],
+                    rule["action"].encode("utf-8"),
+                )
+            print("Rules updated.")
+        except Exception as e:
+            print(f"Error fetching rules: {e}")
+        sleep(INTERVAL_FETCH_RULES)
 
-    # Check if the IP already has a rule in iptables
-    if check_iptables(src_ip):
-        print(f"Rule exists for IP {src_ip}, bypassing ML model.")
-        packet.accept()
-        return
-
-    # Analyze the packet with the ML model
-    print(f"No rule for IP {src_ip}, analyzing with ML model.")
-    features = [src_ip, dest_ip, protocol]  # Extend features as needed
-    is_malicious = model.predict([features])[0]
-
-    if is_malicious:
-        print(f"Malicious packet from {src_ip}. Dropping and updating iptables.")
-        add_iptables_rule(src_ip, action="DROP")
-        send_traffic_log(1, "uuid-app-1", src_ip, dest_ip, "malicious", "denied")
-        packet.drop()
-    else:
-        print(f"Safe packet from {src_ip}. Allowing and updating iptables.")
-        add_iptables_rule(src_ip, action="ACCEPT")
-        send_traffic_log(1, "uuid-app-1", src_ip, dest_ip, "safe", "allowed")
-        packet.accept()
-
-# Monitor traffic using eBPF
-def monitor_traffic():
-    print("Starting eBPF traffic monitoring...")
+# Main function
+def main():
+    global b
     b = BPF(text=BPF_PROGRAM)
-    function = b.load_func("monitor_packets", BPF.SOCKET_FILTER)
-    b.attach_raw_socket(function, NETWORK_INTERFACE)
+    fn = b.load_func("xdp_prog", BPF.XDP)
+    b.attach_xdp(NETWORK_INTERFACE, fn)
 
-    def handle_event(cpu, data, size):
-        event = b["events"].event(data)
-        src_ip = socket.inet_ntoa(struct.pack("=I", event.src_ip))
-        dest_ip = socket.inet_ntoa(struct.pack("=I", event.dest_ip))
-        protocol = "TCP" if event.protocol == 6 else ("UDP" if event.protocol == 17 else "OTHER")
-        print(f"Packet: {src_ip} -> {dest_ip} ({protocol})")
-
+    Thread(target=fetch_rules).start()
     b["events"].open_perf_buffer(handle_event)
 
-    print("Monitoring traffic on interface:", NETWORK_INTERFACE)
-    while True:
-        try:
-            b.perf_buffer_poll()
-        except KeyboardInterrupt:
-            print("Stopping eBPF monitoring...")
-            break
-
-# Main Function
-def main():
-    endpoint_id = 1  # Replace with the actual endpoint ID
-    print("Starting the packet processing script...")
-    model = load_model()
-
-    # Fetch policies and apply them
-    policies = fetch_policies(endpoint_id)
-    for policy in policies:
-        for ip in policy.get("denied_ips", []):
-            add_iptables_rule(ip, "DROP")
-
-    # Start eBPF monitoring and heartbeat in separate threads
-    Thread(target=monitor_traffic, daemon=True).start()
-    Thread(target=send_heartbeat, args=(endpoint_id,), daemon=True).start()
-
-    # Bind NFQUEUE for packet processing
-    nfqueue = netfilterqueue.NetfilterQueue()
-    nfqueue.bind(0, lambda packet: process_packet(packet, model))
-
-    print("Listening for packets in NFQUEUE...")
     try:
-        nfqueue.run()
+        while True:
+            b.perf_buffer_poll()
     except KeyboardInterrupt:
-        print("Stopping...")
-    finally:
-        nfqueue.unbind()
+        b.remove_xdp(NETWORK_INTERFACE)
 
 if __name__ == "__main__":
     main()
