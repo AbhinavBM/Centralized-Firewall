@@ -11,7 +11,7 @@ const EndpointApplicationMapping = sequelize.define('EndpointApplicationMapping'
     defaultValue: Sequelize.UUIDV4,
   },
   endpoint_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID, // Changed to UUID
     allowNull: false,
   },
   application_id: {
@@ -35,14 +35,12 @@ const EndpointApplicationMapping = sequelize.define('EndpointApplicationMapping'
 
 // Define associations
 EndpointApplicationMapping.associate = () => {
-  // EndpointApplicationMapping belongs to Endpoint model
   EndpointApplicationMapping.belongsTo(Endpoint, {
     foreignKey: 'endpoint_id',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   });
 
-  // EndpointApplicationMapping belongs to Application model
   EndpointApplicationMapping.belongsTo(Application, {
     foreignKey: 'application_id',
     onDelete: 'CASCADE',
@@ -51,7 +49,6 @@ EndpointApplicationMapping.associate = () => {
 };
 
 // Sync models and establish relationships
-// Ensure that the models are associated properly after defining them
 EndpointApplicationMapping.associate();
 
 module.exports = EndpointApplicationMapping;
