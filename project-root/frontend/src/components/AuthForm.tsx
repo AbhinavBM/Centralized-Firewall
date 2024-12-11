@@ -110,6 +110,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ isSignup }) => {
             <button
               type="submit"
               className={`auth-form-button ${isLoading ? "loading" : ""}`}
+
               disabled={isLoading}
             >
               {isLoading ? "Processing..." : isSignup ? "Sign Up" : "Log In"}

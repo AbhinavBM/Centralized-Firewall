@@ -1,0 +1,123 @@
+.application-form-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .application-form-inner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+  }
+  
+  .application-form-box {
+    background-color: black;
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+  }
+  
+  .application-form {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box;
+  }
+  
+  h2, h3 {
+    color: white;
+  }
+  
+  .form-field {
+    background-color: #444;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #222;
+    color: white;
+  }
+  
+  .policy-field {
+    background-color: #444;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .policy-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .policy-header input {
+    margin-right: 10px;
+    width: 80%;
+  }
+  
+  .policy-values {
+    margin-top: 10px;
+  }
+  
+  .policy-value {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    position: relative;
+  }
+  
+  .policy-value input {
+    margin-right: 10px;
+    width: 80%;
+  }
+  
+  .policy-value button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .add-policy-button,
+  .submit-button {
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .submit-button {
+    background-color: green;
+  }
+  

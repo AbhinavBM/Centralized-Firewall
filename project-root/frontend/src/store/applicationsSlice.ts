@@ -40,6 +40,7 @@ export const loadApplications = createAsyncThunk('applications/load', async (_, 
 
 export const addApplication = createAsyncThunk('applications/add', async (application: Partial<Application>, { rejectWithValue }) => {
   try {
+    console.log(application);
     const response = await createApplication(application);
     return response;
   } catch (error) {
