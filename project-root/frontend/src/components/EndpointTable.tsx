@@ -65,7 +65,7 @@ const EndpointTable: React.FC = () => {
 
     return (
         <div className="container">
-            <h2>Endpoint List</h2>
+            <h2 style={{ color: 'black' }}>Endpoint List</h2>
             {loading && <p>Loading...</p>}
             {error && <p className="error">{error}</p>}
             <table>

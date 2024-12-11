@@ -48,68 +48,68 @@ const EndpointForm: React.FC = () => {
 
     return (
         <div className="container">
-            <h2>Create Endpoint</h2>
+            <h2 style={{ color: 'black' }}>Create Endpoint</h2>
             <form onSubmit={handleSubmit}>
-    <div className="form-group">
-        <label htmlFor="hostname">Hostname</label>
-        <input
-            type="text"
-            id="hostname"
-            placeholder="Enter hostname"
-            value={hostname}
-            onChange={(e) => setHostname(e.target.value)}
-            required
-        />
-    </div>
-    <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-            type="text"
-            id="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-        />
-    </div>
-    <div className="form-group">
-        <label htmlFor="os">Operating System</label>
-        <input
-            type="text"
-            id="os"
-            placeholder="Enter operating system"
-            value={os || ''}
-            onChange={(e) => setOs(e.target.value)}
-        />
-    </div>
-    <div className="form-group">
-        <label htmlFor="ipAddress">IP Address</label>
-        <input
-            type="text"
-            id="ipAddress"
-            placeholder="Enter IP address"
-            value={ipAddress}
-            onChange={(e) => setIpAddress(e.target.value)}
-        />
-    </div>
-    <div className="form-group">
-        <label htmlFor="status">Status</label>
-        <select
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-        >
-            <option value="offline">Offline</option>
-            <option value="online">Online</option>
-            <option value="maintenance">Maintenance</option>
-        </select>
-    </div>
-    {error && <p className="error">{error}</p>}
-    <button type="submit" disabled={loading}>
-        {loading ? 'Creating...' : 'Create Endpoint'}
-    </button>
-</form>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+    <label htmlFor="hostname" style={{ width: '150px' }}>Hostname</label>
+    <input
+        type="text"
+        id="hostname"
+        placeholder="Enter hostname"
+        value={hostname}
+        onChange={(e) => setHostname(e.target.value)}
+        required
+    />
+</div>
+<div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+    <label htmlFor="password" style={{ width: '150px' }}>Password</label>
+    <input
+        type="text"
+        id="password"
+        placeholder="Enter password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+    />
+</div>
+<div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+    <label htmlFor="os" style={{ width: '150px' }}>Operating System</label>
+    <input
+        type="text"
+        id="os"
+        placeholder="Enter operating system"
+        value={os || ''}
+        onChange={(e) => setOs(e.target.value)}
+    />
+</div>
+<div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+    <label htmlFor="ipAddress" style={{ width: '150px' }}>IP Address</label>
+    <input
+        type="text"
+        id="ipAddress"
+        placeholder="Enter IP address"
+        value={ipAddress}
+        onChange={(e) => setIpAddress(e.target.value)}
+    />
+</div>
+<div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
+    <label htmlFor="status" style={{ width: '150px' }}>Status</label>
+    <select
+        id="status"
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+    >
+        <option value="offline">Offline</option>
+        <option value="online">Online</option>
+        <option value="maintenance">Maintenance</option>
+    </select>
+</div>
 
+                {error && <p className="error">{error}</p>}
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Creating...' : 'Create Endpoint'}
+                </button>
+            </form>
         </div>
     );
 };
