@@ -75,7 +75,6 @@ const EndpointTable: React.FC = () => {
                         <th>IP Address</th>
                         <th>OS</th>
                         <th>Status</th>
-                        <th>Password</th>
                         <th>Last Sync</th>
                         <th>Created At</th>
                         <th>Updated At</th>
@@ -85,7 +84,7 @@ const EndpointTable: React.FC = () => {
                 <tbody>
                     {endpoints.length === 0 ? (
                         <tr>
-                            <td colSpan={9}>No endpoints found</td>
+                            <td colSpan={8}>No endpoints found</td>
                         </tr>
                     ) : (
                         endpoints.map((endpoint) => (
@@ -94,7 +93,6 @@ const EndpointTable: React.FC = () => {
                                 <td>{endpoint.ip_address}</td>
                                 <td>{endpoint.os || 'N/A'}</td>
                                 <td>{endpoint.status}</td>
-                                <td>{endpoint.password || 'N/A'}</td>
                                 <td>{new Date(endpoint.last_sync).toLocaleString()}</td>
                                 <td>{new Date(endpoint.created_at).toLocaleString()}</td>
                                 <td>{new Date(endpoint.updated_at).toLocaleString()}</td>

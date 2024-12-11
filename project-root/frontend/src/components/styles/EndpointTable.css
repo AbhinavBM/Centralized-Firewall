@@ -1,38 +1,76 @@
-/* Styles for the EndpointTable Component */
+/* Container Styling */
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Table Styling */
 table {
     width: 100%;
+    margin-left: -15px;
     border-collapse: collapse;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     padding: 1rem;
     text-align: left;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
 }
 
 th {
-    background-color: #f4f4f4;
+    background-color: #007bff;
+    color: white;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 td {
-    background-color: #fff;
+    background-color: #ffffff;
+    color: #555;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) td {
+    background-color: #f8f9fa;
 }
 
 tr:hover td {
-    background-color: #f1f1f1;
+    background-color: #f1f5ff;
+    color: #333;
 }
 
+/* Button Styling */
 button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #007bff;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-right: 0.5rem;
+    transition: all 0.3s ease-in-out;
 }
 
 button:disabled {
@@ -41,12 +79,33 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #218838;
+    transform: scale(1.05);
 }
 
-p {
-    color: red;
-    font-size: 0.9rem;
+/* Delete Button */
+button:last-of-type {
+    background-color: #dc3545;
+}
+
+button:last-of-type:hover:not(:disabled) {
+    background-color: #c82333;
+}
+
+/* Error Message */
+.error {
+    color: #e74c3c;
+    font-size: 0.95rem;
+    font-weight: bold;
     text-align: center;
     margin-top: 1rem;
+}
+
+/* Loading Message */
+p {
+    color: #555;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
 }
