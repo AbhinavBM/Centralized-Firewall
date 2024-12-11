@@ -14,6 +14,9 @@ export const fetchApplicationById = async (id: string): Promise<Application> => 
 };
 
 export const createApplication = async (application: Partial<Application>): Promise<Application> => {
+  console.log("HI it is the data")
+  console.log(application);
+  
   const response = await axios.post<Application>(API_BASE_URL, application);
   return response.data;
 };
