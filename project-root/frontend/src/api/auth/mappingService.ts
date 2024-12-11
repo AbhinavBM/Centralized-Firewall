@@ -9,18 +9,10 @@ export const createMapping = async (
   application_id: string
 ): Promise<Mapping> => {
   try {
-    const response = await axios.post<Mapping>(API_URL, { endpoint_id, application_id });
+    const response = await axios.post<Mapping>(`${API_URL}`, { endpoint_id, application_id });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // Handle Axios-specific error
-      console.error('Axios error creating mapping:', error.response?.data?.error || error.message);
-      throw new Error(error.response?.data?.error || 'Error creating mapping');
-    } else {
-      // Handle other types of errors
-      console.error('Unexpected error creating mapping:', error);
-      throw new Error('Unexpected error creating mapping');
-    }
+    handleAxiosError(error, 'creating mapping');
   }
 };
 
@@ -30,15 +22,7 @@ export const fetchMappings = async (): Promise<Mapping[]> => {
     const response = await axios.get<Mapping[]>(API_URL);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // Handle Axios-specific error
-      console.error('Axios error fetching mappings:', error.response?.data?.error || error.message);
-      throw new Error(error.response?.data?.error || 'Error fetching mappings');
-    } else {
-      // Handle other types of errors
-      console.error('Unexpected error fetching mappings:', error);
-      throw new Error('Unexpected error fetching mappings');
-    }
+    handleAxiosError(error, 'fetching mappings');
   }
 };
 
@@ -46,26 +30,11 @@ export const fetchMappings = async (): Promise<Mapping[]> => {
 export const fetchMappingById = async (id: string): Promise<Mapping | null> => {
   try {
     const response = await axios.get<Mapping>(`${API_URL}/${id}`);
-    console.log(response);
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // Handle Axios-specific error
-      console.error('Axios error fetching mapping by ID:', error.response?.data?.error || error.message);
-      throw new Error(error.response?.data?.error || 'Error fetching mapping');
-    } else {
-      // Handle other types of errors
-      console.error('Unexpected error fetching mapping:', error);
-      throw new Error('Unexpected error fetching mapping');
-    }
+    handleAxiosError(error, 'fetching mapping by ID');
   }
 };
-
-
-
-
-
-
 
 // Update a mapping
 export const updateMapping = async (
@@ -75,18 +44,14 @@ export const updateMapping = async (
   status: string
 ): Promise<Mapping> => {
   try {
-    const response = await axios.put<Mapping>(`${API_URL}/${id}`, { endpoint_id, application_id, status });
+    const response = await axios.put<Mapping>(`${API_URL}/${id}`, {
+      endpoint_id,
+      application_id,
+      status,
+    });
     return response.data;
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // Handle Axios-specific error
-      console.error('Axios error updating mapping:', error.response?.data?.error || error.message);
-      throw new Error(error.response?.data?.error || 'Error updating mapping');
-    } else {
-      // Handle other types of errors
-      console.error('Unexpected error updating mapping:', error);
-      throw new Error('Unexpected error updating mapping');
-    }
+    handleAxiosError(error, 'updating mapping');
   }
 };
 
@@ -94,15 +59,19 @@ export const updateMapping = async (
 export const deleteMapping = async (id: string): Promise<void> => {
   try {
     await axios.delete(`${API_URL}/${id}`);
+    return;  // Explicitly return undefined for Promise<void>
   } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      // Handle Axios-specific error
-      console.error('Axios error deleting mapping:', error.response?.data?.error || error.message);
-      throw new Error(error.response?.data?.error || 'Error deleting mapping');
-    } else {
-      // Handle other types of errors
-      console.error('Unexpected error deleting mapping:', error);
-      throw new Error('Unexpected error deleting mapping');
-    }
+    handleAxiosError(error, 'deleting mapping');
+  }
+};
+
+// Common error handler for Axios requests
+const handleAxiosError = (error: unknown, action: string) => {
+  if (axios.isAxiosError(error)) {
+    console.error(`Axios error ${action}:`, error.response?.data?.error || error.message);
+    throw new Error(error.response?.data?.error || `Error ${action}`);
+  } else {
+    console.error(`Unexpected error ${action}:`, error);
+    throw new Error(`Unexpected error ${action}`);
   }
 };

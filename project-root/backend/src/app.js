@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const errorHandler = require('./middlewares/errorMiddleware');
+
 require('dotenv').config(); // Load environment variables
 
 const requiredEnvVars = ['PORT', 'DB_HOST', 'DB_NAME', 'JWT_SECRET'];
@@ -24,22 +25,21 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 const authRouter = require('./routes/authRoutes');
-// const firewallRouter = require('./routes/firewallRoutes');
-// Uncomment when routes are ready:
 const endpointRouter = require('./routes/endpointRoutes');
-// const trafficRouter = require('./routes/trafficRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
-const mappingRoutes = require('./routes/endpointMappingRoutes');
+const endpointApplicationMappingRoutes = require('./routes/endpointMappingRoutes');
+const logRoutes = require('./routes/LogRoutes'); // Import routes
+const endpointRoutes = require('./EndpointRoutes/endpointRoutes');
 
+app.use('/endpoint-verify',endpointRoutes)
 // Register Routes
-app.use('/api/mappings', mappingRoutes);
+app.use('/api/mappings', endpointApplicationMappingRoutes); // Endpoint for mapping routes
+app.use('/api', logRoutes);
 
 app.use('/api/auth', authRouter);
-// app.use('/firewall', firewallRouter);
 app.use('/api/endpoints', endpointRouter);
-// app.use('/traffic', trafficRouter);
-// app.use('/applications', applicationRouter);
 app.use('/api/applications', applicationRoutes);
+
 // 404 handler for unmatched routes
 app.use((req, res) => {
     res.status(404).json({

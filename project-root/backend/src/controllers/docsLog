@@ -1,0 +1,225 @@
+Here is the updated Postman collection JSON with `/api/logs` included in all the routes:
+
+```json
+{
+  "info": {
+    "name": "Log Management API",
+    "_postman_id": "1234-5678-91011",
+    "description": "Log Management System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Log",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"endpoint_id\": \"1234\", \"source_ip\": \"192.168.1.1\", \"destination_ip\": \"192.168.1.2\", \"source_port\": 80, \"destination_port\": 443, \"protocol\": \"TCP\", \"action\": \"ACCEPT\", \"timestamp\": \"2024-12-07T10:00:00Z\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/logs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Logs",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/api/logs?page=1&limit=10",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Logs by Endpoint",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/api/logs/endpoint/1234",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs",
+            "endpoint",
+            "1234"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Log by ID",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"action\": \"DENY\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/logs/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Log by ID",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/api/logs/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Logs by Date Range",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/api/logs/date-range?startDate=2024-12-01&endDate=2024-12-07",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "api",
+            "logs",
+            "date-range"
+          ],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2024-12-01"
+            },
+            {
+              "key": "endDate",
+              "value": "2024-12-07"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
+```
+
+### Instructions for Using in Postman:
+1. **Create Log**: 
+   - **Request Method**: `POST`
+   - **URL**: `http://localhost:3000/api/logs`
+   - **Request Body**: 
+     ```json
+     {
+       "endpoint_id": "1234",
+       "source_ip": "192.168.1.1",
+       "destination_ip": "192.168.1.2",
+       "source_port": 80,
+       "destination_port": 443,
+       "protocol": "TCP",
+       "action": "ACCEPT",
+       "timestamp": "2024-12-07T10:00:00Z"
+     }
+     ```
+
+2. **Get All Logs**:
+   - **Request Method**: `GET`
+   - **URL**: `http://localhost:3000/api/logs?page=1&limit=10`
+
+3. **Get Logs by Endpoint**:
+   - **Request Method**: `GET`
+   - **URL**: `http://localhost:3000/api/logs/endpoint/1234`
+
+4. **Update Log by ID**:
+   - **Request Method**: `PUT`
+   - **URL**: `http://localhost:3000/api/logs/1`
+   - **Request Body**:
+     ```json
+     {
+       "action": "DENY"
+     }
+     ```
+
+5. **Delete Log by ID**:
+   - **Request Method**: `DELETE`
+   - **URL**: `http://localhost:3000/api/logs/1`
+
+6. **Get Logs by Date Range**:
+   - **Request Method**: `GET`
+   - **URL**: `http://localhost:3000/api/logs/date-range?startDate=2024-12-01&endDate=2024-12-07`
+
+### How to Import into Postman:
+1. Open Postman.
+2. Click on the **"Import"** button.
+3. Choose **"Raw text"** and paste the JSON content provided above.
+4. Click **"Continue"** and then **"Import"**.
+
+This will import the collection into Postman for all the API functionalities (`Create`, `Read`, `Update`, `Delete`, and `Get Logs by Date Range`) with the `/api/logs` endpoint correctly included.

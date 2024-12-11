@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+/* App.css */
+nav {
+  background-color: #022e5b;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav li {
+  display: inline;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}

@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const Endpoint = require('../models/Endpoint');
 const Application = require('../models/Application');
 const EndpointApplicationMapping = require('../models/EndpointApplicationMapping');
+const { v4: uuidv4 } = require('uuid');
 
 // Create a new mapping with conditional status
 const createMapping = async (req, res) => {
@@ -11,6 +12,11 @@ const createMapping = async (req, res) => {
     // Basic input validation for endpoint_id and application_id
     if (!endpoint_id || !application_id) {
       return res.status(400).json({ error: 'endpoint_id and application_id are required' });
+    }
+
+    // Ensure endpoint_id and application_id are UUIDs
+    if (!uuidv4().test(endpoint_id) || !uuidv4().test(application_id)) {
+      return res.status(400).json({ error: 'Invalid UUID format for endpoint_id or application_id' });
     }
 
     // Get the endpoint and application details to determine the status
@@ -88,7 +94,7 @@ const getAllMappings = async (req, res) => {
       }
 
       return acc;
-    }, []);
+    }, []); // Reduce mappings to a structured response
 
     res.status(200).json(result);
   } catch (error) {
@@ -102,8 +108,8 @@ const getMapping = async (req, res) => {
   try {
     const { id } = req.params; // Get the endpoint_id from the URL parameters
 
-    // Validate the input ID (ensure it's a valid number or UUID)
-    if (!id || isNaN(id)) {
+    // Validate the input ID (ensure it's a valid UUID)
+    if (!uuidv4().test(id)) {
       return res.status(400).json({ error: 'Invalid Endpoint ID format' });
     }
 
@@ -136,9 +142,6 @@ const getMapping = async (req, res) => {
   }
 };
 
-
-
-
 // Update a mapping
 const updateMapping = async (req, res) => {
   try {
@@ -151,7 +154,7 @@ const updateMapping = async (req, res) => {
 
     // Find the mapping by ID
     const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
-    
+
     if (!mapping) {
       return res.status(404).json({ error: 'Mapping not found' });
     }
@@ -175,7 +178,7 @@ const deleteMapping = async (req, res) => {
   try {
     // Find the mapping by ID
     const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
-    
+
     if (!mapping) {
       return res.status(404).json({ error: 'Mapping not found' });
     }

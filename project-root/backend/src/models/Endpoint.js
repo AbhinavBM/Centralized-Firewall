@@ -26,6 +26,8 @@ const Endpoint = sequelize.define(
     {
         tableName: 'endpoints',
         timestamps: true, // Use createdAt and updatedAt
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
     }
 );
 

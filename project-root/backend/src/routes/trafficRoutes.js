@@ -7,7 +7,7 @@ const {
 } = require('../controllers/trafficController');
 
 // Traffic log routes with authentication middleware
-router.get('/', authenticateJWT, getTrafficLogs);         // Fetch all traffic logs
-router.post('/analyze', authenticateJWT, analyzeTraffic); // Analyze traffic (e.g., detect anomalies)
+router.get('/', getTrafficLogs);         // Fetch all traffic logs
+router.post('/analyze', analyzeTraffic); // Analyze traffic (e.g., detect anomalies)
 
 module.exports = router;

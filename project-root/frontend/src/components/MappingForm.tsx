@@ -5,7 +5,7 @@ import { fetchApplications } from '../api/auth/applicationsService';
 interface MappingFormProps {
   handleCreateMapping: (endpointId: string, applicationId: string) => void;
   handleUpdateMapping: (id: string, endpointId: string, applicationId: string, status: string) => void;
-  selectedMapping: any; // Mapping being edited (null if creating new)
+  selectedMapping: any;
   setSelectedMapping: (mapping: any) => void;
   message: string;
 }
@@ -23,7 +23,6 @@ const MappingForm: React.FC<MappingFormProps> = ({
   const [selectedApplication, setSelectedApplication] = useState<string>('');
   const [status, setStatus] = useState<string>('active');
 
-  // Fetch endpoints and applications on component mount
   useEffect(() => {
     const loadEndpoints = async () => {
       const endpointData = await getAllEndpoints();
@@ -38,7 +37,6 @@ const MappingForm: React.FC<MappingFormProps> = ({
     loadEndpoints();
     loadApplications();
 
-    // If editing, populate form with selected mapping data
     if (selectedMapping) {
       setSelectedEndpoint(selectedMapping.endpoint_id);
       setSelectedApplication(selectedMapping.application_id);
@@ -46,11 +44,16 @@ const MappingForm: React.FC<MappingFormProps> = ({
     }
   }, [selectedMapping]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!selectedEndpoint || !selectedApplication) {
+      alert('Please select both an endpoint and an application.');
+      return;
+    }
+
     if (selectedMapping) {
-      handleUpdateMapping(selectedMapping.id, selectedEndpoint, selectedApplication, status);
+      await handleUpdateMapping(selectedMapping.id, selectedEndpoint, selectedApplication, status);
     } else {
-      handleCreateMapping(selectedEndpoint, selectedApplication);
+      await handleCreateMapping(selectedEndpoint, selectedApplication);
     }
   };
 
@@ -59,10 +62,7 @@ const MappingForm: React.FC<MappingFormProps> = ({
       <h2>{selectedMapping ? 'Edit Mapping' : 'Create Mapping'}</h2>
       <div>
         <label>Endpoint: </label>
-        <select
-          value={selectedEndpoint}
-          onChange={(e) => setSelectedEndpoint(e.target.value)}
-        >
+        <select value={selectedEndpoint} onChange={(e) => setSelectedEndpoint(e.target.value)}>
           <option value="">Select Endpoint</option>
           {endpoints.map((endpoint) => (
             <option key={endpoint.id} value={endpoint.id}>
@@ -73,10 +73,7 @@ const MappingForm: React.FC<MappingFormProps> = ({
       </div>
       <div>
         <label>Application: </label>
-        <select
-          value={selectedApplication}
-          onChange={(e) => setSelectedApplication(e.target.value)}
-        >
+        <select value={selectedApplication} onChange={(e) => setSelectedApplication(e.target.value)}>
           <option value="">Select Application</option>
           {applications.map((application) => (
             <option key={application.id} value={application.id}>
@@ -95,9 +92,7 @@ const MappingForm: React.FC<MappingFormProps> = ({
       <button onClick={handleSubmit}>
         {selectedMapping ? 'Update Mapping' : 'Add Mapping'}
       </button>
-      {selectedMapping && (
-        <button onClick={() => setSelectedMapping(null)}>Cancel</button>
-      )}
+      {selectedMapping && <button onClick={() => setSelectedMapping(null)}>Cancel</button>}
       <p>{message}</p>
     </div>
   );
