@@ -23,6 +23,8 @@ exports.getApplicationById = async (req, res) => {
 
 exports.createApplication = async (req, res) => {
   try {
+
+    console.log(req.body);
     const application = await Application.create(req.body);
     res.status(201).json(application);
   } catch (err) {

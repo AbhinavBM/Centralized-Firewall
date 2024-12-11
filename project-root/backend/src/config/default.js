@@ -4,7 +4,7 @@ module.exports = {
     database: {
         host: process.env.DB_HOST || 'localhost',
         user: process.env.DB_USER || 'postgres',
-        password: process.env.DB_PASSWORD || 'Abhi@1234',
+        password: process.env.DB_PASSWORD || 'password',
         database: process.env.DB_NAME || 'postgres',
         dialect: 'postgres', // Update as per your database (e.g., 'mysql', 'postgres')
     },
