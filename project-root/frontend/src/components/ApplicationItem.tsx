@@ -77,6 +77,7 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
       }}
     >
       <h2 style={{ color: '#333', marginBottom: '16px' }}>{application.name}</h2>
+      {renderInfoBox('ID', application.id)}
       {renderInfoBox('Description', application.description)}
       {renderInfoBox('Status', application.status)}
       {renderInfoBox('Allowed Domains', safeJoin(application.allowed_domains))}
