@@ -2,7 +2,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 const Endpoint = require('./Endpoint');
 const Application = require('./Application');
-
 // Define the EndpointApplicationMapping model
 const EndpointApplicationMapping = sequelize.define('EndpointApplicationMapping', {
   id: {
@@ -11,7 +10,7 @@ const EndpointApplicationMapping = sequelize.define('EndpointApplicationMapping'
     defaultValue: Sequelize.UUIDV4,
   },
   endpoint_id: {
-    type: DataTypes.UUID, // Changed to UUID
+    type: DataTypes.INTEGER,  // Change this to INTEGER based on your schema
     allowNull: false,
   },
   application_id: {

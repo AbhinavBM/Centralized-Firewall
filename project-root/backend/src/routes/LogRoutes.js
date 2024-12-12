@@ -1,14 +1,20 @@
 const express = require('express');
-const logController = require('../controllers/LogsController');
-
 const router = express.Router();
+const logsController = require('../controllers/LogsController');
 
-// Define routes for logs
-router.get('/logs', logController.getLogs);
-router.get('/logs/search', logController.searchLogs);
-router.get('/logs/date-range', logController.getLogsByDateRange);
-router.get('/logs/application', logController.getLogsByApplication);
-router.get('/logs/protocol', logController.getLogsByProtocol);
-router.get('/logs/endpoint/:endpointId', logController.getLogsByEndpoint);
+// Route for fetching logs with pagination and filters
+router.get('/', logsController.getLogs);
+
+// Route for searching logs
+router.get('/search', logsController.searchLogs);
+
+// Route for filtering logs by date range
+router.get('/date-range', logsController.getLogsByDateRange);
+
+// Route for filtering logs by protocol
+router.get('/protocol', logsController.getLogsByProtocol);
+
+// Route for creating a new log entry
+router.post('/', logsController.createLog);
 
 module.exports = router;

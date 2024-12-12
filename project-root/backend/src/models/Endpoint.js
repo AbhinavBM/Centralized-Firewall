@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
+const { v4: uuidv4 } = require('uuid'); // Import UUID v4
 
 const Endpoint = sequelize.define(
     'Endpoint',
@@ -28,6 +29,14 @@ const Endpoint = sequelize.define(
         timestamps: true, // Use createdAt and updatedAt
         createdAt: 'created_at',
         updatedAt: 'updated_at',
+        defaultScope: {
+            // Automatically use UUIDs for the primary key
+            id: {
+                type: DataTypes.UUID,
+                defaultValue: uuidv4, // Automatically generate UUIDs
+                primaryKey: true,
+            }
+        }
     }
 );
 

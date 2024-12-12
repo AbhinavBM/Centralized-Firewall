@@ -27,31 +27,52 @@ const ApplicationGetController = {
         });
       }
 
-      // Fetch application details
-      const applications = {};
+      // Build the firewall rules dynamically
+      const firewall_rules = [];
       for (const mapping of mappings) {
         const application = await Application.findOne({
           where: { id: mapping.application_id },
         });
 
         if (application) {
-          applications[application.name] = {
-            description: application.description,
-            status: application.status,
-            associated_ips: application.firewall_policies?.associated_ips || [],
-            source_ports: application.firewall_policies?.source_ports || [],
-            destination_ports: application.firewall_policies?.destination_ports || [],
-          };
+          const policies = application.firewall_policies || {};
+          const associatedIPs = policies.destination_ips || [];
+          const sourcePorts = policies.source_ports || [];
+          const destinationPorts = policies.destination_ports || [];
+          const allowedDomains = application.allowed_domains || [];
+          const service = application.name;
+
+          // Add rules only for allowed destination IPs
+          associatedIPs.forEach(dst_ip => {
+            if (dst_ip) {
+              firewall_rules.push({
+                src_ip: null,
+                dst_ip,
+                src_port: null,
+                domain: null,
+                dst_port: null,
+                protocol: null,
+                action: "allow",
+                service,
+              });
+            }
+          });
         }
       }
 
-      // Build the final response object
-      const response = {
+      res.status(200).json({
         endpoint_id,
-        applications,
-      };
-
-      res.status(200).json(response);
+        firewall_rules: firewall_rules.map(rule => ({
+          src_ip: rule.src_ip,
+          dst_ip: rule.dst_ip,
+          src_port: rule.src_port,
+          domain: rule.domain,
+          dst_port: rule.dst_port,
+          protocol: rule.protocol,
+          action: rule.action,
+          service: rule.service,
+        })),
+      });
     } catch (error) {
       res.status(500).json({ message: 'Error fetching applications by endpoint', error: error.message });
     }

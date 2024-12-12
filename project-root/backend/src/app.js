@@ -27,14 +27,16 @@ app.use(express.urlencoded({ extended: false }));
 const authRouter = require('./routes/authRoutes');
 const endpointRouter = require('./routes/endpointRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
-const endpointApplicationMappingRoutes = require('./routes/endpointMappingRoutes');
 const logRoutes = require('./routes/LogRoutes'); // Import routes
 const endpointRoutes = require('./EndpointRoutes/endpointRoutes');
+const applicationMappingEndpointRoutes = require('./routes/endpointMappingRoutes'); // Import the routes
+
 
 app.use('/endpoint-verify',endpointRoutes)
 // Register Routes
-app.use('/api/mappings', endpointApplicationMappingRoutes); // Endpoint for mapping routes
+app.use('/api/mappings', applicationMappingEndpointRoutes); // Endpoint for mapping routes
 app.use('/api', logRoutes);
+
 
 app.use('/api/auth', authRouter);
 app.use('/api/endpoints', endpointRouter);

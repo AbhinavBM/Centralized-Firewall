@@ -3,7 +3,7 @@ import { getAllEndpoints } from '../api/auth/endpointService';  // Import the AP
 import { Endpoint } from '../interfaces/endpoint';
 import MappingData from '../components/MappingData';  // Import the MappingData component
 import ParentComponent from './../components/ParentComponent'; // Import ParentComponent
-import MappingForm from './../components/MappingData'; // Import ParentComponent
+import MappingForm from './../components/MappingForm'; // Import ParentComponent
 
 const MappingPage: React.FC = () => {
   const [endpoints, setEndpoints] = useState<Endpoint[]>([]);  // Store endpoints

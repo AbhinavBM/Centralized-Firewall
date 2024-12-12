@@ -1,22 +1,25 @@
 const { Op } = require('sequelize');
-const Log = require('../models/Log')
+const Log = require('../models/Log'); // Adjust the path to your Sequelize model
 
-// Get all logs with pagination, filtering, and optional date range
+// Get All Logs with Pagination and Filtering
 exports.getLogs = async (req, res) => {
   try {
-    const { page = 1, limit = 10, endpointId, application, action, protocol, startDate, endDate } = req.query;
+    const { page = 1, limit = 10, source_ip, destination_ip, protocol, source_service, destination_service, domain, startDate, endDate } = req.query;
 
+    const offset = (page - 1) * limit;
     const where = {};
-    if (endpointId) where.endpoint_id = endpointId;
-    if (action) where.action = action;
-    if (protocol) where.protocol = protocol;
+
+    if (source_ip) where.source_ip = { [Op.like]: `%${source_ip}%` };
+    if (destination_ip) where.destination_ip = { [Op.like]: `%${destination_ip}%` };
+    if (protocol) where.protocol = { [Op.like]: `%${protocol}%` };
+    if (source_service) where.source_service = { [Op.like]: `%${source_service}%` };
+    if (destination_service) where.destination_service = { [Op.like]: `%${destination_service}%` };
+    if (domain) where.domain = { [Op.like]: `%${domain}%` };
     if (startDate && endDate) {
-      where.timestamp = {
+      where.logged_at = {
         [Op.between]: [new Date(startDate), new Date(endDate)],
       };
     }
-
-    const offset = (page - 1) * limit;
 
     const logs = await Log.findAndCountAll({
       where,
@@ -27,7 +30,7 @@ exports.getLogs = async (req, res) => {
     res.status(200).json({
       logs: logs.rows,
       total: logs.count,
-      currentPage: page,
+      currentPage: parseInt(page, 10),
       totalPages: Math.ceil(logs.count / limit),
     });
   } catch (error) {
@@ -36,7 +39,7 @@ exports.getLogs = async (req, res) => {
   }
 };
 
-// Search logs based on a query
+// Search Logs
 exports.searchLogs = async (req, res) => {
   try {
     const { query } = req.query;
@@ -47,7 +50,9 @@ exports.searchLogs = async (req, res) => {
           { source_ip: { [Op.like]: `%${query}%` } },
           { destination_ip: { [Op.like]: `%${query}%` } },
           { protocol: { [Op.like]: `%${query}%` } },
-          { action: { [Op.like]: `%${query}%` } },
+          { source_service: { [Op.like]: `%${query}%` } },
+          { destination_service: { [Op.like]: `%${query}%` } },
+          { domain: { [Op.like]: `%${query}%` } },
         ],
       },
     });
@@ -59,14 +64,14 @@ exports.searchLogs = async (req, res) => {
   }
 };
 
-// Get logs by date range
+// Get Logs by Date Range
 exports.getLogsByDateRange = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
     const logs = await Log.findAll({
       where: {
-        timestamp: {
+        logged_at: {
           [Op.between]: [new Date(startDate), new Date(endDate)],
         },
       },
@@ -79,23 +84,7 @@ exports.getLogsByDateRange = async (req, res) => {
   }
 };
 
-// Get logs by application
-exports.getLogsByApplication = async (req, res) => {
-  try {
-    const { application } = req.query;
-
-    const logs = await Log.findAll({
-      where: { application },
-    });
-
-    res.status(200).json(logs);
-  } catch (error) {
-    console.error('Error fetching logs by application:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-// Get logs by protocol
+// Get Logs by Protocol
 exports.getLogsByProtocol = async (req, res) => {
   try {
     const { protocol } = req.query;
@@ -111,18 +100,29 @@ exports.getLogsByProtocol = async (req, res) => {
   }
 };
 
-// Get logs by endpoint
-exports.getLogsByEndpoint = async (req, res) => {
+// Create a New Log Entry
+exports.createLog = async (req, res) => {
   try {
-    const { endpointId } = req.params;
+    const { source_ip, destination_ip, source_port, destination_port, protocol, source_service, destination_service, domain } = req.body;
 
-    const logs = await Log.findAll({
-      where: { endpoint_id: endpointId },
+    if (!source_ip || !destination_ip || !source_port || !destination_port || !protocol) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const newLog = await Log.create({
+      source_ip,
+      destination_ip,
+      source_port,
+      destination_port,
+      protocol,
+      source_service,
+      destination_service,
+      domain,
     });
 
-    res.status(200).json(logs);
+    res.status(201).json(newLog);
   } catch (error) {
-    console.error('Error fetching logs by endpoint:', error);
+    console.error('Error creating log:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

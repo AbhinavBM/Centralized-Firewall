@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Mapping } from '../../interfaces/Mapping';  // Assuming Mapping interface is defined in this path.
+import { Mapping } from '../../interfaces/mapping';  // Assuming Mapping interface is defined in this path.
 
 const API_URL = 'http://localhost:3000/api/mappings';
 

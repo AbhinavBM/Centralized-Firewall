@@ -1,29 +1,19 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database'); // Destructure to get the Sequelize instance
+const sequelize = require('../config/database'); // Adjust path to your database config
 
-const Log = sequelize.define('Log', {
+const Log = sequelize.define('PacketLogs', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  endpoint_id: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   source_ip: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(45),
     allowNull: false,
-    validate: {
-      isIP: true,
-    },
   },
   destination_ip: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(45),
     allowNull: false,
-    validate: {
-      isIP: true,
-    },
   },
   source_port: {
     type: DataTypes.INTEGER,
@@ -34,23 +24,28 @@ const Log = sequelize.define('Log', {
     allowNull: false,
   },
   protocol: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(10),
     allowNull: false,
   },
-  action: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    validate: {
-      isIn: [['ACCEPT', 'DENY']],
-    },
+  source_service: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
   },
-  timestamp: {
+  destination_service: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  domain: {
+    type: DataTypes.STRING(255),
+    allowNull: true,
+  },
+  logged_at: {
     type: DataTypes.DATE,
-    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 }, {
-  tableName: 'logs', // Ensures the model is tied to the correct table name
-  timestamps: false,  // Since your table does not have `createdAt` and `updatedAt` columns
+  tableName: 'PacketLogs',
+  timestamps: false, // No createdAt/updatedAt columns
 });
 
 module.exports = Log;

@@ -14,7 +14,7 @@ interface Props {
 const ApplicationForm: React.FC<Props> = ({ application }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>(); // id should be UUID type
   const applications = useSelector((state: RootState) => state.applications.applications);
 
   // Form states
@@ -23,11 +23,12 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
   const [status, setStatus] = useState<'allowed' | 'blocked' | 'pending' | 'suspended'>('allowed');
   const [policies, setPolicies] = useState<{ name: string; values: string[] }[]>([]);
 
-  // Load existing application data
+  // Load existing application data and create mutable copies
   useEffect(() => {
-    if (id) {
+    if (id && !application) {
       const existingApp = applications.find((app) => app.id === id);
       if (existingApp) {
+        // Create mutable copies of the data
         setName(existingApp.name);
         setDescription(existingApp.description);
         setStatus(existingApp.status);
@@ -36,7 +37,6 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
         const defaultPolicies = [
           { name: 'Allowed Domains', values: existingApp.allowed_domains || [] },
           { name: 'Allowed IPs', values: existingApp.allowed_ips || [] },
-          { name: 'Allowed Protocols', values: existingApp.allowed_protocols || [] },
         ];
 
         const dynamicPolicies = Object.entries(existingApp.firewall_policies || {}).map(
@@ -48,40 +48,76 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
 
         setPolicies([...defaultPolicies, ...dynamicPolicies]);
       }
+    } else if (application) {
+      // If an application prop is passed, create mutable copies of it
+      setName(application.name);
+      setDescription(application.description);
+      setStatus(application.status);
+      setPolicies([
+        { name: 'Allowed Domains', values: application.allowed_domains || [] },
+        { name: 'Allowed IPs', values: application.allowed_ips || [] },
+        ...Object.entries(application.firewall_policies || {}).map(([key, values]) => ({
+          name: key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+          values,
+        })),
+      ]);
     }
-  }, [id, applications]);
+  }, [id, applications, application]);
 
   // Add a new policy
   const handleAddPolicy = () => {
-    setPolicies([...policies, { name: '', values: [] }]);
+    setPolicies((prevPolicies) => [...prevPolicies, { name: '', values: [] }]);
   };
 
   // Update policy name
   const handlePolicyNameChange = (index: number, value: string) => {
-    const updatedPolicies = [...policies];
-    updatedPolicies[index].name = value;
-    setPolicies(updatedPolicies);
+    setPolicies((prevPolicies) => {
+      const updatedPolicies = prevPolicies.map((policy, i) =>
+        i === index ? { ...policy, name: value } : policy
+      );
+      return updatedPolicies;
+    });
   };
 
   // Update policy rule value
   const handlePolicyValueChange = (policyIndex: number, valueIndex: number, value: string) => {
-    const updatedPolicies = [...policies];
-    updatedPolicies[policyIndex].values[valueIndex] = value;
-    setPolicies(updatedPolicies);
+    setPolicies((prevPolicies) => {
+      const updatedPolicies = prevPolicies.map((policy, index) => {
+        if (index === policyIndex) {
+          const updatedValues = policy.values.map((val, i) => (i === valueIndex ? value : val));
+          return { ...policy, values: updatedValues };
+        }
+        return policy;
+      });
+      return updatedPolicies;
+    });
   };
 
   // Add a rule to a specific policy
   const handleAddRule = (policyIndex: number) => {
-    const updatedPolicies = [...policies];
-    updatedPolicies[policyIndex].values.push('');
-    setPolicies(updatedPolicies);
+    setPolicies((prevPolicies) => {
+      const updatedPolicies = prevPolicies.map((policy, index) => {
+        if (index === policyIndex) {
+          return { ...policy, values: [...policy.values, ''] }; // Add new rule
+        }
+        return policy;
+      });
+      return updatedPolicies;
+    });
   };
 
   // Remove a specific rule from a policy
   const handleRemoveRule = (policyIndex: number, valueIndex: number) => {
-    const updatedPolicies = [...policies];
-    updatedPolicies[policyIndex].values.splice(valueIndex, 1);
-    setPolicies(updatedPolicies);
+    setPolicies((prevPolicies) => {
+      const updatedPolicies = prevPolicies.map((policy, index) => {
+        if (index === policyIndex) {
+          const updatedValues = policy.values.filter((_, i) => i !== valueIndex);
+          return { ...policy, values: updatedValues };
+        }
+        return policy;
+      });
+      return updatedPolicies;
+    });
   };
 
   // Handle form submission
@@ -93,15 +129,12 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
       policies.find((policy) => policy.name === 'Allowed Domains')?.values || [];
     const allowedIPs =
       policies.find((policy) => policy.name === 'Allowed IPs')?.values || [];
-    const allowedProtocols =
-      policies.find((policy) => policy.name === 'Allowed Protocols')?.values || [];
 
     // Extract dynamically added policies
     const firewallPolicies = policies.reduce((acc, policy) => {
       if (
         policy.name !== 'Allowed Domains' &&
-        policy.name !== 'Allowed IPs' &&
-        policy.name !== 'Allowed Protocols'
+        policy.name !== 'Allowed IPs'
       ) {
         const key = policy.name
           .toLowerCase()
@@ -118,13 +151,14 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
       status,
       allowed_domains: allowedDomains,
       allowed_ips: allowedIPs,
-      allowed_protocols: allowedProtocols,
       firewall_policies: firewallPolicies,
     };
 
-    if (application) {
-      dispatch(editApplication({ id: application.id, application: newApp }));
+    if (id && !application) {
+      // Edit existing application
+      dispatch(editApplication({ id, application: newApp }));
     } else {
+      // Add a new application
       dispatch(addApplication(newApp));
     }
 
@@ -132,11 +166,7 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
     setName('');
     setDescription('');
     setStatus('allowed');
-    setPolicies([
-      { name: 'Allowed Domains', values: [] },
-      { name: 'Allowed IPs', values: [] },
-      { name: 'Allowed Protocols', values: [] },
-    ]);
+    setPolicies([{ name: 'Allowed Domains', values: [] }, { name: 'Allowed IPs', values: [] }]);
 
     // Navigate back to the applications list
     navigate('/applications');
@@ -147,7 +177,7 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
       <div className="application-form-inner">
         <div className="application-form-box">
           <form onSubmit={handleSubmit} className="application-form">
-            <h2>{application ? 'Update Application' : 'Create Application'}</h2>
+            <h2>{application ? 'Update Application-Rule' : 'Create Application-Rule'}</h2>
 
             {/* Name Field */}
             <div className="form-field">
@@ -165,7 +195,7 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
             <div className="form-field">
               <label>Description</label>
               <textarea
-                value={description}
+                value={description || ''}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description"
               />
@@ -176,7 +206,7 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
               <label>Status</label>
               <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value as any)}
+                onChange={(e) => setStatus(e.target.value as 'allowed' | 'blocked' | 'pending' | 'suspended')}
               >
                 <option value="allowed">Allowed</option>
                 <option value="blocked">Blocked</option>
@@ -226,7 +256,7 @@ const ApplicationForm: React.FC<Props> = ({ application }) => {
             </button>
 
             <button type="submit" className="submit-button">
-              {application ? 'Update Application' : 'Create Application'}
+              {application ? 'Update Application-Rule' : 'Create Application-Rule'}
             </button>
           </form>
         </div>

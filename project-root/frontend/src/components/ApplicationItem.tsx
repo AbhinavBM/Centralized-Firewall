@@ -78,20 +78,27 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
     >
       <h2 style={{ color: '#333', marginBottom: '16px' }}>{application.name}</h2>
       {renderInfoBox('ID', application.id)}
-      {renderInfoBox('Description', application.description)}
+      {/* {renderInfoBox('Description', application.description)} */}
       {renderInfoBox('Status', application.status)}
       {renderInfoBox('Allowed Domains', safeJoin(application.allowed_domains))}
       {renderInfoBox('Allowed IPs', safeJoin(application.allowed_ips))}
-      {renderInfoBox('Allowed Protocols', safeJoin(application.allowed_protocols))}
       {application.firewall_policies &&
-        Object.keys(application.firewall_policies).map((policyName) =>
-          renderInfoBox(
-            policyName.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
-            Array.isArray(application.firewall_policies[policyName])
-              ? application.firewall_policies[policyName].join(', ')
-              : 'No values'
-          )
-        )}
+  Object.keys(application.firewall_policies)
+    .filter(
+      (policyName) =>
+        policyName === 'Source Ports' || policyName === 'Destination Ports'
+    )
+    .map((policyName) =>
+      renderInfoBox(
+        policyName
+          .replace(/_/g, ' ')
+          .replace(/\b\w/g, (c) => c.toUpperCase()),
+        Array.isArray(application.firewall_policies[policyName])
+          ? application.firewall_policies[policyName].join(', ')
+          : 'No values'
+      )
+    )}
+
       {renderInfoBox(
         'Created At',
         new Date(application.created_at).toLocaleString()

@@ -40,7 +40,6 @@ export const loadApplications = createAsyncThunk('applications/load', async (_, 
 
 export const addApplication = createAsyncThunk('applications/add', async (application: Partial<Application>, { rejectWithValue }) => {
   try {
-    console.log(application);
     const response = await createApplication(application);
     return response;
   } catch (error) {
@@ -51,7 +50,8 @@ export const addApplication = createAsyncThunk('applications/add', async (applic
 
 export const editApplication = createAsyncThunk('applications/edit', async ({ id, application }: { id: string; application: Partial<Application> }, { rejectWithValue }) => {
   try {
-    const response = await updateApplication(id, application);
+    console.log(`this id Slice ${application}`)
+    const response = await updateApplication(id, application);  // PUT request
     return response;
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -111,7 +111,7 @@ const applicationsSlice = createSlice({
         state.editLoading = false;
         const index = state.applications.findIndex(app => app.id === action.payload.id);
         if (index >= 0) {
-          state.applications[index] = action.payload;
+          state.applications[index] = action.payload; // Replace the updated application in the array
         }
       })
       .addCase(editApplication.rejected, (state, action) => {

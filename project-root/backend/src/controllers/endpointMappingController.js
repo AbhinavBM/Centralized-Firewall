@@ -2,10 +2,7 @@ const { Op } = require('sequelize');
 const Endpoint = require('../models/Endpoint');
 const Application = require('../models/Application');
 const EndpointApplicationMapping = require('../models/EndpointApplicationMapping');
-const { validate: isUuid } = require('uuid');
-
-// Valid order fields for safe ordering in `getAllMappings`
-const VALID_ORDER_FIELDS = ['hostname', 'status'];
+const { v4: uuidv4 } = require('uuid');
 
 // Create a new mapping with conditional status
 const createMapping = async (req, res) => {
@@ -17,8 +14,8 @@ const createMapping = async (req, res) => {
       return res.status(400).json({ error: 'endpoint_id and application_id are required' });
     }
 
-    // Ensure endpoint_id and application_id are valid UUIDs
-    if (!isUuid(endpoint_id) || !isUuid(application_id)) {
+    // Ensure endpoint_id and application_id are UUIDs
+    if (!uuidv4().test(endpoint_id) || !uuidv4().test(application_id)) {
       return res.status(400).json({ error: 'Invalid UUID format for endpoint_id or application_id' });
     }
 
@@ -53,8 +50,8 @@ const createMapping = async (req, res) => {
 
     res.status(201).json(mapping);
   } catch (error) {
-    console.error('[Error creating mapping]', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error); // Log the error for debugging purposes
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -63,11 +60,6 @@ const getAllMappings = async (req, res) => {
   try {
     const orderBy = req.query.orderBy || 'hostname'; // Default sorting by hostname
     const sortOrder = req.query.sortOrder || 'ASC'; // Default sorting in ascending order
-
-    // Validate orderBy to prevent SQL injection
-    if (!VALID_ORDER_FIELDS.includes(orderBy)) {
-      return res.status(400).json({ error: 'Invalid orderBy field' });
-    }
 
     // Fetch mappings grouped by Endpoint with a list of associated Applications
     const mappings = await EndpointApplicationMapping.findAll({
@@ -106,8 +98,8 @@ const getAllMappings = async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    console.error('[Error fetching mappings]', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error); // Log the error for debugging purposes
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -117,7 +109,7 @@ const getMapping = async (req, res) => {
     const { id } = req.params; // Get the endpoint_id from the URL parameters
 
     // Validate the input ID (ensure it's a valid UUID)
-    if (!isUuid(id)) {
+    if (!uuidv4().test(id)) {
       return res.status(400).json({ error: 'Invalid Endpoint ID format' });
     }
 
@@ -138,78 +130,65 @@ const getMapping = async (req, res) => {
     }
 
     // Extract the applications from the mappings and return the response
-    const applications = mappings.map((mapping) => mapping.Application);
+    const applications = mappings.map(mapping => mapping.Application);
 
     res.status(200).json({
       endpoint_id: id,
       applications,
     });
   } catch (error) {
-    console.error('[Error fetching applications for Endpoint]', error);
+    console.error('Error fetching applications for Endpoint:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
 
-// Update an existing mapping's status
+// Update a mapping
 const updateMapping = async (req, res) => {
   try {
     const { endpoint_id, application_id, status } = req.body;
 
-    // Validate input fields
+    // Validate input
     if (!endpoint_id || !application_id || !status) {
       return res.status(400).json({ error: 'endpoint_id, application_id, and status are required' });
     }
 
-    // Ensure UUID format is correct
-    if (!isUuid(endpoint_id) || !isUuid(application_id)) {
-      return res.status(400).json({ error: 'Invalid UUID format for endpoint_id or application_id' });
-    }
-
-    // Fetch the mapping to be updated
-    const mapping = await EndpointApplicationMapping.findOne({
-      where: { endpoint_id, application_id },
-    });
+    // Find the mapping by ID
+    const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
 
     if (!mapping) {
       return res.status(404).json({ error: 'Mapping not found' });
     }
 
-    // Update the status
-    mapping.status = status;
-    await mapping.save();
+    // Update the mapping with the provided data or keep existing values
+    mapping.endpoint_id = endpoint_id || mapping.endpoint_id;
+    mapping.application_id = application_id || mapping.application_id;
+    mapping.status = status || mapping.status;
 
+    // Save the updated mapping
+    await mapping.save();
     res.status(200).json(mapping);
   } catch (error) {
-    console.error('[Error updating mapping]', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error); // Log the error for debugging purposes
+    res.status(400).json({ error: error.message });
   }
 };
 
-// Delete a specific mapping
+// Delete a mapping
 const deleteMapping = async (req, res) => {
   try {
-    const { endpoint_id, application_id } = req.params;
-
-    // Validate UUIDs
-    if (!isUuid(endpoint_id) || !isUuid(application_id)) {
-      return res.status(400).json({ error: 'Invalid UUID format for endpoint_id or application_id' });
-    }
-
-    // Find and delete the mapping
-    const mapping = await EndpointApplicationMapping.findOne({
-      where: { endpoint_id, application_id },
-    });
+    // Find the mapping by ID
+    const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
 
     if (!mapping) {
       return res.status(404).json({ error: 'Mapping not found' });
     }
 
+    // Destroy the mapping
     await mapping.destroy();
-
-    res.status(204).json({ message: 'Mapping deleted successfully' });
+    res.status(200).json({ message: 'Mapping deleted successfully' });
   } catch (error) {
-    console.error('[Error deleting mapping]', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error); // Log the error for debugging purposes
+    res.status(400).json({ error: error.message });
   }
 };
 
