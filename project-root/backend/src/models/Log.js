@@ -1,11 +1,12 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Adjust path to your database config
+const { sequelize } = require('../config/database');  // Adjust this path to your sequelize instance
 
 const Log = sequelize.define('PacketLogs', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
   },
   source_ip: {
     type: DataTypes.STRING(45),
@@ -41,11 +42,12 @@ const Log = sequelize.define('PacketLogs', {
   },
   logged_at: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+    defaultValue: DataTypes.NOW,  // This will set the current timestamp by default
+    allowNull: true,
   },
 }, {
-  tableName: 'PacketLogs',
-  timestamps: false, // No createdAt/updatedAt columns
+  tableName: 'packetlogs', // Ensure this matches the exact table name in your DB
+  timestamps: false, // Disable Sequelize's default createdAt/updatedAt columns
 });
 
 module.exports = Log;

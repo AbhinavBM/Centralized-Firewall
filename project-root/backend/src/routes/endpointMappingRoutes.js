@@ -8,11 +8,10 @@ const {
   deleteMapping,
 } = require('../controllers/endpointMappingController');
 
-// API Endpoints
-router.post('/', createMapping);         // Create a mapping
-router.get('/', getAllMappings);         // Get all mappings
-router.get('/:id', getMapping);         // Get a specific mapping by ID
-router.put(':id', updateMapping);      // Update a mapping by ID
-router.delete('/:id', deleteMapping);   // Delete a mapping by ID
+router.post('/', createMapping);
+router.get('/', getAllMappings);
+router.get('/:id', getMapping);
+router.put('/:id', updateMapping);
+router.delete('/:id', deleteMapping);
 
 module.exports = router;

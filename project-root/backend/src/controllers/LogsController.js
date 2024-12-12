@@ -25,6 +25,7 @@ exports.getLogs = async (req, res) => {
       where,
       offset,
       limit: parseInt(limit, 10),
+      order: [['logged_at', 'DESC']],
     });
 
     res.status(200).json({
@@ -100,29 +101,57 @@ exports.getLogsByProtocol = async (req, res) => {
   }
 };
 
-// Create a New Log Entry
+
+
+
 exports.createLog = async (req, res) => {
   try {
-    const { source_ip, destination_ip, source_port, destination_port, protocol, source_service, destination_service, domain } = req.body;
+    const { logs } = req.body;
 
-    if (!source_ip || !destination_ip || !source_port || !destination_port || !protocol) {
-      return res.status(400).json({ error: 'Missing required fields' });
+    if (!logs || !Array.isArray(logs) || logs.length === 0) {
+      return res.status(400).json({ error: 'Invalid or missing logs array' });
     }
 
-    const newLog = await Log.create({
-      source_ip,
-      destination_ip,
-      source_port,
-      destination_port,
-      protocol,
-      source_service,
-      destination_service,
-      domain,
+    // Validate each log entry
+    const invalidLogs = logs.filter(log => {
+      return (
+        !log.source_ip ||
+        !log.destination_ip ||
+        !log.source_port ||
+        !log.destination_port ||
+        !log.protocol
+      );
     });
 
-    res.status(201).json(newLog);
+    if (invalidLogs.length > 0) {
+      return res.status(400).json({
+        error: 'Some logs have missing required fields',
+        invalidLogs,
+      });
+    }
+
+    // Format logs to ensure consistency with the database schema
+    const formattedLogs = logs.map(log => ({
+      source_ip: log.source_ip,
+      destination_ip: log.destination_ip,
+      source_port: log.source_port,
+      destination_port: log.destination_port,
+      protocol: log.protocol,
+      source_service: log.source_service || null,
+      destination_service: log.destination_service || null,
+      domain: log.domain || null,
+      logged_at: log.logged_at || new Date(),
+    }));
+
+    // Insert logs into the database
+    const newLogs = await Log.bulkCreate(formattedLogs);
+
+    res.status(201).json({
+      message: 'Logs created successfully',
+      data: newLogs,
+    });
   } catch (error) {
-    console.error('Error creating log:', error);
+    console.error('Error creating logs:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

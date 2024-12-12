@@ -80,7 +80,7 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
       {renderInfoBox('ID', application.id)}
       {/* {renderInfoBox('Description', application.description)} */}
       {renderInfoBox('Status', application.status)}
-      {renderInfoBox('Allowed Domains', safeJoin(application.allowed_domains))}
+      {/* {renderInfoBox('Allowed Domains', safeJoin(application.allowed_domains))} */}
       {renderInfoBox('Allowed IPs', safeJoin(application.allowed_ips))}
       {application.firewall_policies &&
   Object.keys(application.firewall_policies)

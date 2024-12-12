@@ -1,109 +1,64 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/logs'; // Replace with your backend API URL
+const API_URL = 'http://localhost:3000/api'; // Adjust the URL based on your backend
 
-// Define log type based on your database structure
+// Define types for logs and query parameters
 export interface Log {
   id: number;
-  endpoint_id: string;
   source_ip: string;
   destination_ip: string;
   source_port: number;
   destination_port: number;
   protocol: string;
-  action: string;
-  timestamp: string;
+  source_service?: string;
+  destination_service?: string;
+  domain?: string;
+  logged_at: string;
 }
 
-export interface PaginatedLogs {
-  logs: Log[];
-  total: number;
-  currentPage: number;
-  totalPages: number;
+export interface LogQueryParams {
+  page?: number;
+  limit?: number;
+  source_ip?: string;
+  destination_ip?: string;
+  protocol?: string;
+  source_service?: string;
+  destination_service?: string;
+  domain?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
-// Get all logs with pagination, filtering, and date range
-export const getLogs = async (
-  page = 1,
-  pageSize = 10,
-  endpointId?: string,
-  appName?: string,
-  action?: string,
-  protocol?: string,
-  startDate?: string,
-  endDate?: string
-): Promise<PaginatedLogs> => {
-  const params = {
-    page,
-    limit: pageSize,
-    endpointId,
-    application: appName,
-    action,
-    protocol,
-    startDate,
-    endDate,
-  };
-
-  try {
-    const response: AxiosResponse<PaginatedLogs> = await axios.get(`${API_URL}`, { params });
+const logService = {
+  // Get all logs with pagination and filtering
+  getLogs: async (params: LogQueryParams): Promise<{ logs: Log[]; total: number; currentPage: number; totalPages: number }> => {
+    const response = await axios.get(`${API_URL}/logs`, { params });
     return response.data;
-  } catch (error) {
-    console.error('Error fetching logs:', error);
-    throw error;
-  }
+  },
+
+  // Search logs based on query
+  searchLogs: async (query: string): Promise<Log[]> => {
+    const response = await axios.get(`${API_URL}/logs/search`, { params: { query } });
+    return response.data;
+  },
+
+  // Get logs by date range
+  getLogsByDateRange: async (startDate: string, endDate: string): Promise<Log[]> => {
+    const response = await axios.get(`${API_URL}/logs/date-range`, { params: { startDate, endDate } });
+    return response.data;
+  },
+
+  // Get logs by protocol
+  getLogsByProtocol: async (protocol: string): Promise<Log[]> => {
+    const response = await axios.get(`${API_URL}/logs/protocol`, { params: { protocol } });
+    return response.data;
+  },
+
+  // Create a new log entry
+  createLog: async (logData: Omit<Log, 'id' | 'logged_at'>): Promise<Log> => {
+    const response = await axios.post(`${API_URL}/logs`, logData);
+    return response.data;
+  },
 };
 
-// Search logs based on a query
-export const searchLogs = async (query: string): Promise<Log[]> => {
-  try {
-    const response: AxiosResponse<Log[]> = await axios.get(`${API_URL}/search`, { params: { query } });
-    return response.data;
-  } catch (error) {
-    console.error('Error searching logs:', error);
-    throw error;
-  }
-};
-
-// Get logs by date range
-export const getLogsByDateRange = async (startDate: string, endDate: string): Promise<Log[]> => {
-  try {
-    const response: AxiosResponse<Log[]> = await axios.get(`${API_URL}/date-range`, { params: { startDate, endDate } });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching logs by date range:', error);
-    throw error;
-  }
-};
-
-// Get logs by application
-export const getLogsByApplication = async (application: string): Promise<Log[]> => {
-  try {
-    const response: AxiosResponse<Log[]> = await axios.get(`${API_URL}/application`, { params: { application } });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching logs by application:', error);
-    throw error;
-  }
-};
-
-// Get logs by protocol
-export const getLogsByProtocol = async (protocol: string): Promise<Log[]> => {
-  try {
-    const response: AxiosResponse<Log[]> = await axios.get(`${API_URL}/protocol`, { params: { protocol } });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching logs by protocol:', error);
-    throw error;
-  }
-};
-
-// Get logs by endpoint
-export const getLogsByEndpoint = async (endpointId: string): Promise<Log[]> => {
-  try {
-    const response: AxiosResponse<Log[]> = await axios.get(`${API_URL}/endpoint/${endpointId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching logs by endpoint:', error);
-    throw error;
-  }
-};
+export default logService;

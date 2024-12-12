@@ -34,13 +34,13 @@ const applicationMappingEndpointRoutes = require('./routes/endpointMappingRoutes
 
 app.use('/endpoint-verify',endpointRoutes)
 // Register Routes
-app.use('/api/mappings', applicationMappingEndpointRoutes); // Endpoint for mapping routes
-app.use('/api', logRoutes);
-
+app.use('/mapping', applicationMappingEndpointRoutes); // Endpoint for mapping routes
 
 app.use('/api/auth', authRouter);
 app.use('/api/endpoints', endpointRouter);
 app.use('/api/applications', applicationRoutes);
+app.use('/api/logs', logRoutes); // Prefix all routes with /api
+
 
 // 404 handler for unmatched routes
 app.use((req, res) => {

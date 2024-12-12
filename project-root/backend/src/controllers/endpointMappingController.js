@@ -1,81 +1,62 @@
-const { Op } = require('sequelize');
-const Endpoint = require('../models/Endpoint');
-const Application = require('../models/Application');
-const EndpointApplicationMapping = require('../models/EndpointApplicationMapping');
-const { v4: uuidv4 } = require('uuid');
+const Endpoint = require('../MappingModel/Endpoint');
+const Application = require('../MappingModel/Application');
+const EndpointApplicationMapping = require('../MappingModel/EndpointApplicationMapping');
 
 // Create a new mapping with conditional status
 const createMapping = async (req, res) => {
   try {
     const { endpoint_id, application_id } = req.body;
 
-    // Basic input validation for endpoint_id and application_id
     if (!endpoint_id || !application_id) {
-      return res.status(400).json({ error: 'endpoint_id and application_id are required' });
+      return res.status(400).json({ error: 'Both endpoint_id and application_id are required.' });
     }
 
-    // Ensure endpoint_id and application_id are UUIDs
-    if (!uuidv4().test(endpoint_id) || !uuidv4().test(application_id)) {
-      return res.status(400).json({ error: 'Invalid UUID format for endpoint_id or application_id' });
-    }
-
-    // Get the endpoint and application details to determine the status
-    const endpoint = await Endpoint.findByPk(endpoint_id);
-    const application = await Application.findByPk(application_id);
+    const endpoint = await Endpoint.findOne({ where: { id: endpoint_id } });
+    const application = await Application.findOne({ where: { id: application_id } });
 
     if (!endpoint || !application) {
-      return res.status(404).json({ error: 'Endpoint or Application not found' });
+      return res.status(404).json({ error: 'Endpoint or Application not found.' });
     }
 
-    // Define the conditional status logic
-    let status = 'Active'; // Default status
+    let status = 'Active';
     if (endpoint.hostname === 'server-05' && application.name === 'Web Application A') {
       status = 'Inactive';
     }
 
-    // Use findOrCreate to avoid creating duplicate mappings
     const [mapping, created] = await EndpointApplicationMapping.findOrCreate({
-      where: {
-        endpoint_id,
-        application_id,
-      },
-      defaults: {
-        status,
-      },
+      where: { endpoint_id, application_id },
+      defaults: { status },
     });
 
     if (!created) {
-      return res.status(400).json({ error: 'Mapping already exists' });
+      return res.status(409).json({ error: 'Mapping already exists.' });
     }
 
     res.status(201).json(mapping);
   } catch (error) {
-    console.error(error); // Log the error for debugging purposes
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
-// Get all mappings with optional ordering
+// Fetch all mappings
 const getAllMappings = async (req, res) => {
   try {
-    const orderBy = req.query.orderBy || 'hostname'; // Default sorting by hostname
-    const sortOrder = req.query.sortOrder || 'ASC'; // Default sorting in ascending order
+    const orderBy = req.query.orderBy || 'hostname';
+    const sortOrder = req.query.sortOrder || 'ASC';
 
-    // Fetch mappings grouped by Endpoint with a list of associated Applications
     const mappings = await EndpointApplicationMapping.findAll({
       include: [
         {
           model: Endpoint,
-          required: true,
           attributes: ['id', 'hostname'],
         },
         {
           model: Application,
-          required: true,
           attributes: ['id', 'name'],
         },
       ],
-      order: [[Endpoint, orderBy, sortOrder]], // Allow ordering based on query params
+      order: [[Endpoint, orderBy, sortOrder]], // Corrected order usage
     });
 
     const result = mappings.reduce((acc, mapping) => {
@@ -83,112 +64,91 @@ const getAllMappings = async (req, res) => {
       const application = mapping.Application;
 
       const existingEndpoint = acc.find((e) => e.endpoint.id === endpoint.id);
-
       if (existingEndpoint) {
         existingEndpoint.applications.push(application);
       } else {
-        acc.push({
-          endpoint,
-          applications: [application],
-        });
+        acc.push({ endpoint, applications: [application] });
       }
 
       return acc;
-    }, []); // Reduce mappings to a structured response
+    }, []);
 
     res.status(200).json(result);
   } catch (error) {
-    console.error(error); // Log the error for debugging purposes
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
-// Get a specific mapping by ID
+// Fetch a specific mapping by Endpoint ID
 const getMapping = async (req, res) => {
   try {
-    const { id } = req.params; // Get the endpoint_id from the URL parameters
+    const { id } = req.params;
 
-    // Validate the input ID (ensure it's a valid UUID)
-    if (!uuidv4().test(id)) {
-      return res.status(400).json({ error: 'Invalid Endpoint ID format' });
-    }
-
-    // Fetch the EndpointApplicationMapping for the given endpoint_id and include the associated Application details
     const mappings = await EndpointApplicationMapping.findAll({
-      where: { endpoint_id: id }, // Filter by endpoint_id
+      where: { endpoint_id: id },
       include: [
         {
-          model: Application, // Include Application details
-          attributes: ['id', 'name', 'description'], // Select only relevant fields for Application
+          model: Application,
+          attributes: ['id', 'name', 'description'],
         },
       ],
     });
 
-    // If no mappings found, return an appropriate error
     if (mappings.length === 0) {
-      return res.status(404).json({ error: 'No applications found for this Endpoint' });
+      return res.status(404).json({ error: 'No applications found for this Endpoint.' });
     }
 
-    // Extract the applications from the mappings and return the response
-    const applications = mappings.map(mapping => mapping.Application);
-
-    res.status(200).json({
-      endpoint_id: id,
-      applications,
-    });
+    const applications = mappings.map((mapping) => mapping.Application);
+    res.status(200).json({ endpoint_id: id, applications });
   } catch (error) {
-    console.error('Error fetching applications for Endpoint:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
 // Update a mapping
 const updateMapping = async (req, res) => {
   try {
-    const { endpoint_id, application_id, status } = req.body;
+    const { status } = req.body;
+    const { id } = req.params;
 
-    // Validate input
-    if (!endpoint_id || !application_id || !status) {
-      return res.status(400).json({ error: 'endpoint_id, application_id, and status are required' });
+    if (!status) {
+      return res.status(400).json({ error: 'Status is required.' });
     }
 
-    // Find the mapping by ID
-    const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
+    const mapping = await EndpointApplicationMapping.findByPk(id);
 
     if (!mapping) {
-      return res.status(404).json({ error: 'Mapping not found' });
+      return res.status(404).json({ error: 'Mapping not found.' });
     }
 
-    // Update the mapping with the provided data or keep existing values
-    mapping.endpoint_id = endpoint_id || mapping.endpoint_id;
-    mapping.application_id = application_id || mapping.application_id;
-    mapping.status = status || mapping.status;
-
-    // Save the updated mapping
+    mapping.status = status;
     await mapping.save();
+
     res.status(200).json(mapping);
   } catch (error) {
-    console.error(error); // Log the error for debugging purposes
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
 // Delete a mapping
 const deleteMapping = async (req, res) => {
   try {
-    // Find the mapping by ID
-    const mapping = await EndpointApplicationMapping.findByPk(req.params.id);
+    const { id } = req.params;
+
+    const mapping = await EndpointApplicationMapping.findByPk(id);
 
     if (!mapping) {
-      return res.status(404).json({ error: 'Mapping not found' });
+      return res.status(404).json({ error: 'Mapping not found.' });
     }
 
-    // Destroy the mapping
     await mapping.destroy();
-    res.status(200).json({ message: 'Mapping deleted successfully' });
+    res.status(200).json({ message: 'Mapping deleted successfully.' });
   } catch (error) {
-    console.error(error); // Log the error for debugging purposes
-    res.status(400).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 };
 
