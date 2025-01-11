@@ -29,17 +29,19 @@ const endpointRouter = require('./routes/endpointRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
 const logRoutes = require('./routes/LogRoutes'); // Import routes
 const endpointRoutes = require('./EndpointRoutes/endpointRoutes');
-const applicationMappingEndpointRoutes = require('./routes/endpointMappingRoutes'); // Import the routes
+const endpointMappingRoutes = require('./routes/endpointMappingRoutes');
 
 
 app.use('/endpoint-verify',endpointRoutes)
 // Register Routes
-app.use('/mapping', applicationMappingEndpointRoutes); // Endpoint for mapping routes
+app.use('/api/mapping', endpointMappingRoutes); // Endpoint for mapping routes
 
 app.use('/api/auth', authRouter);
 app.use('/api/endpoints', endpointRouter);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/logs', logRoutes); // Prefix all routes with /api
+app.use('/api/mapping', endpointMappingRoutes); // Register routes under '/api'
+
 
 
 // 404 handler for unmatched routes

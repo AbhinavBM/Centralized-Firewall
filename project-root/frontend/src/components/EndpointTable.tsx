@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllEndpoints, deleteEndpoint, updateEndpoint } from '../api/auth/endpointService';
 import { Endpoint } from '../interfaces/endpoint';
+import EndpointApplications from './EndpointApplications'; // Import the EndpointApplications component
 import './styles/EndpointTable.css'; // Import CSS file
 
 const EndpointTable: React.FC = () => {
@@ -9,6 +10,7 @@ const EndpointTable: React.FC = () => {
     const [loadingDelete, setLoadingDelete] = useState<string | null>(null); // Track loading state for delete
     const [loadingUpdate, setLoadingUpdate] = useState<string | null>(null); // Track loading state for update
     const [error, setError] = useState<string | null>(null);
+    const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null); // Track the selected endpoint for viewing its applications
 
     // Fetch endpoints on mount
     useEffect(() => {
@@ -63,6 +65,11 @@ const EndpointTable: React.FC = () => {
         }
     };
 
+    // Handle selecting an endpoint to view applications
+    const handleViewApplications = (id: string) => {
+        setSelectedEndpoint(id === selectedEndpoint ? null : id); // Toggle visibility of applications for the selected endpoint
+    };
+
     return (
         <div className="container">
             <h2 style={{ color: 'black' }}>Endpoint List</h2>
@@ -109,12 +116,24 @@ const EndpointTable: React.FC = () => {
                                     >
                                         {loadingDelete === endpoint.id ? 'Deleting...' : 'Delete'}
                                     </button>
+                                    <button
+                                        onClick={() => handleViewApplications(endpoint.id)}
+                                    >
+                                        {selectedEndpoint === endpoint.id ? 'Hide Applications' : 'View Applications'}
+                                    </button>
                                 </td>
                             </tr>
                         ))
                     )}
                 </tbody>
             </table>
+
+            {selectedEndpoint && (
+                <div className="applications-container">
+                    <h3>Applications for Endpoint: {selectedEndpoint}</h3>
+                    <EndpointApplications endpointId={selectedEndpoint} />
+                </div>
+            )}
         </div>
     );
 };

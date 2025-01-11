@@ -35,4 +35,8 @@ const Application = sequelize.define('Application', {
   timestamps: true,
 });
 
+
+
+
+
 module.exports = Application;

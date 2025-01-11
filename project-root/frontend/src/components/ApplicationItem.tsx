@@ -28,7 +28,7 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
     <div
       style={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '12px',
         borderBottom: '1px solid #ddd',
@@ -37,12 +37,12 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
     >
       <div
         style={{
-          width: '150px',
-          padding: '8px',
-          backgroundColor: '#333',
+          width: '180px',
+          padding: '12px',
+          backgroundColor: '#2c3e50',
           color: '#fff',
           fontWeight: 'bold',
-          borderRadius: '4px 0 0 4px',
+          borderRadius: '6px 0 0 6px',
           textAlign: 'center',
         }}
       >
@@ -51,10 +51,10 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
       <div
         style={{
           flex: 1,
-          padding: '8px',
-          backgroundColor: '#f5f5f5',
-          color: '#000',
-          borderRadius: '0 4px 4px 0',
+          padding: '12px',
+          backgroundColor: '#f0f4f8',
+          color: '#34495e',
+          borderRadius: '0 6px 6px 0',
           textAlign: 'center',
         }}
       >
@@ -66,39 +66,38 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
   return (
     <div
       style={{
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        padding: '16px',
-        margin: '16px auto', // Center horizontally
+        border: '1px solid #d1d9e6',
+        borderRadius: '10px',
+        padding: '20px',
+        margin: '20px auto',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        backgroundColor: '#f9f9f9',
-        maxWidth: '600px', // Center constraint for better design
+        backgroundColor: '#ffffff',
+        maxWidth: '700px',
         textAlign: 'center',
       }}
     >
-      <h2 style={{ color: '#333', marginBottom: '16px' }}>{application.name}</h2>
+      <h2 style={{ color: '#2c3e50', marginBottom: '20px', fontWeight: '600' }}>
+        {application.name}
+      </h2>
       {renderInfoBox('ID', application.id)}
-      {/* {renderInfoBox('Description', application.description)} */}
       {renderInfoBox('Status', application.status)}
-      {/* {renderInfoBox('Allowed Domains', safeJoin(application.allowed_domains))} */}
       {renderInfoBox('Allowed IPs', safeJoin(application.allowed_ips))}
       {application.firewall_policies &&
-  Object.keys(application.firewall_policies)
-    .filter(
-      (policyName) =>
-        policyName === 'Source Ports' || policyName === 'Destination Ports'
-    )
-    .map((policyName) =>
-      renderInfoBox(
-        policyName
-          .replace(/_/g, ' ')
-          .replace(/\b\w/g, (c) => c.toUpperCase()),
-        Array.isArray(application.firewall_policies[policyName])
-          ? application.firewall_policies[policyName].join(', ')
-          : 'No values'
-      )
-    )}
-
+        Object.keys(application.firewall_policies)
+          .filter(
+            (policyName) =>
+              policyName === 'Source Ports' || policyName === 'Destination Ports'
+          )
+          .map((policyName) =>
+            renderInfoBox(
+              policyName
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, (c) => c.toUpperCase()),
+              Array.isArray(application.firewall_policies[policyName])
+                ? application.firewall_policies[policyName].join(', ')
+                : 'No values'
+            )
+          )}
       {renderInfoBox(
         'Created At',
         new Date(application.created_at).toLocaleString()
@@ -107,18 +106,19 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
         'Updated At',
         new Date(application.updated_at).toLocaleString()
       )}
-      <div style={{ marginTop: '16px', textAlign: 'center' }}>
+      <div style={{ marginTop: '20px', textAlign: 'center' }}>
         <button
           onClick={handleDelete}
           style={{
-            backgroundColor: '#ff4d4d',
+            backgroundColor: '#e74c3c',
             color: '#fff',
             border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px',
+            padding: '10px 20px',
+            borderRadius: '6px',
             cursor: 'pointer',
-            marginRight: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+            marginRight: '10px',
+            boxShadow: '0 3px 6px rgba(0, 0, 0, 0.15)',
+            fontWeight: 'bold',
           }}
         >
           Delete
@@ -126,13 +126,14 @@ const ApplicationItem: React.FC<Props> = ({ application }) => {
         <button
           onClick={handleEdit}
           style={{
-            backgroundColor: '#4caf50',
+            backgroundColor: '#27ae60',
             color: '#fff',
             border: 'none',
-            padding: '8px 16px',
-            borderRadius: '4px',
+            padding: '10px 20px',
+            borderRadius: '6px',
             cursor: 'pointer',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+            boxShadow: '0 3px 6px rgba(0, 0, 0, 0.15)',
+            fontWeight: 'bold',
           }}
         >
           Edit

@@ -3,11 +3,13 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+
 import SignupPage from './pages/SignupPage';
 import Dashboard from './components/Dashboard';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import MappingPage from './pages/MappingPage';
+// import MappingPage from './pages/MappingEndpoint.tsx';
 import ApplicationsPage from './pages/ApplicationsPage';
 import ApplicationFormPage from './components/ApplicationForm';
 import ApplicationListPage from './components/ApplicationList';
@@ -22,6 +24,8 @@ const App: React.FC = () => {
           <NavBar />
           <Routes>
             {/* Auth Routes */}
+            <Route path="/" element={<HomePage />} />
+
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             
@@ -35,7 +39,7 @@ const App: React.FC = () => {
             <Route path="/edit-application/:id" element={<ApplicationFormPage />} />
             
             {/* Mappings Route */}
-            <Route path="/mappings" element={<MappingPage />} />
+            {/* <Route path="/mappings" element={<MappingPage />} /> */}
             
             {/* Log Page Route */}
             <Route path="/logs" element={<LogPage />} /> {/* New Log Page Route */}

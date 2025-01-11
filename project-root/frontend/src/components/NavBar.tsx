@@ -22,9 +22,7 @@ const NavBar: React.FC = () => {
         <li>
           <Link to="/applications">Applications</Link>
         </li>
-        <li>
-          <Link to="/mappings">Mappings</Link> {/* Added Mappings Link */}
-        </li>
+       
         <li>
           <Link to="/logs">Logs</Link> {/* Added Logs Link */}
         </li>

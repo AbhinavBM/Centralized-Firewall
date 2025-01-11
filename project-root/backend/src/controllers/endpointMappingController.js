@@ -1,161 +1,119 @@
-const Endpoint = require('../MappingModel/Endpoint');
-const Application = require('../MappingModel/Application');
-const EndpointApplicationMapping = require('../MappingModel/EndpointApplicationMapping');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database');
+const { QueryTypes } = require('sequelize');
 
-// Create a new mapping with conditional status
-const createMapping = async (req, res) => {
-  try {
-    const { endpoint_id, application_id } = req.body;
+// List applications mapped to an endpoint
 
-    if (!endpoint_id || !application_id) {
-      return res.status(400).json({ error: 'Both endpoint_id and application_id are required.' });
+exports.getApplicationsByEndpoint = async (req, res) => {
+    try {
+        const { endpoint_id } = req.params; // Extract endpoint_id from the request parameters
+
+        const applications = await sequelize.query(
+            `SELECT a.id, a.name, a.description
+             FROM endpoint_application_mapping eam
+             JOIN applications a ON eam.application_id = a.id
+             WHERE eam.endpoint_id = :endpoint_id`, // Use a named parameter
+            {
+                replacements: { endpoint_id }, // Replace the named parameter with actual value
+                type: sequelize.QueryTypes.SELECT, // Specify the query type
+            }
+        );
+
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error('Error fetching applications:', error);
+        res.status(500).json({ error: 'An error occurred while fetching applications.' });
     }
-
-    const endpoint = await Endpoint.findOne({ where: { id: endpoint_id } });
-    const application = await Application.findOne({ where: { id: application_id } });
-
-    if (!endpoint || !application) {
-      return res.status(404).json({ error: 'Endpoint or Application not found.' });
-    }
-
-    let status = 'Active';
-    if (endpoint.hostname === 'server-05' && application.name === 'Web Application A') {
-      status = 'Inactive';
-    }
-
-    const [mapping, created] = await EndpointApplicationMapping.findOrCreate({
-      where: { endpoint_id, application_id },
-      defaults: { status },
-    });
-
-    if (!created) {
-      return res.status(409).json({ error: 'Mapping already exists.' });
-    }
-
-    res.status(201).json(mapping);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
 };
 
-// Fetch all mappings
-const getAllMappings = async (req, res) => {
-  try {
-    const orderBy = req.query.orderBy || 'hostname';
-    const sortOrder = req.query.sortOrder || 'ASC';
-
-    const mappings = await EndpointApplicationMapping.findAll({
-      include: [
-        {
-          model: Endpoint,
-          attributes: ['id', 'hostname'],
-        },
-        {
-          model: Application,
-          attributes: ['id', 'name'],
-        },
-      ],
-      order: [[Endpoint, orderBy, sortOrder]], // Corrected order usage
-    });
-
-    const result = mappings.reduce((acc, mapping) => {
-      const endpoint = mapping.Endpoint;
-      const application = mapping.Application;
-
-      const existingEndpoint = acc.find((e) => e.endpoint.id === endpoint.id);
-      if (existingEndpoint) {
-        existingEndpoint.applications.push(application);
-      } else {
-        acc.push({ endpoint, applications: [application] });
-      }
-
-      return acc;
-    }, []);
-
-    res.status(200).json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
-};
-
-// Fetch a specific mapping by Endpoint ID
-const getMapping = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const mappings = await EndpointApplicationMapping.findAll({
-      where: { endpoint_id: id },
-      include: [
-        {
-          model: Application,
-          attributes: ['id', 'name', 'description'],
-        },
-      ],
-    });
-
-    if (mappings.length === 0) {
-      return res.status(404).json({ error: 'No applications found for this Endpoint.' });
+// Add application to an endpoint
+exports.addApplicationToEndpoint = async (req, res) => {
+    const { endpoint_id } = req.params;
+    const { application_id } = req.body;
+    try {
+        await sequelize.query(
+            `INSERT INTO endpoint_application_mapping (endpoint_id, application_id) 
+             VALUES (:endpointId, :applicationId) 
+             ON CONFLICT DO NOTHING`,
+            { replacements: { endpointId: endpoint_id, applicationId: application_id }, type: QueryTypes.INSERT }
+        );
+        res.status(201).json({ message: 'Application added successfully' });
+    } catch (error) {
+        console.error('Error adding application:', error);
+        res.status(500).json({ message: 'Failed to add application' });
     }
-
-    const applications = mappings.map((mapping) => mapping.Application);
-    res.status(200).json({ endpoint_id: id, applications });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
 };
 
-// Update a mapping
-const updateMapping = async (req, res) => {
-  try {
-    const { status } = req.body;
-    const { id } = req.params;
-
-    if (!status) {
-      return res.status(400).json({ error: 'Status is required.' });
+// Remove application from an endpoint
+exports.removeApplicationFromEndpoint = async (req, res) => {
+    const { endpoint_id, application_id } = req.params;
+    try {
+        await sequelize.query(
+            `DELETE FROM endpoint_application_mapping 
+             WHERE endpoint_id = :endpointId AND application_id = :applicationId`,
+            { replacements: { endpointId: endpoint_id, applicationId: application_id }, type: QueryTypes.DELETE }
+        );
+        res.status(200).json({ message: 'Application removed successfully' });
+    } catch (error) {
+        console.error('Error removing application:', error);
+        res.status(500).json({ message: 'Failed to remove application' });
     }
+};
 
-    const mapping = await EndpointApplicationMapping.findByPk(id);
-
-    if (!mapping) {
-      return res.status(404).json({ error: 'Mapping not found.' });
+// Get all available applications
+exports.getAllApplications = async (req, res) => {
+    try {
+        const applications = await sequelize.query(
+            `SELECT id, name, description FROM applications`,
+            { type: QueryTypes.SELECT }
+        );
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error('Error fetching applications:', error);
+        res.status(500).json({ message: 'Failed to fetch applications' });
     }
-
-    mapping.status = status;
-    await mapping.save();
-
-    res.status(200).json(mapping);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
 };
 
-// Delete a mapping
-const deleteMapping = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    const mapping = await EndpointApplicationMapping.findByPk(id);
 
-    if (!mapping) {
-      return res.status(404).json({ error: 'Mapping not found.' });
+// Search for applications based on a search query
+exports.searchApplications = async (req, res) => {
+    const { query } = req.query; // Get the search query from the query parameters
+    try {
+        const applications = await sequelize.query(
+            `SELECT id, name, description 
+             FROM applications 
+             WHERE name ILIKE :query OR description ILIKE :query`, // ILIKE for case-insensitive search
+            {
+                replacements: { query: `%${query}%` },
+                type: QueryTypes.SELECT,
+            }
+        );
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error('Error searching applications:', error);
+        res.status(500).json({ message: 'Failed to search applications' });
     }
-
-    await mapping.destroy();
-    res.status(200).json({ message: 'Mapping deleted successfully.' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error.' });
-  }
 };
 
-module.exports = {
-  createMapping,
-  getAllMappings,
-  getMapping,
-  updateMapping,
-  deleteMapping,
+// Update application status for a specific endpoint
+exports.updateApplicationStatus = async (req, res) => {
+    const { endpoint_id, application_id } = req.params;
+    const { status } = req.body; // Expect status to be passed in the request body (e.g., "Allowed" or "Blocked")
+    try {
+        await sequelize.query(
+            `UPDATE endpoint_application_mapping 
+             SET status = :status 
+             WHERE endpoint_id = :endpointId AND application_id = :applicationId`,
+            {
+                replacements: { status, endpointId: endpoint_id, applicationId: application_id },
+                type: QueryTypes.UPDATE,
+            }
+        );
+        res.status(200).json({ message: 'Application status updated successfully' });
+    } catch (error) {
+        console.error('Error updating application status:', error);
+        res.status(500).json({ message: 'Failed to update application status' });
+    }
 };
+

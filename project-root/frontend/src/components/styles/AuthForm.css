@@ -1,106 +1,216 @@
 .auth-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #afacac; /* Light grey background */
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e6f0ff; /* Light blue background */
+  padding: 1rem; /* Added padding to prevent content from touching the edges */
+  overflow: auto; /* Allow scrolling if content overflows */
+}
+
+.auth-form-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%; /* Ensure wrapper takes full width */
+  max-width: 1200px; /* Max width for larger screens */
+  height: auto; /* Allow height to adjust automatically */
+  background: #ffffff; /* White background for form wrapper */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 16px; /* Rounded corners */
+  overflow: visible; /* Prevents hidden content */
+  flex-wrap: wrap; /* Allow for wrapping on smaller screens */
+}
+
+.auth-form-section {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Ensure the content starts from the top */
+  align-items: center;
+  width: 100%;
+  max-width: 100%; /* Ensure content fits */
+  overflow: visible; /* Prevent overflow clipping */
+}
+
+.auth-image-section {
+  flex: 1;
+  background: #f1f9ff; /* Light blue for image section */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  max-width: 100%; /* Ensure image section fits in the container */
+}
+
+.auth-image-section img {
+  width: 100%;
+  height: auto; /* Ensure image maintains aspect ratio */
+  object-fit: cover;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 400px; /* Increased max-width for the form */
+  background-color: #ffffff; /* White background for form */
+  padding: 1.5rem;
+  border-radius: 8px; /* Rounded corners for the form */
+  box-sizing: border-box;
+}
+
+.auth-form-input {
+  margin-bottom: 1.2rem;
+  width: 100%;
+}
+
+.auth-form-input input,
+.auth-form-input select {
+  width: 100%;
+  padding: 1rem; /* Increased padding for better usability */
+  border: 1px solid #b3c6ff; /* Light blue border for inputs */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f0f8ff; /* Light blue background for input fields */
+  color: #333; /* Dark text for better contrast */
+  box-sizing: border-box; /* Ensure input fields fit within the container */
+}
+
+.auth-form-input input:focus,
+.auth-form-input select:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+}
+
+.auth-form-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #007bff; /* Blue background for the button */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Rounded corners for button */
+  cursor: pointer;
+  box-sizing: border-box; /* Ensure button fits in container */
+}
+
+.auth-form-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.auth-form-button.loading {
+  background-color: #95a5a6; /* Grey background when loading */
+}
+
+.auth-form-error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.auth-form-toggle {
+  margin-top: 1rem;
+}
+
+.auth-form-link {
+  display: inline-block;
+  width: 100%;
+  padding: 1rem; /* Larger padding for better touch targets */
+  background-color: #28a745; /* Green background for link */
+  color: white;
+  border-radius: 8px; /* Rounded corners for link */
+  text-decoration: none; /* Remove underline */
+  text-align: center; /* Center-align text */
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.auth-form-link:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 1024px) {
   .auth-form-wrapper {
-    display: flex;
-    width: 70%;
-    height: 70%;
-    background: #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 16px; /* Rounded corners */
-    overflow: hidden;
+    flex-direction: column; /* Stack sections vertically on medium screens */
+    height: auto; /* Adjust height for smaller screens */
   }
-  
-  .auth-form-section {
-    flex: 1;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
+
   .auth-image-section {
-    flex: 1;
-    background: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-top-right-radius: 16px; /* Ensure rounded corner continuity */
-    border-bottom-right-radius: 16px; /* Ensure rounded corner continuity */
-  }
-  
-  .auth-image-section img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-top-right-radius: 16px; /* Optional for image continuity */
-    border-bottom-right-radius: 16px;
+    height: 300px; /* Fixed height for image section on medium screens */
   }
-  
+
   .auth-form {
     width: 100%;
-    max-width: 300px;
+    padding: 1.5rem; /* Adjust padding for better spacing */
+    max-width: 100%;
   }
-  
-  .auth-form-input {
-    margin-bottom: 1rem;
-  }
-  
+
   .auth-form-input input,
   .auth-form-input select {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 8px; /* Rounded corners for input fields */
+    padding: 1.2rem; /* Adjust padding for medium screens */
   }
-  
+}
+
+@media (max-width: 768px) {
+  .auth-page-container {
+    padding: 2rem; /* Increased padding for smaller devices */
+  }
+
+  .auth-form-wrapper {
+    flex-direction: column; /* Stack sections vertically */
+    height: auto; /* Adjust height */
+  }
+
+  .auth-image-section {
+    width: 100%;
+    height: 250px; /* Smaller image section height */
+  }
+
+  .auth-form {
+    max-width: 100%;
+    padding: 1rem;
+  }
+
+  .auth-form-input input,
+  .auth-form-input select {
+    padding: 1rem; /* Increase padding for easier typing */
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+
   .auth-form-button {
+    padding: 1.2rem; /* Larger button for smaller devices */
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page-container {
+    padding: 1rem; /* Decrease padding for very small screens */
+  }
+
+  .auth-form-wrapper {
+    flex-direction: column; /* Stack sections vertically */
+    height: auto;
+    width: 100%; /* Ensure form is responsive */
+  }
+
+  .auth-image-section {
     width: 100%;
+    height: 200px; /* Reduced image height */
+  }
+
+  .auth-form {
     padding: 0.8rem;
-    background-color: #28a745; /* Green background */
-    color: #fff;
-    border: none;
-    border-radius: 8px; /* Rounded corners for button */
-    cursor: pointer;
+    width: 100%; /* Ensure form takes full width */
   }
-  
-  .auth-form-button:hover {
-    background-color: #218838; /* Darker green for hover */
+
+  .auth-form-input input,
+  .auth-form-input select {
+    padding: 1rem; /* Ensure input fields have enough space */
+    font-size: 12px; /* Adjust font size for very small screens */
   }
-  
-  .auth-form-button.loading {
-    background-color: #6c757d; /* Grey when loading */
+
+  .auth-form-button {
+    padding: 1rem; /* Larger button on small devices */
   }
-  
-  .auth-form-error {
-    color: red;
-    margin-bottom: 1rem;
-  }
-  
-  .auth-form-toggle {
-    margin-top: 1rem;
-  }
-  
-  .auth-form-link {
-    display: inline-block;
-    width: 200%; /* Match the Login button's width */
-    padding: 0.8rem; /* Same padding as Login button */
-    background-color: #007bff; /* Same blue background */
-    color: #fff; /* White text */
-    border-radius: 8px; /* Rounded corners for link */
-    text-decoration: none; /* Remove underline */
-    text-align: center; /* Center-align text */
-    cursor: pointer;
-    margin-top: 1rem; /* Add spacing above the button */
-    margin-left: -83px;
-  }
-  
-  .auth-form-link:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
+}
