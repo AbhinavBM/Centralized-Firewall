@@ -1,0 +1,9 @@
+2025-05-19 23:04:21 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:04:55 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:05:04 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:05:46 [error]: MongoDB connection error: bad auth : authentication failed
+2025-05-19 23:11:56 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:12:35 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:14:52 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:15:39 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-19 23:16:55 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000

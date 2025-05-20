@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Endpoint } from '../../interfaces/endpoint';
 
-const API_URL = 'http://localhost:5000/api/endpoints';
+const API_URL = 'http://localhost:3000/api/endpoints';
 
 // Fetch all endpoints
 export const getEndpoints = async (): Promise<Endpoint[]> => {

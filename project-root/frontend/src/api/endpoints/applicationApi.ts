@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Application } from '../../interfaces/application';
 
-const API_URL = 'http://localhost:5000/api/applications';
+const API_URL = 'http://localhost:3000/api/applications';
 
 // Fetch all applications
 export const getApplications = async (): Promise<Application[]> => {

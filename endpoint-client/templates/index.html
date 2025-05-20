@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endpoint Client Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            font-weight: bold;
+            background-color: #f1f1f1;
+        }
+        .status-badge {
+            font-size: 0.9rem;
+        }
+        .table-responsive {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .action-buttons {
+            margin-bottom: 20px;
+        }
+        .action-buttons .btn {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        .severity-high {
+            background-color: #f8d7da;
+        }
+        .severity-medium {
+            background-color: #fff3cd;
+        }
+        .severity-low {
+            background-color: #d1e7dd;
+        }
+        #statusIndicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-online {
+            background-color: #28a745;
+        }
+        .status-offline {
+            background-color: #dc3545;
+        }
+        .ws-connected {
+            background-color: #28a745;
+        }
+        .ws-disconnected {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h1 class="display-4">Endpoint Client Dashboard</h1>
+                <p class="lead">Centralized Firewall Management System - Endpoint Client</p>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Endpoint Status</div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p><strong>Status:</strong> <span id="statusIndicator" class="status-online"></span> <span id="statusText">Online</span></p>
+                                <p><strong>Hostname:</strong> <span id="hostname">Loading...</span></p>
+                                <p><strong>IP Address:</strong> <span id="ipAddress">Loading...</span></p>
+                                <p><strong>OS:</strong> <span id="os">Loading...</span></p>
+                                <p><strong>Endpoint ID:</strong> <span id="endpointId">Loading...</span></p>
+                            </div>
+                            <div>
+                                <p><strong>Rules:</strong> <span id="rulesCount">0</span></p>
+                                <p><strong>Traffic Logs:</strong> <span id="logsCount">0</span></p>
+                                <p><strong>Anomalies:</strong> <span id="anomaliesCount">0</span></p>
+                                <p><strong>WebSocket:</strong> <span id="wsIndicator" class="status-badge badge bg-secondary">Disconnected</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Actions</div>
+                    <div class="card-body">
+                        <div class="action-buttons">
+                            <button id="registerBtn" class="btn btn-primary">Register Endpoint</button>
+                            <button id="syncRulesBtn" class="btn btn-info">Sync Rules</button>
+                            <button id="applyRulesBtn" class="btn btn-success">Apply Rules</button>
+                            <button id="monitorTrafficBtn" class="btn btn-warning">Monitor Traffic</button>
+                            <button id="generateRulesBtn" class="btn btn-secondary">Generate Dummy Rules</button>
+                            <button id="generateAnomaliesBtn" class="btn btn-danger">Generate Dummy Anomalies</button>
+                            <button id="wsConnectBtn" class="btn btn-outline-primary">Connect WebSocket</button>
+                            <button id="wsDisconnectBtn" class="btn btn-outline-danger">Disconnect WebSocket</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Firewall Rules</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Protocol</th>
+                                        <th>Source</th>
+                                        <th>Destination</th>
+                                        <th>Action</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rulesTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">No rules found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Traffic Logs</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Source</th>
+                                        <th>Destination</th>
+                                        <th>Protocol</th>
+                                        <th>Status</th>
+                                        <th>Type</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trafficTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">No traffic logs found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">Anomalies</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Severity</th>
+                                        <th>Timestamp</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="anomaliesTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center">No anomalies found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // API endpoints
+        const API_BASE_URL = '/api';
+        
+        // DOM elements
+        const statusText = document.getElementById('statusText');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const hostname = document.getElementById('hostname');
+        const ipAddress = document.getElementById('ipAddress');
+        const os = document.getElementById('os');
+        const endpointId = document.getElementById('endpointId');
+        const rulesCount = document.getElementById('rulesCount');
+        const logsCount = document.getElementById('logsCount');
+        const anomaliesCount = document.getElementById('anomaliesCount');
+        const wsIndicator = document.getElementById('wsIndicator');
+        
+        const registerBtn = document.getElementById('registerBtn');
+        const syncRulesBtn = document.getElementById('syncRulesBtn');
+        const applyRulesBtn = document.getElementById('applyRulesBtn');
+        const monitorTrafficBtn = document.getElementById('monitorTrafficBtn');
+        const generateRulesBtn = document.getElementById('generateRulesBtn');
+        const generateAnomaliesBtn = document.getElementById('generateAnomaliesBtn');
+        const wsConnectBtn = document.getElementById('wsConnectBtn');
+        const wsDisconnectBtn = document.getElementById('wsDisconnectBtn');
+        
+        const rulesTableBody = document.getElementById('rulesTableBody');
+        const trafficTableBody = document.getElementById('trafficTableBody');
+        const anomaliesTableBody = document.getElementById('anomaliesTableBody');
+        
+        // Helper functions
+        async function fetchJson(url, options = {}) {
+            const response = await fetch(url, options);
+            return response.json();
+        }
+        
+        async function postJson(url, data = {}) {
+            return fetchJson(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        }
+        
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
+            const date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+        
+        function truncateString(str, maxLength = 20) {
+            if (!str) return '';
+            return str.length > maxLength ? str.substring(0, maxLength) + '...' : str;
+        }
+        
+        // Data loading functions
+        async function loadStatus() {
+            try {
+                const data = await fetchJson(`${API_BASE_URL}/status`);
+                
+                statusText.textContent = data.status;
+                statusIndicator.className = `status-${data.status}`;
+                hostname.textContent = data.endpoint.hostname;
+                ipAddress.textContent = data.endpoint.ip;
+                os.textContent = data.endpoint.os;
+                endpointId.textContent = data.endpoint.id || 'Not registered';
+                rulesCount.textContent = data.rules;
+                logsCount.textContent = data.logs;
+                anomaliesCount.textContent = data.anomalies;
+                
+                return data;
+            } catch (error) {
+                console.error('Error loading status:', error);
+                return null;
+            }
+        }
+        
+        async function loadRules() {
+            try {
+                const data = await fetchJson(`${API_BASE_URL}/rules`);
+                
+                if (data.count === 0) {
+                    rulesTableBody.innerHTML = '<tr><td colspan="6" class="text-center">No rules found</td></tr>';
+                    return;
+                }
+                
+                rulesTableBody.innerHTML = '';
+                
+                data.data.forEach(rule => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${rule.name}</td>
+                        <td>${rule.protocol || 'ANY'}</td>
+                        <td>${rule.sourceIp || '*'}:${rule.sourcePort || '*'}</td>
+                        <td>${rule.destinationIp || '*'}:${rule.destinationPort || '*'}</td>
+                        <td><span class="badge ${rule.action === 'ALLOW' ? 'bg-success' : 'bg-danger'}">${rule.action}</span></td>
+                        <td><span class="badge ${rule.enabled ? 'bg-success' : 'bg-secondary'}">${rule.enabled ? 'Enabled' : 'Disabled'}</span></td>
+                    `;
+                    
+                    rulesTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading rules:', error);
+            }
+        }
+        
+        async function loadTraffic() {
+            try {
+                const data = await fetchJson(`${API_BASE_URL}/traffic`);
+                
+                if (data.count === 0) {
+                    trafficTableBody.innerHTML = '<tr><td colspan="6" class="text-center">No traffic logs found</td></tr>';
+                    return;
+                }
+                
+                trafficTableBody.innerHTML = '';
+                
+                // Sort by timestamp (newest first)
+                const sortedLogs = data.data.sort((a, b) => {
+                    return new Date(b.timestamp) - new Date(a.timestamp);
+                });
+                
+                // Take only the latest 20 logs
+                const latestLogs = sortedLogs.slice(0, 20);
+                
+                latestLogs.forEach(log => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${log.sourceIp}:${log.sourcePort || '*'}</td>
+                        <td>${log.destinationIp}:${log.destinationPort || '*'}</td>
+                        <td>${log.protocol}</td>
+                        <td><span class="badge ${log.status === 'allowed' ? 'bg-success' : 'bg-danger'}">${log.status}</span></td>
+                        <td>${log.trafficType}</td>
+                        <td>${log.dataTransferred} KB</td>
+                    `;
+                    
+                    trafficTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading traffic:', error);
+            }
+        }
+        
+        async function loadAnomalies() {
+            try {
+                const data = await fetchJson(`${API_BASE_URL}/anomalies`);
+                
+                if (data.count === 0) {
+                    anomaliesTableBody.innerHTML = '<tr><td colspan="6" class="text-center">No anomalies found</td></tr>';
+                    return;
+                }
+                
+                anomaliesTableBody.innerHTML = '';
+                
+                // Sort by timestamp (newest first)
+                const sortedAnomalies = data.data.sort((a, b) => {
+                    return new Date(b.timestamp) - new Date(a.timestamp);
+                });
+                
+                sortedAnomalies.forEach(anomaly => {
+                    const row = document.createElement('tr');
+                    
+                    // Add severity class
+                    row.className = `severity-${anomaly.severity}`;
+                    
+                    row.innerHTML = `
+                        <td>${anomaly.anomalyType}</td>
+                        <td>${truncateString(anomaly.description, 50)}</td>
+                        <td><span class="badge ${getSeverityBadgeClass(anomaly.severity)}">${anomaly.severity}</span></td>
+                        <td>${formatTimestamp(anomaly.timestamp)}</td>
+                        <td><span class="badge ${anomaly.resolved ? 'bg-success' : 'bg-warning'}">${anomaly.resolved ? 'Resolved' : 'Unresolved'}</span></td>
+                        <td>
+                            ${anomaly.resolved ? '' : `<button class="btn btn-sm btn-primary resolve-btn" data-id="${anomaly.id}">Resolve</button>`}
+                        </td>
+                    `;
+                    
+                    anomaliesTableBody.appendChild(row);
+                });
+                
+                // Add event listeners to resolve buttons
+                document.querySelectorAll('.resolve-btn').forEach(button => {
+                    button.addEventListener('click', async () => {
+                        const anomalyId = button.getAttribute('data-id');
+                        await resolveAnomaly(anomalyId);
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading anomalies:', error);
+            }
+        }
+        
+        function getSeverityBadgeClass(severity) {
+            switch (severity) {
+                case 'high':
+                    return 'bg-danger';
+                case 'medium':
+                    return 'bg-warning';
+                case 'low':
+                    return 'bg-success';
+                default:
+                    return 'bg-secondary';
+            }
+        }
+        
+        async function checkWebSocketStatus() {
+            try {
+                const data = await fetchJson(`${API_BASE_URL}/websocket/status`);
+                
+                if (data.connected) {
+                    wsIndicator.textContent = 'Connected';
+                    wsIndicator.className = 'status-badge badge bg-success';
+                } else {
+                    wsIndicator.textContent = 'Disconnected';
+                    wsIndicator.className = 'status-badge badge bg-secondary';
+                }
+            } catch (error) {
+                console.error('Error checking WebSocket status:', error);
+                wsIndicator.textContent = 'Error';
+                wsIndicator.className = 'status-badge badge bg-danger';
+            }
+        }
+        
+        // Action functions
+        async function registerEndpoint() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/register`);
+                
+                if (data.success) {
+                    alert('Endpoint registered successfully!');
+                    await loadStatus();
+                } else {
+                    alert(`Failed to register endpoint: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error registering endpoint:', error);
+                alert('Error registering endpoint. See console for details.');
+            }
+        }
+        
+        async function syncRules() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/rules/sync`);
+                
+                if (data.success) {
+                    alert(`Rules synced successfully! (${data.count} rules)`);
+                    await loadRules();
+                    await loadStatus();
+                } else {
+                    alert(`Failed to sync rules: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error syncing rules:', error);
+                alert('Error syncing rules. See console for details.');
+            }
+        }
+        
+        async function applyRules() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/rules/apply`);
+                
+                if (data.success) {
+                    alert('Rules applied successfully!');
+                } else {
+                    alert(`Failed to apply rules: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error applying rules:', error);
+                alert('Error applying rules. See console for details.');
+            }
+        }
+        
+        async function monitorTraffic() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/traffic/monitor`);
+                
+                if (data.success) {
+                    alert(`Traffic monitored successfully! (${data.newLogs} new logs, ${data.potentialAnomalies} potential anomalies)`);
+                    await loadTraffic();
+                    await loadAnomalies();
+                    await loadStatus();
+                } else {
+                    alert(`Failed to monitor traffic: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error monitoring traffic:', error);
+                alert('Error monitoring traffic. See console for details.');
+            }
+        }
+        
+        async function generateDummyRules() {
+            try {
+                const count = prompt('How many dummy rules would you like to generate?', '10');
+                
+                if (!count) return;
+                
+                const data = await postJson(`${API_BASE_URL}/rules/generate`, { count: parseInt(count) });
+                
+                if (data.success) {
+                    alert(`Generated ${data.count} dummy rules successfully!`);
+                    await loadRules();
+                    await loadStatus();
+                } else {
+                    alert(`Failed to generate dummy rules: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error generating dummy rules:', error);
+                alert('Error generating dummy rules. See console for details.');
+            }
+        }
+        
+        async function generateDummyAnomalies() {
+            try {
+                const count = prompt('How many dummy anomalies would you like to generate?', '5');
+                
+                if (!count) return;
+                
+                const data = await postJson(`${API_BASE_URL}/anomalies/generate`, { count: parseInt(count) });
+                
+                if (data.success) {
+                    alert(`Generated ${data.count} dummy anomalies successfully!`);
+                    await loadAnomalies();
+                    await loadStatus();
+                } else {
+                    alert(`Failed to generate dummy anomalies: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error generating dummy anomalies:', error);
+                alert('Error generating dummy anomalies. See console for details.');
+            }
+        }
+        
+        async function connectWebSocket() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/websocket/connect`);
+                
+                if (data.success) {
+                    alert('WebSocket client started!');
+                    await checkWebSocketStatus();
+                } else {
+                    alert(`Failed to start WebSocket client: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error connecting WebSocket:', error);
+                alert('Error connecting WebSocket. See console for details.');
+            }
+        }
+        
+        async function disconnectWebSocket() {
+            try {
+                const data = await postJson(`${API_BASE_URL}/websocket/disconnect`);
+                
+                if (data.success) {
+                    alert('WebSocket client stopped!');
+                    await checkWebSocketStatus();
+                } else {
+                    alert(`Failed to stop WebSocket client: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error disconnecting WebSocket:', error);
+                alert('Error disconnecting WebSocket. See console for details.');
+            }
+        }
+        
+        async function resolveAnomaly(anomalyId) {
+            try {
+                const data = await postJson(`${API_BASE_URL}/anomalies/${anomalyId}/resolve`);
+                
+                if (data.success) {
+                    alert('Anomaly resolved successfully!');
+                    await loadAnomalies();
+                } else {
+                    alert(`Failed to resolve anomaly: ${data.message}`);
+                }
+            } catch (error) {
+                console.error('Error resolving anomaly:', error);
+                alert('Error resolving anomaly. See console for details.');
+            }
+        }
+        
+        // Event listeners
+        registerBtn.addEventListener('click', registerEndpoint);
+        syncRulesBtn.addEventListener('click', syncRules);
+        applyRulesBtn.addEventListener('click', applyRules);
+        monitorTrafficBtn.addEventListener('click', monitorTraffic);
+        generateRulesBtn.addEventListener('click', generateDummyRules);
+        generateAnomaliesBtn.addEventListener('click', generateDummyAnomalies);
+        wsConnectBtn.addEventListener('click', connectWebSocket);
+        wsDisconnectBtn.addEventListener('click', disconnectWebSocket);
+        
+        // Initial data loading
+        async function loadInitialData() {
+            await loadStatus();
+            await loadRules();
+            await loadTraffic();
+            await loadAnomalies();
+            await checkWebSocketStatus();
+        }
+        
+        // Auto-refresh data every 10 seconds
+        function setupAutoRefresh() {
+            setInterval(async () => {
+                await loadStatus();
+                await loadRules();
+                await loadTraffic();
+                await loadAnomalies();
+                await checkWebSocketStatus();
+            }, 10000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInitialData();
+            setupAutoRefresh();
+        });
+    </script>
+</body>
+</html>
