@@ -225,3 +225,63 @@
 2025-05-20 10:02:44 [info]: User logged in: abhinav@gmail.com
 2025-05-20 10:02:45 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
 2025-05-20 10:12:13 [info]: New endpoint created: Server 01 (192.168.12.56)
+2025-05-20 10:31:43 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:31:44 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:03 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:22 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:22 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:22 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:22 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:26 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:26 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:28 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:34:28 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:35:13 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:35:13 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:35:15 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:36:34 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:36:34 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:36:34 [info]: MongoDB connected successfully
+2025-05-20 10:36:34 [info]: MongoDB connection successful
+2025-05-20 10:36:34 [info]: Server running in development mode on port 5000
+2025-05-20 10:36:34 [info]: WebSocket server initialized
+2025-05-20 10:36:47 [info]: User logged in: abhinav@gmail.com
+2025-05-20 10:36:48 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:39:22 [info]: User logged in: abhinav@gmail.com
+2025-05-20 10:39:23 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:43:36 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:43:37 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:43:44 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:43:44 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:43:44 [info]: MongoDB connected successfully
+2025-05-20 10:48:47 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:48:47 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:48:48 [info]: MongoDB connected successfully
+2025-05-20 10:48:48 [info]: MongoDB connection successful
+2025-05-20 10:48:48 [info]: Server running in development mode on port 5000
+2025-05-20 10:48:48 [info]: WebSocket server initialized
+2025-05-20 10:48:48 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:48:48 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:48:50 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:48:50 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:48:50 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:48:51 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:50:56 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:51:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:51:09 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:51:11 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:55:22 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:55:22 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-20 10:55:23 [info]: MongoDB connected successfully
+2025-05-20 10:55:23 [info]: MongoDB connection successful
+2025-05-20 10:55:23 [info]: Server running in development mode on port 5000
+2025-05-20 10:55:23 [info]: WebSocket server initialized
+2025-05-20 10:55:32 [info]: User logged in: abhinav@gmail.com
+2025-05-20 10:55:33 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-20 10:57:14 [info]: New application created: Chrome
+2025-05-20 10:57:23 [info]: New mapping created: Endpoint Server 01 to Application Chrome
+2025-05-20 10:58:24 [info]: New firewall rule created: only Google for application Chrome

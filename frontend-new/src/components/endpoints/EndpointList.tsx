@@ -23,6 +23,7 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
+  Apps as AppsIcon,
 } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import { fetchEndpoints, deleteEndpoint } from '../../store/slices/endpointSlice';
@@ -165,6 +166,15 @@ const EndpointList: React.FC = () => {
                               : 'Never'}
                           </TableCell>
                           <TableCell align="right">
+                            <Tooltip title="View Applications">
+                              <IconButton
+                                onClick={() => navigate(`/endpoints/${endpoint._id}/applications`)}
+                                size="small"
+                                color="primary"
+                              >
+                                <AppsIcon />
+                              </IconButton>
+                            </Tooltip>
                             <Tooltip title="Edit">
                               <IconButton
                                 onClick={() => handleEditEndpoint(endpoint._id)}

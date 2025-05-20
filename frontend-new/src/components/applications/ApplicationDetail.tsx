@@ -20,6 +20,9 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
+  Security as SecurityIcon,
+  Computer as ComputerIcon,
+  Timeline as TimelineIcon,
 } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import {
@@ -97,6 +100,10 @@ const ApplicationDetail: React.FC = () => {
     if (id) {
       dispatch(fetchApplicationById(id));
     }
+  };
+
+  const handleManageFirewallRules = () => {
+    navigate(`/applications/${id}/firewall-rules`);
   };
 
   if (loading && !selectedApplication) {
@@ -276,9 +283,34 @@ const ApplicationDetail: React.FC = () => {
         </Tabs>
 
         <TabPanel value={tabValue} index={0}>
-          <Typography variant="body1">
-            Firewall rules for this application will be displayed here.
-          </Typography>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <Typography variant="h6">Firewall Rules</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<SecurityIcon />}
+              onClick={handleManageFirewallRules}
+            >
+              Manage Firewall Rules
+            </Button>
+          </Box>
+          <Box textAlign="center" py={4}>
+            <SecurityIcon sx={{ fontSize: 60, color: 'text.secondary', mb: 2 }} />
+            <Typography variant="h6" color="textSecondary" gutterBottom>
+              Firewall Rules Management
+            </Typography>
+            <Typography variant="body2" color="textSecondary" paragraph>
+              Manage firewall rules for this application to control network traffic.
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<SecurityIcon />}
+              onClick={handleManageFirewallRules}
+            >
+              View Firewall Rules
+            </Button>
+          </Box>
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>

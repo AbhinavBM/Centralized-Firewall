@@ -20,6 +20,9 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
+  Apps as AppsIcon,
+  Security as SecurityIcon,
+  Warning as WarningIcon,
 } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import {
@@ -27,6 +30,8 @@ import {
   deleteEndpoint,
   updateEndpointStatus,
 } from '../../store/slices/endpointSlice';
+import { fetchMappingsByEndpoint } from '../../store/slices/mappingSlice';
+import { fetchApplications } from '../../store/slices/applicationSlice';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorAlert from '../common/ErrorAlert';
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -57,7 +62,9 @@ const EndpointDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { selectedEndpoint, loading, error } = useSelector((state: RootState) => state.endpoints);
+  const { selectedEndpoint, loading: endpointLoading, error: endpointError } = useSelector((state: RootState) => state.endpoints);
+  const { mappings, loading: mappingsLoading, error: mappingsError } = useSelector((state: RootState) => state.mappings);
+  const { applications, loading: applicationsLoading, error: applicationsError } = useSelector((state: RootState) => state.applications);
 
   const [tabValue, setTabValue] = useState(0);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -65,6 +72,8 @@ const EndpointDetail: React.FC = () => {
   useEffect(() => {
     if (id) {
       dispatch(fetchEndpointById(id));
+      dispatch(fetchMappingsByEndpoint(id));
+      dispatch(fetchApplications());
     }
   }, [dispatch, id]);
 
@@ -95,7 +104,13 @@ const EndpointDetail: React.FC = () => {
   const handleRefresh = () => {
     if (id) {
       dispatch(fetchEndpointById(id));
+      dispatch(fetchMappingsByEndpoint(id));
+      dispatch(fetchApplications());
     }
+  };
+
+  const handleManageApplications = () => {
+    navigate(`/endpoints/${id}/applications`);
   };
 
   const handleStatusChange = (status: 'online' | 'offline' | 'pending' | 'error') => {
@@ -103,6 +118,9 @@ const EndpointDetail: React.FC = () => {
       dispatch(updateEndpointStatus({ id, status }));
     }
   };
+
+  const loading = endpointLoading || mappingsLoading || applicationsLoading;
+  const error = endpointError || mappingsError || applicationsError;
 
   if (loading && !selectedEndpoint) {
     return <LoadingSpinner message="Loading endpoint details..." />;
@@ -282,9 +300,71 @@ const EndpointDetail: React.FC = () => {
         </Tabs>
 
         <TabPanel value={tabValue} index={0}>
-          <Typography variant="body1">
-            Applications associated with this endpoint will be displayed here.
-          </Typography>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <Typography variant="h6">Mapped Applications</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<AppsIcon />}
+              onClick={handleManageApplications}
+            >
+              Manage Applications
+            </Button>
+          </Box>
+
+          {mappings.length === 0 ? (
+            <Box textAlign="center" py={4}>
+              <AppsIcon sx={{ fontSize: 60, color: 'text.secondary', mb: 2 }} />
+              <Typography variant="h6" color="textSecondary" gutterBottom>
+                No Applications Mapped
+              </Typography>
+              <Typography variant="body2" color="textSecondary" paragraph>
+                This endpoint doesn't have any applications mapped to it yet.
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AppsIcon />}
+                onClick={handleManageApplications}
+              >
+                Map Applications
+              </Button>
+            </Box>
+          ) : (
+            <Grid container spacing={2}>
+              {mappings.map((mapping) => {
+                const application = applications.find(app => app._id === mapping.applicationId);
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={mapping._id}>
+                    <Card>
+                      <CardContent>
+                        <Box display="flex" justifyContent="space-between" alignItems="center">
+                          <Typography variant="h6">{application?.name || 'Unknown'}</Typography>
+                          <Chip
+                            label={mapping.status.toUpperCase()}
+                            color={mapping.status === 'active' ? 'success' : 'default'}
+                            size="small"
+                          />
+                        </Box>
+                        <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                          {application?.description || 'No description'}
+                        </Typography>
+                        <Box mt={2}>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() => navigate(`/applications/${application?._id}`)}
+                          >
+                            View Details
+                          </Button>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          )}
         </TabPanel>
 
         <TabPanel value={tabValue} index={1}>

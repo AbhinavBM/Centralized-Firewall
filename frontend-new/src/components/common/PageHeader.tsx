@@ -14,9 +14,14 @@ interface PageHeaderProps {
     onClick: () => void;
     icon?: React.ReactNode;
   };
+  secondaryAction?: {
+    label: string;
+    onClick: () => void;
+    icon?: React.ReactNode;
+  };
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, breadcrumbs, action }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, breadcrumbs, action, secondaryAction }) => {
   return (
     <Box sx={{ mb: 4 }}>
       {breadcrumbs && (
@@ -53,16 +58,28 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, breadcrumbs, a
             </Typography>
           )}
         </Box>
-        {action && (
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={action.icon}
-            onClick={action.onClick}
-          >
-            {action.label}
-          </Button>
-        )}
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          {action && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={action.icon}
+              onClick={action.onClick}
+            >
+              {action.label}
+            </Button>
+          )}
+          {secondaryAction && (
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={secondaryAction.icon}
+              onClick={secondaryAction.onClick}
+            >
+              {secondaryAction.label}
+            </Button>
+          )}
+        </Box>
       </Box>
     </Box>
   );

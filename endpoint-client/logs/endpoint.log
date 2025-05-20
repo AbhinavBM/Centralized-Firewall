@@ -13104,3 +13104,43 @@
 2025-05-20 01:34:38,380 - endpoint_client - INFO - Applied rule: Dummy Rule 8 - ALLOW - UDP - 90.86.157.164:52509 -> 114.0.195.135:62156
 2025-05-20 01:34:38,381 - endpoint_client - INFO - Applied rule: Dummy Rule 9 - ALLOW - ICMP - 188.127.237.0:36442 -> 14.216.6.150:20998
 2025-05-20 01:34:38,382 - endpoint_client - INFO - Applied rule: Dummy Rule 10 - DENY - TCP - 159.67.200.220:30644 -> 48.95.238.212:6038
+2025-05-20 10:51:00,889 - endpoint_client - INFO - Loaded 10 firewall rules from file
+2025-05-20 10:51:00,936 - endpoint_client - INFO - Loaded 1000 traffic logs from file
+2025-05-20 10:51:00,974 - endpoint_client - ERROR - Error loading anomalies: Extra data: line 12002 column 2 (char 346219)
+2025-05-20 10:51:02,147 - endpoint_client - INFO - Starting endpoint client application
+2025-05-20 10:51:02,147 - endpoint_client - INFO - Server URL: http://localhost:3001
+2025-05-20 10:51:02,147 - endpoint_client - INFO - WebSocket URL: ws://localhost:3001
+2025-05-20 10:51:02,147 - endpoint_client - INFO - Running in standalone mode with local storage
+2025-05-20 10:51:02,147 - endpoint_client - INFO - Generating dummy data for testing
+2025-05-20 10:51:02,147 - endpoint_client - INFO - Generating dummy firewall rules
+2025-05-20 10:51:02,148 - endpoint_client - INFO - Saved 10 firewall rules to file
+2025-05-20 10:51:02,148 - endpoint_client - INFO - Generated 10 dummy firewall rules
+2025-05-20 10:51:02,149 - endpoint_client - INFO - Generating dummy traffic logs
+2025-05-20 10:51:02,165 - endpoint_client - INFO - Saved 1000 traffic logs to file
+2025-05-20 10:51:02,178 - endpoint_client - ERROR - Error sending traffic logs: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/logs/traffic (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111f9ea50>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,178 - endpoint_client - INFO - Monitored traffic: 5 new logs, 5 anomalies
+2025-05-20 10:51:02,200 - endpoint_client - INFO - Saved 1000 traffic logs to file
+2025-05-20 10:51:02,202 - endpoint_client - ERROR - Error sending traffic logs: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/logs/traffic (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111fec690>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,203 - endpoint_client - INFO - Monitored traffic: 2 new logs, 2 anomalies
+2025-05-20 10:51:02,239 - endpoint_client - INFO - Saved 1000 traffic logs to file
+2025-05-20 10:51:02,241 - endpoint_client - ERROR - Error sending traffic logs: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/logs/traffic (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111fed450>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,241 - endpoint_client - INFO - Monitored traffic: 2 new logs, 2 anomalies
+2025-05-20 10:51:02,262 - endpoint_client - INFO - Saved 1000 traffic logs to file
+2025-05-20 10:51:02,264 - endpoint_client - ERROR - Error sending traffic logs: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/logs/traffic (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111ffc8a0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,264 - endpoint_client - INFO - Monitored traffic: 4 new logs, 4 anomalies
+2025-05-20 10:51:02,288 - endpoint_client - INFO - Saved 1000 traffic logs to file
+2025-05-20 10:51:02,290 - endpoint_client - ERROR - Error sending traffic logs: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/logs/traffic (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111ffcfc0>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,290 - endpoint_client - INFO - Monitored traffic: 4 new logs, 3 anomalies
+2025-05-20 10:51:02,290 - endpoint_client - INFO - Generating dummy anomalies
+2025-05-20 10:51:02,291 - endpoint_client - INFO - Saved 3 anomalies to file
+2025-05-20 10:51:02,291 - endpoint_client - INFO - Generated 3 dummy anomalies
+2025-05-20 10:51:02,292 - endpoint_client - INFO - No endpoint ID found, attempting to register with server
+2025-05-20 10:51:02,293 - endpoint_client - ERROR - Error authenticating: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/auth/login (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111f7ad50>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,294 - endpoint_client - INFO - Attempting to register endpoint with server at: http://localhost:3001/api/endpoints
+2025-05-20 10:51:02,294 - endpoint_client - INFO - Registration payload: {'hostname': 'Server 01', 'os': 'Mac', 'ipAddress': '192.168.12.56', 'status': 'online', 'password': 'Abhi@1234'}
+2025-05-20 10:51:02,294 - endpoint_client - INFO - Sending registration request...
+2025-05-20 10:51:02,296 - endpoint_client - ERROR - Connection error when registering endpoint: HTTPConnectionPool(host='localhost', port=3001): Max retries exceeded with url: /api/endpoints (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x111fd2e00>: Failed to establish a new connection: [Errno 61] Connection refused'))
+2025-05-20 10:51:02,296 - endpoint_client - INFO - Continuing with dummy data since server connection failed
+2025-05-20 10:51:02,296 - endpoint_client - INFO - Starting background tasks
+2025-05-20 10:51:02,296 - endpoint_client - INFO - Skipping WebSocket client initialization
+2025-05-20 10:51:02,296 - endpoint_client - INFO - Application initialized successfully

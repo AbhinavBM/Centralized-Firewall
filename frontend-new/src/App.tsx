@@ -17,12 +17,14 @@ import EndpointsPage from './pages/EndpointsPage';
 import EndpointCreatePage from './pages/EndpointCreatePage';
 import EndpointEditPage from './pages/EndpointEditPage';
 import EndpointDetailPage from './pages/EndpointDetailPage';
+import EndpointApplicationMappingPage from './pages/EndpointApplicationMappingPage';
 
 // Application Pages
 import ApplicationsPage from './pages/ApplicationsPage';
 import ApplicationCreatePage from './pages/ApplicationCreatePage';
 import ApplicationEditPage from './pages/ApplicationEditPage';
 import ApplicationDetailPage from './pages/ApplicationDetailPage';
+import ApplicationFirewallRulesPage from './pages/ApplicationFirewallRulesPage';
 
 // Firewall Pages
 import FirewallRulesPage from './pages/FirewallRulesPage';
@@ -112,6 +114,14 @@ const App: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/endpoints/:id/applications"
+                    element={
+                        <ProtectedRoute>
+                            <EndpointApplicationMappingPage />
+                        </ProtectedRoute>
+                    }
+                />
 
                 {/* Application Routes */}
                 <Route
@@ -143,6 +153,14 @@ const App: React.FC = () => {
                     element={
                         <ProtectedRoute>
                             <ApplicationDetailPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/applications/:id/firewall-rules"
+                    element={
+                        <ProtectedRoute>
+                            <ApplicationFirewallRulesPage />
                         </ProtectedRoute>
                     }
                 />

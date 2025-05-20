@@ -7,3 +7,4 @@
 2025-05-19 23:14:52 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
 2025-05-19 23:15:39 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
 2025-05-19 23:16:55 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
+2025-05-20 10:43:44 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::5000

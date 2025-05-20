@@ -22,6 +22,7 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
+  Security as SecurityIcon,
 } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import { fetchApplications, deleteApplication } from '../../store/slices/applicationSlice';
@@ -173,6 +174,18 @@ const ApplicationList: React.FC = () => {
                             {new Date(application.createdAt).toLocaleDateString()}
                           </TableCell>
                           <TableCell align="right">
+                            <Tooltip title="View Firewall Rules">
+                              <IconButton
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/applications/${application._id}/firewall-rules`);
+                                }}
+                                size="small"
+                                color="primary"
+                              >
+                                <SecurityIcon />
+                              </IconButton>
+                            </Tooltip>
                             <Tooltip title="Edit">
                               <IconButton
                                 onClick={(e) => {

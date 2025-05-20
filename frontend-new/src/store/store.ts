@@ -6,6 +6,7 @@ import dashboardReducer from './slices/dashboardSlice';
 import firewallReducer from './slices/firewallSlice';
 import anomalyReducer from './slices/anomalySlice';
 import logReducer from './slices/logSlice';
+import mappingReducer from './slices/mappingSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     firewall: firewallReducer,
     anomalies: anomalyReducer,
     logs: logReducer,
+    mappings: mappingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
