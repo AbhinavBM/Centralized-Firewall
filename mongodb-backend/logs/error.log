@@ -8,3 +8,6 @@
 2025-05-19 23:15:39 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
 2025-05-19 23:16:55 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::3000
 2025-05-20 10:43:44 [error]: Uncaught Exception: listen EADDRINUSE: address already in use :::5000
+2025-05-24 20:54:48 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-00.yhpeljt.mongodb.net
+2025-05-24 20:54:49 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-00.yhpeljt.mongodb.net
+2025-05-27 21:12:32 [error]: JWT verification error: jwt expired

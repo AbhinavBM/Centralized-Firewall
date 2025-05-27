@@ -27,6 +27,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          position: 'relative', // Add position relative
         }}
       >
         <Toolbar /> {/* This creates space below the app bar */}

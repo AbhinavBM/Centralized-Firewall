@@ -50,7 +50,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, drawerWidth }) => {
     { text: 'Traffic Logs', icon: <AssessmentIcon />, path: '/logs' },
     { text: 'Anomalies', icon: <WarningIcon />, path: '/anomalies' },
     { text: 'Users', icon: <PeopleIcon />, path: '/users', requiredRole: 'admin' },
-    { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
   ];
 
   const filteredNavItems = navItems.filter(
@@ -87,7 +86,13 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, drawerWidth }) => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ 
+        width: { sm: drawerWidth }, 
+        flexShrink: { sm: 0 },
+        position: { sm: 'fixed' }, // Fix the sidebar position on small screens and up
+        height: '100%',
+        zIndex: 1000
+      }}
       aria-label="mailbox folders"
     >
       {/* Mobile drawer */}
@@ -100,18 +105,28 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, drawerWidth }) => {
         }}
         sx={{
           display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          '& .MuiDrawer-paper': { 
+            boxSizing: 'border-box', 
+            width: drawerWidth,
+            borderRight: '1px solid rgba(0, 0, 0, 0.12)' // Add a border to separate from content
+          },
         }}
       >
         {drawer}
       </Drawer>
-      
+
       {/* Desktop drawer */}
       <Drawer
         variant="permanent"
         sx={{
           display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          '& .MuiDrawer-paper': { 
+            boxSizing: 'border-box', 
+            width: drawerWidth,
+            position: 'fixed', // Fix the drawer paper position
+            height: '100%',
+            borderRight: '1px solid rgba(0, 0, 0, 0.12)' // Add a border to separate from content
+          },
         }}
         open
       >

@@ -34,6 +34,14 @@ import PageHeader from '../common/PageHeader';
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
   applicationId: Yup.string().required('Application is required'),
+  entityType: Yup.string()
+    .required('Entity type is required')
+    .oneOf(['ip', 'domain'], 'Invalid entity type'),
+  domain: Yup.string().when('entityType', {
+    is: 'domain',
+    then: (schema) => schema.required('Domain is required'),
+    otherwise: (schema) => schema.nullable(),
+  }),
   action: Yup.string()
     .required('Action is required')
     .oneOf(['ALLOW', 'DENY'], 'Invalid action'),
@@ -43,8 +51,16 @@ const validationSchema = Yup.object({
   priority: Yup.number()
     .required('Priority is required')
     .min(0, 'Priority must be at least 0'),
-  sourceIp: Yup.string().nullable(),
-  destinationIp: Yup.string().nullable(),
+  sourceIp: Yup.string().when('entityType', {
+    is: 'ip',
+    then: (schema) => schema.nullable(),
+    otherwise: (schema) => schema.nullable(),
+  }),
+  destinationIp: Yup.string().when('entityType', {
+    is: 'ip',
+    then: (schema) => schema.nullable(),
+    otherwise: (schema) => schema.nullable(),
+  }),
   sourcePort: Yup.number()
     .nullable()
     .transform((value) => (isNaN(value) ? null : value))
@@ -62,11 +78,11 @@ const FirewallRuleForm: React.FC = () => {
   const isEditMode = !!id;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  
+
   const { selectedRule, loading: ruleLoading, error: ruleError } = useSelector(
     (state: RootState) => state.firewall
   );
-  
+
   const { applications, loading: appsLoading, error: appsError } = useSelector(
     (state: RootState) => state.applications
   );
@@ -87,7 +103,11 @@ const FirewallRuleForm: React.FC = () => {
     initialValues: {
       name: selectedRule?.name || '',
       description: selectedRule?.description || '',
-      applicationId: selectedRule?.applicationId?._id || selectedRule?.applicationId || '',
+      applicationId: typeof selectedRule?.applicationId === 'object' 
+        ? (selectedRule.applicationId as any)._id 
+        : selectedRule?.applicationId || '',
+      entityType: selectedRule?.entityType || 'ip',
+      domain: selectedRule?.domain || '',
       sourceIp: selectedRule?.sourceIp || '',
       destinationIp: selectedRule?.destinationIp || '',
       sourcePort: selectedRule?.sourcePort || '',
@@ -102,8 +122,12 @@ const FirewallRuleForm: React.FC = () => {
     onSubmit: async (values) => {
       const ruleData = {
         ...values,
-        sourcePort: values.sourcePort ? Number(values.sourcePort) : null,
-        destinationPort: values.destinationPort ? Number(values.destinationPort) : null,
+        entityType: values.entityType,
+        domain: values.entityType === 'domain' ? values.domain : undefined,
+        sourceIp: values.entityType === 'ip' ? values.sourceIp : undefined,
+        destinationIp: values.entityType === 'ip' ? values.destinationIp : undefined,
+        sourcePort: values.entityType === 'ip' && values.sourcePort ? Number(values.sourcePort) : undefined,
+        destinationPort: values.entityType === 'ip' && values.destinationPort ? Number(values.destinationPort) : undefined,
         priority: Number(values.priority),
       };
 
@@ -187,7 +211,7 @@ const FirewallRuleForm: React.FC = () => {
                     ))}
                   </Select>
                   {formik.touched.applicationId && formik.errors.applicationId && (
-                    <FormHelperText>{formik.errors.applicationId}</FormHelperText>
+                    <FormHelperText>{typeof formik.errors.applicationId === 'string' ? formik.errors.applicationId : 'Application is required'}</FormHelperText>
                   )}
                 </FormControl>
               </Grid>
@@ -207,6 +231,48 @@ const FirewallRuleForm: React.FC = () => {
                   disabled={loading}
                 />
               </Grid>
+              <Grid item xs={12} md={6}>
+                <FormControl
+                  fullWidth
+                  error={formik.touched.entityType && Boolean(formik.errors.entityType)}
+                  disabled={loading}
+                  required
+                >
+                  <InputLabel id="entityType-label">Entity Type</InputLabel>
+                  <Select
+                    labelId="entityType-label"
+                    id="entityType"
+                    name="entityType"
+                    value={formik.values.entityType}
+                    label="Entity Type"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  >
+                    <MenuItem value="ip">IP Address</MenuItem>
+                    <MenuItem value="domain">Domain</MenuItem>
+                  </Select>
+                  {formik.touched.entityType && formik.errors.entityType && (
+                    <FormHelperText>{formik.errors.entityType}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              {formik.values.entityType === 'domain' && (
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    id="domain"
+                    name="domain"
+                    label="Domain"
+                    value={formik.values.domain}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.domain && Boolean(formik.errors.domain)}
+                    helperText={formik.touched.domain && formik.errors.domain}
+                    disabled={loading}
+                    required={formik.values.entityType === 'domain'}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12} md={6}>
                 <FormControl
                   fullWidth
@@ -259,66 +325,70 @@ const FirewallRuleForm: React.FC = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  id="sourceIp"
-                  name="sourceIp"
-                  label="Source IP"
-                  value={formik.values.sourceIp}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.sourceIp && Boolean(formik.errors.sourceIp)}
-                  helperText={formik.touched.sourceIp && formik.errors.sourceIp}
-                  disabled={loading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  id="destinationIp"
-                  name="destinationIp"
-                  label="Destination IP"
-                  value={formik.values.destinationIp}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.destinationIp && Boolean(formik.errors.destinationIp)}
-                  helperText={formik.touched.destinationIp && formik.errors.destinationIp}
-                  disabled={loading}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  id="sourcePort"
-                  name="sourcePort"
-                  label="Source Port"
-                  type="number"
-                  value={formik.values.sourcePort}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.sourcePort && Boolean(formik.errors.sourcePort)}
-                  helperText={formik.touched.sourcePort && formik.errors.sourcePort}
-                  disabled={loading || formik.values.protocol === 'ICMP'}
-                  InputProps={{ inputProps: { min: 0, max: 65535 } }}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  id="destinationPort"
-                  name="destinationPort"
-                  label="Destination Port"
-                  type="number"
-                  value={formik.values.destinationPort}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.destinationPort && Boolean(formik.errors.destinationPort)}
-                  helperText={formik.touched.destinationPort && formik.errors.destinationPort}
-                  disabled={loading || formik.values.protocol === 'ICMP'}
-                  InputProps={{ inputProps: { min: 0, max: 65535 } }}
-                />
-              </Grid>
+              {formik.values.entityType === 'ip' && (
+                <>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="sourceIp"
+                      name="sourceIp"
+                      label="Source IP"
+                      value={formik.values.sourceIp}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.sourceIp && Boolean(formik.errors.sourceIp)}
+                      helperText={formik.touched.sourceIp && formik.errors.sourceIp}
+                      disabled={loading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="destinationIp"
+                      name="destinationIp"
+                      label="Destination IP"
+                      value={formik.values.destinationIp}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.destinationIp && Boolean(formik.errors.destinationIp)}
+                      helperText={formik.touched.destinationIp && formik.errors.destinationIp}
+                      disabled={loading}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="sourcePort"
+                      name="sourcePort"
+                      label="Source Port"
+                      type="number"
+                      value={formik.values.sourcePort}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.sourcePort && Boolean(formik.errors.sourcePort)}
+                      helperText={formik.touched.sourcePort && formik.errors.sourcePort}
+                      disabled={loading || formik.values.protocol === 'ICMP'}
+                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="destinationPort"
+                      name="destinationPort"
+                      label="Destination Port"
+                      type="number"
+                      value={formik.values.destinationPort}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.destinationPort && Boolean(formik.errors.destinationPort)}
+                      helperText={formik.touched.destinationPort && formik.errors.destinationPort}
+                      disabled={loading || formik.values.protocol === 'ICMP'}
+                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
+                    />
+                  </Grid>
+                </>
+              )}
               <Grid item xs={12} md={6}>
                 <TextField
                   fullWidth

@@ -4,7 +4,7 @@ import { Endpoint } from './endpoint.types';
 export interface EndpointApplicationMapping {
   _id: string;
   endpointId: string;
-  applicationId: string;
+  applicationId: string | any; // Can be a string ID or a populated application object
   status: 'active' | 'inactive' | 'pending' | 'error';
   appliedAt: string;
   createdAt: string;

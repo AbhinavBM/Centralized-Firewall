@@ -39,6 +39,7 @@ import AnomalyDetailPage from './pages/AnomalyDetailPage';
 // Log Pages
 import LogsPage from './pages/LogsPage';
 
+
 // Components
 import ProtectedRoute from './components/common/ProtectedRoute';
 import LoadingSpinner from './components/common/LoadingSpinner';
@@ -226,6 +227,7 @@ const App: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
+
 
                 {/* Redirects and 404 */}
                 <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} />} />

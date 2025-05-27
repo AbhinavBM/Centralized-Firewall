@@ -104,6 +104,8 @@ exports.createRule = async (req, res) => {
       applicationId,
       name,
       description,
+      entityType,
+      domain,
       sourceIp,
       destinationIp,
       sourcePort,
@@ -128,6 +130,8 @@ exports.createRule = async (req, res) => {
       applicationId,
       name,
       description,
+      entityType: entityType || 'ip',
+      domain,
       sourceIp,
       destinationIp,
       sourcePort,
@@ -167,6 +171,8 @@ exports.updateRule = async (req, res) => {
     const {
       name,
       description,
+      entityType,
+      domain,
       sourceIp,
       destinationIp,
       sourcePort,
@@ -190,6 +196,8 @@ exports.updateRule = async (req, res) => {
     // Update rule
     if (name) rule.name = name;
     if (description !== undefined) rule.description = description;
+    if (entityType) rule.entityType = entityType;
+    if (domain !== undefined) rule.domain = domain;
     if (sourceIp !== undefined) rule.sourceIp = sourceIp;
     if (destinationIp !== undefined) rule.destinationIp = destinationIp;
     if (sourcePort !== undefined) rule.sourcePort = sourcePort;
@@ -296,6 +304,8 @@ exports.batchCreateRules = async (req, res) => {
       applicationId,
       name: rule.name,
       description: rule.description,
+      entityType: rule.entityType || 'ip',
+      domain: rule.domain,
       sourceIp: rule.sourceIp,
       destinationIp: rule.destinationIp,
       sourcePort: rule.sourcePort,
@@ -379,6 +389,8 @@ exports.batchUpdateRules = async (req, res) => {
         // Update rule fields
         if (ruleData.name) rule.name = ruleData.name;
         if (ruleData.description !== undefined) rule.description = ruleData.description;
+        if (ruleData.entityType) rule.entityType = ruleData.entityType;
+        if (ruleData.domain !== undefined) rule.domain = ruleData.domain;
         if (ruleData.sourceIp !== undefined) rule.sourceIp = ruleData.sourceIp;
         if (ruleData.destinationIp !== undefined) rule.destinationIp = ruleData.destinationIp;
         if (ruleData.sourcePort !== undefined) rule.sourcePort = ruleData.sourcePort;

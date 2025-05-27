@@ -15,6 +15,15 @@ const firewallRuleSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  entityType: {
+    type: String,
+    enum: ['ip', 'domain'],
+    default: 'ip'
+  },
+  domain: {
+    type: String,
+    trim: true
+  },
   sourceIp: {
     type: String
   },

@@ -163,7 +163,10 @@ const EndpointApplicationMapping: React.FC = () => {
                     </TableHead>
                     <TableBody>
                       {mappings.map((mapping) => {
-                        const application = applications.find(app => app._id === mapping.applicationId);
+                        // Check if applicationId is an object (populated) or a string (ID)
+                        const applicationId = typeof mapping.applicationId === 'object' ? mapping.applicationId : mapping.applicationId;
+                        // If it's an object, use it directly, otherwise find it in the applications array
+                        const application = typeof mapping.applicationId === 'object' ? mapping.applicationId : applications.find(app => app._id === applicationId);
                         return (
                           <TableRow key={mapping._id}>
                             <TableCell>{application?.name || 'Unknown'}</TableCell>

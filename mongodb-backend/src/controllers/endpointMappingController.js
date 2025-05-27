@@ -10,8 +10,8 @@ exports.getAllMappings = async (req, res) => {
   try {
     const mappings = await EndpointApplicationMapping.find()
       .populate('endpointId', 'hostname ipAddress status')
-      .populate('applicationId', 'name status');
-    
+      .populate('applicationId', 'name description status');
+
     res.status(200).json({
       success: true,
       count: mappings.length,
@@ -35,7 +35,7 @@ exports.getAllMappings = async (req, res) => {
 exports.getMappingsByEndpoint = async (req, res) => {
   try {
     const { endpointId } = req.params;
-    
+
     // Check if endpoint exists
     const endpoint = await Endpoint.findById(endpointId);
     if (!endpoint) {
@@ -44,10 +44,10 @@ exports.getMappingsByEndpoint = async (req, res) => {
         message: 'Endpoint not found'
       });
     }
-    
+
     const mappings = await EndpointApplicationMapping.find({ endpointId })
-      .populate('applicationId', 'name status');
-    
+      .populate('applicationId', 'name description status');
+
     res.status(200).json({
       success: true,
       count: mappings.length,
@@ -71,7 +71,7 @@ exports.getMappingsByEndpoint = async (req, res) => {
 exports.getMappingsByApplication = async (req, res) => {
   try {
     const { applicationId } = req.params;
-    
+
     // Check if application exists
     const application = await Application.findById(applicationId);
     if (!application) {
@@ -80,10 +80,10 @@ exports.getMappingsByApplication = async (req, res) => {
         message: 'Application not found'
       });
     }
-    
+
     const mappings = await EndpointApplicationMapping.find({ applicationId })
       .populate('endpointId', 'hostname ipAddress status');
-    
+
     res.status(200).json({
       success: true,
       count: mappings.length,
@@ -107,7 +107,7 @@ exports.getMappingsByApplication = async (req, res) => {
 exports.createMapping = async (req, res) => {
   try {
     const { endpointId, applicationId } = req.body;
-    
+
     // Check if endpoint exists
     const endpoint = await Endpoint.findById(endpointId);
     if (!endpoint) {
@@ -116,7 +116,7 @@ exports.createMapping = async (req, res) => {
         message: 'Endpoint not found'
       });
     }
-    
+
     // Check if application exists
     const application = await Application.findById(applicationId);
     if (!application) {
@@ -125,37 +125,37 @@ exports.createMapping = async (req, res) => {
         message: 'Application not found'
       });
     }
-    
+
     // Check if mapping already exists
     const existingMapping = await EndpointApplicationMapping.findOne({
       endpointId,
       applicationId
     });
-    
+
     if (existingMapping) {
       return res.status(400).json({
         success: false,
         message: 'Mapping already exists'
       });
     }
-    
+
     // Create new mapping
     const mapping = new EndpointApplicationMapping({
       endpointId,
       applicationId,
       status: 'active'
     });
-    
+
     await mapping.save();
-    
+
     // Update endpoint's applicationIds array
     if (!endpoint.applicationIds.includes(applicationId)) {
       endpoint.applicationIds.push(applicationId);
       await endpoint.save();
     }
-    
+
     logger.info(`New mapping created: Endpoint ${endpoint.hostname} to Application ${application.name}`);
-    
+
     res.status(201).json({
       success: true,
       message: 'Mapping created successfully',
@@ -179,28 +179,28 @@ exports.createMapping = async (req, res) => {
 exports.updateMappingStatus = async (req, res) => {
   try {
     const { status } = req.body;
-    
+
     if (!status) {
       return res.status(400).json({
         success: false,
         message: 'Status is required'
       });
     }
-    
+
     const mapping = await EndpointApplicationMapping.findById(req.params.id);
-    
+
     if (!mapping) {
       return res.status(404).json({
         success: false,
         message: 'Mapping not found'
       });
     }
-    
+
     mapping.status = status;
     await mapping.save();
-    
+
     logger.info(`Mapping status updated: ${mapping._id} (${status})`);
-    
+
     res.status(200).json({
       success: true,
       message: 'Mapping status updated successfully',
@@ -224,14 +224,14 @@ exports.updateMappingStatus = async (req, res) => {
 exports.deleteMapping = async (req, res) => {
   try {
     const mapping = await EndpointApplicationMapping.findById(req.params.id);
-    
+
     if (!mapping) {
       return res.status(404).json({
         success: false,
         message: 'Mapping not found'
       });
     }
-    
+
     // Remove application from endpoint's applicationIds array
     const endpoint = await Endpoint.findById(mapping.endpointId);
     if (endpoint) {
@@ -240,12 +240,12 @@ exports.deleteMapping = async (req, res) => {
       );
       await endpoint.save();
     }
-    
+
     // Delete the mapping
     await mapping.deleteOne();
-    
+
     logger.info(`Mapping deleted: ${mapping._id}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'Mapping deleted successfully'
