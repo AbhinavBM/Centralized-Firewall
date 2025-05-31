@@ -8,8 +8,20 @@ const logger = require('../utils/logger');
  */
 exports.getAllRules = async (req, res) => {
   try {
-    const rules = await FirewallRule.find()
-      .populate('applicationId', 'name');
+    const { endpointId, processName } = req.query;
+
+    // Build query filter
+    const filter = {};
+    if (endpointId) {
+      filter.endpointId = endpointId;
+    }
+    if (processName) {
+      filter.processName = processName;
+    }
+
+    const rules = await FirewallRule.find(filter)
+      .populate('applicationId', 'name processName')
+      .populate('endpointId', 'hostname ipAddress');
 
     res.status(200).json({
       success: true,
@@ -45,6 +57,8 @@ exports.getRulesByApplication = async (req, res) => {
     }
 
     const rules = await FirewallRule.find({ applicationId })
+      .populate('applicationId', 'name processName')
+      .populate('endpointId', 'hostname ipAddress')
       .sort({ priority: 1 });
 
     res.status(200).json({
@@ -101,9 +115,19 @@ exports.getRuleById = async (req, res) => {
 exports.createRule = async (req, res) => {
   try {
     const {
+      endpointId,
       applicationId,
+      processName,
       name,
       description,
+      // NGFW fields
+      entity_type,
+      source_ip,
+      destination_ip,
+      source_port,
+      destination_port,
+      domain_name,
+      // Legacy fields
       entityType,
       domain,
       sourceIp,
@@ -116,35 +140,48 @@ exports.createRule = async (req, res) => {
       enabled
     } = req.body;
 
-    // Check if application exists
-    const application = await Application.findById(applicationId);
-    if (!application) {
-      return res.status(404).json({
-        success: false,
-        message: 'Application not found'
-      });
+    // Check if application exists (only if applicationId is provided)
+    let application = null;
+    if (applicationId) {
+      application = await Application.findById(applicationId);
+      if (!application) {
+        return res.status(404).json({
+          success: false,
+          message: 'Application not found'
+        });
+      }
     }
 
-    // Create new rule
+    // Create new rule with unified fields
     const rule = new FirewallRule({
-      applicationId,
+      endpointId: endpointId || null,
+      applicationId: applicationId || null,
+      processName: processName || (application ? application.processName : null),
       name,
       description,
-      entityType: entityType || 'ip',
-      domain,
-      sourceIp,
-      destinationIp,
-      sourcePort,
-      destinationPort,
+      // NGFW fields (prioritize these)
+      entity_type: entity_type || entityType || 'ip',
+      source_ip: source_ip || sourceIp,
+      destination_ip: destination_ip || destinationIp,
+      source_port: source_port || sourcePort,
+      destination_port: destination_port || destinationPort,
+      domain_name: domain_name || domain,
+      action: action,
+      // Legacy fields for backward compatibility
+      entityType: entity_type || entityType || 'ip',
+      domain: domain_name || domain,
+      sourceIp: source_ip || sourceIp,
+      destinationIp: destination_ip || destinationIp,
+      sourcePort: source_port || sourcePort,
+      destinationPort: destination_port || destinationPort,
       protocol: protocol || 'ANY',
-      action,
       priority: priority || 0,
       enabled: enabled !== undefined ? enabled : true
     });
 
     await rule.save();
 
-    logger.info(`New firewall rule created: ${name} for application ${application.name}`);
+    logger.info(`New firewall rule created: ${name || 'Unnamed Rule'}${application ? ` for application ${application.name}` : ' (standalone rule)'}`);
 
     res.status(201).json({
       success: true,
@@ -169,8 +206,18 @@ exports.createRule = async (req, res) => {
 exports.updateRule = async (req, res) => {
   try {
     const {
+      endpointId,
+      processName,
       name,
       description,
+      // NGFW fields
+      entity_type,
+      source_ip,
+      destination_ip,
+      source_port,
+      destination_port,
+      domain_name,
+      // Legacy fields
       entityType,
       domain,
       sourceIp,
@@ -193,15 +240,61 @@ exports.updateRule = async (req, res) => {
       });
     }
 
-    // Update rule
+    // Update rule with unified fields
+    if (endpointId !== undefined) rule.endpointId = endpointId;
+    if (processName !== undefined) rule.processName = processName;
     if (name) rule.name = name;
     if (description !== undefined) rule.description = description;
-    if (entityType) rule.entityType = entityType;
-    if (domain !== undefined) rule.domain = domain;
-    if (sourceIp !== undefined) rule.sourceIp = sourceIp;
-    if (destinationIp !== undefined) rule.destinationIp = destinationIp;
-    if (sourcePort !== undefined) rule.sourcePort = sourcePort;
-    if (destinationPort !== undefined) rule.destinationPort = destinationPort;
+
+    // Update NGFW fields (prioritize these)
+    if (entity_type !== undefined) {
+      rule.entity_type = entity_type;
+      rule.entityType = entity_type; // Keep legacy field in sync
+    } else if (entityType !== undefined) {
+      rule.entityType = entityType;
+      rule.entity_type = entityType; // Keep NGFW field in sync
+    }
+
+    if (source_ip !== undefined) {
+      rule.source_ip = source_ip;
+      rule.sourceIp = source_ip; // Keep legacy field in sync
+    } else if (sourceIp !== undefined) {
+      rule.sourceIp = sourceIp;
+      rule.source_ip = sourceIp; // Keep NGFW field in sync
+    }
+
+    if (destination_ip !== undefined) {
+      rule.destination_ip = destination_ip;
+      rule.destinationIp = destination_ip; // Keep legacy field in sync
+    } else if (destinationIp !== undefined) {
+      rule.destinationIp = destinationIp;
+      rule.destination_ip = destinationIp; // Keep NGFW field in sync
+    }
+
+    if (source_port !== undefined) {
+      rule.source_port = source_port;
+      rule.sourcePort = source_port; // Keep legacy field in sync
+    } else if (sourcePort !== undefined) {
+      rule.sourcePort = sourcePort;
+      rule.source_port = sourcePort; // Keep NGFW field in sync
+    }
+
+    if (destination_port !== undefined) {
+      rule.destination_port = destination_port;
+      rule.destinationPort = destination_port; // Keep legacy field in sync
+    } else if (destinationPort !== undefined) {
+      rule.destinationPort = destinationPort;
+      rule.destination_port = destinationPort; // Keep NGFW field in sync
+    }
+
+    if (domain_name !== undefined) {
+      rule.domain_name = domain_name;
+      rule.domain = domain_name; // Keep legacy field in sync
+    } else if (domain !== undefined) {
+      rule.domain = domain;
+      rule.domain_name = domain; // Keep NGFW field in sync
+    }
+
     if (protocol) rule.protocol = protocol;
     if (action) rule.action = action;
     if (priority !== undefined) rule.priority = priority;
@@ -503,6 +596,97 @@ exports.batchDeleteRules = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error batch deleting firewall rules',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get firewall rules by endpoint ID
+ * @route GET /api/firewall/rules/endpoint/:endpointId
+ * @access Private
+ */
+exports.getRulesByEndpoint = async (req, res) => {
+  try {
+    const { endpointId } = req.params;
+
+    const rules = await FirewallRule.find({ endpointId })
+      .populate('applicationId', 'name processName')
+      .populate('endpointId', 'hostname ipAddress')
+      .sort({ priority: 1 });
+
+    res.status(200).json({
+      success: true,
+      count: rules.length,
+      data: rules
+    });
+  } catch (error) {
+    logger.error(`Error getting firewall rules by endpoint: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving firewall rules',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get firewall rule statistics
+ * @route GET /api/firewall/rules/stats
+ * @access Private
+ */
+exports.getFirewallStats = async (req, res) => {
+  try {
+    const totalRules = await FirewallRule.countDocuments();
+
+    // Count by action
+    const actionStats = await FirewallRule.aggregate([
+      { $group: { _id: '$action', count: { $sum: 1 } } }
+    ]);
+
+    // Count by entity type
+    const entityTypeStats = await FirewallRule.aggregate([
+      { $group: { _id: '$entity_type', count: { $sum: 1 } } }
+    ]);
+
+    // Count by endpoint
+    const endpointStats = await FirewallRule.aggregate([
+      { $match: { endpointId: { $ne: null } } },
+      { $group: { _id: '$endpointId', count: { $sum: 1 } } },
+      { $lookup: { from: 'endpoints', localField: '_id', foreignField: '_id', as: 'endpoint' } },
+      { $unwind: '$endpoint' },
+      { $project: { hostname: '$endpoint.hostname', count: 1 } }
+    ]);
+
+    // Recent rules (last 10)
+    const recentRules = await FirewallRule.find()
+      .populate('applicationId', 'name processName')
+      .populate('endpointId', 'hostname')
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select('name action entity_type enabled createdAt applicationId endpointId');
+
+    res.status(200).json({
+      success: true,
+      data: {
+        total: totalRules,
+        byAction: actionStats.reduce((acc, item) => {
+          acc[item._id] = item.count;
+          return acc;
+        }, {}),
+        byEntityType: entityTypeStats.reduce((acc, item) => {
+          acc[item._id] = item.count;
+          return acc;
+        }, {}),
+        byEndpoint: endpointStats,
+        recent: recentRules
+      }
+    });
+  } catch (error) {
+    logger.error(`Error getting firewall statistics: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving firewall statistics',
       error: error.message
     });
   }

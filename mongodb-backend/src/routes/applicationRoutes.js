@@ -11,6 +11,12 @@ router.route('/')
   .get(applicationController.getAllApplications)
   .post(applicationController.createApplication);
 
+// Statistics route
+router.get('/stats', applicationController.getApplicationStats);
+
+// Endpoint-specific routes
+router.get('/endpoint/:endpointId', applicationController.getApplicationsByEndpoint);
+
 router.route('/:id')
   .get(applicationController.getApplicationById)
   .put(applicationController.updateApplication)

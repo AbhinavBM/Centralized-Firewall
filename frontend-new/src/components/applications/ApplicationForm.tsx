@@ -34,7 +34,17 @@ const validationSchema = Yup.object({
   description: Yup.string().required('Description is required'),
   status: Yup.string()
     .required('Status is required')
-    .oneOf(['allowed', 'blocked', 'pending', 'suspended'], 'Invalid status'),
+    .oneOf(['running', 'stopped', 'pending', 'allowed', 'blocked', 'suspended'], 'Invalid status'),
+  // NGFW fields
+  endpointId: Yup.string(),
+  processName: Yup.string(),
+  associated_ips: Yup.array().of(Yup.object({
+    source_ip: Yup.string(),
+    destination_ip: Yup.string()
+  })),
+  source_ports: Yup.array().of(Yup.number()),
+  destination_ports: Yup.array().of(Yup.number()),
+  // Legacy fields
   allowedDomains: Yup.array().of(Yup.string()),
   allowedIps: Yup.array().of(Yup.string()),
   allowedProtocols: Yup.array().of(Yup.string()),
@@ -61,24 +71,47 @@ const ApplicationForm: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
+      // NGFW fields
+      endpointId: selectedApplication?.endpointId || '',
+      processName: selectedApplication?.processName || '',
+      associated_ips: selectedApplication?.associated_ips || [],
+      source_ports: selectedApplication?.source_ports || [],
+      destination_ports: selectedApplication?.destination_ports || [],
+      // Common fields
       name: selectedApplication?.name || '',
       description: selectedApplication?.description || '',
       status: selectedApplication?.status || 'pending',
+      // Legacy fields
       allowedDomains: selectedApplication?.allowedDomains || [],
       allowedIps: selectedApplication?.allowedIps || [],
       allowedProtocols: selectedApplication?.allowedProtocols || [],
+      // Form helpers
       newDomain: '',
       newIp: '',
       newProtocol: '',
+      newSourcePort: '',
+      newDestinationPort: '',
     },
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const { name, description, status, allowedDomains, allowedIps, allowedProtocols } = values;
+      const {
+        endpointId, processName, associated_ips, source_ports, destination_ports,
+        name, description, status, allowedDomains, allowedIps, allowedProtocols
+      } = values;
+
       const applicationData = {
+        // NGFW fields
+        ...(endpointId && { endpointId }),
+        ...(processName && { processName }),
+        ...(associated_ips.length > 0 && { associated_ips }),
+        ...(source_ports.length > 0 && { source_ports }),
+        ...(destination_ports.length > 0 && { destination_ports }),
+        // Common fields
         name,
         description,
         status,
+        // Legacy fields
         allowedDomains,
         allowedIps,
         allowedProtocols,
@@ -204,9 +237,11 @@ const ApplicationForm: React.FC = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                   >
+                    <MenuItem value="running">Running</MenuItem>
+                    <MenuItem value="stopped">Stopped</MenuItem>
+                    <MenuItem value="pending">Pending</MenuItem>
                     <MenuItem value="allowed">Allowed</MenuItem>
                     <MenuItem value="blocked">Blocked</MenuItem>
-                    <MenuItem value="pending">Pending</MenuItem>
                     <MenuItem value="suspended">Suspended</MenuItem>
                   </Select>
                   {formik.touched.status && formik.errors.status && (
@@ -230,6 +265,138 @@ const ApplicationForm: React.FC = () => {
                   disabled={loading}
                   required
                 />
+              </Grid>
+
+              {/* NGFW Fields */}
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  id="endpointId"
+                  name="endpointId"
+                  label="Endpoint ID (Optional)"
+                  value={formik.values.endpointId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={loading}
+                  helperText="Leave empty for frontend-only applications"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  id="processName"
+                  name="processName"
+                  label="Process Name (Optional)"
+                  value={formik.values.processName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={loading}
+                  helperText="Process name for NGFW applications"
+                />
+              </Grid>
+
+              {/* Source Ports */}
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Source Ports
+                </Typography>
+                <Box display="flex" alignItems="center" gap={2} mb={2}>
+                  <TextField
+                    fullWidth
+                    id="newSourcePort"
+                    name="newSourcePort"
+                    label="Add Source Port"
+                    type="number"
+                    value={formik.values.newSourcePort}
+                    onChange={formik.handleChange}
+                    disabled={loading}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      const port = parseInt(formik.values.newSourcePort);
+                      if (port && !formik.values.source_ports.includes(port)) {
+                        formik.setFieldValue('source_ports', [...formik.values.source_ports, port]);
+                        formik.setFieldValue('newSourcePort', '');
+                      }
+                    }}
+                    disabled={!formik.values.newSourcePort || loading}
+                  >
+                    Add
+                  </Button>
+                </Box>
+                <Box display="flex" flexWrap="wrap" gap={1}>
+                  {formik.values.source_ports.map((port) => (
+                    <Chip
+                      key={port}
+                      label={port}
+                      onDelete={() => {
+                        formik.setFieldValue(
+                          'source_ports',
+                          formik.values.source_ports.filter((p) => p !== port)
+                        );
+                      }}
+                      disabled={loading}
+                    />
+                  ))}
+                  {formik.values.source_ports.length === 0 && (
+                    <Typography variant="body2" color="text.secondary">
+                      No source ports added yet
+                    </Typography>
+                  )}
+                </Box>
+              </Grid>
+
+              {/* Destination Ports */}
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle1" gutterBottom>
+                  Destination Ports
+                </Typography>
+                <Box display="flex" alignItems="center" gap={2} mb={2}>
+                  <TextField
+                    fullWidth
+                    id="newDestinationPort"
+                    name="newDestinationPort"
+                    label="Add Destination Port"
+                    type="number"
+                    value={formik.values.newDestinationPort}
+                    onChange={formik.handleChange}
+                    disabled={loading}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      const port = parseInt(formik.values.newDestinationPort);
+                      if (port && !formik.values.destination_ports.includes(port)) {
+                        formik.setFieldValue('destination_ports', [...formik.values.destination_ports, port]);
+                        formik.setFieldValue('newDestinationPort', '');
+                      }
+                    }}
+                    disabled={!formik.values.newDestinationPort || loading}
+                  >
+                    Add
+                  </Button>
+                </Box>
+                <Box display="flex" flexWrap="wrap" gap={1}>
+                  {formik.values.destination_ports.map((port) => (
+                    <Chip
+                      key={port}
+                      label={port}
+                      onDelete={() => {
+                        formik.setFieldValue(
+                          'destination_ports',
+                          formik.values.destination_ports.filter((p) => p !== port)
+                        );
+                      }}
+                      disabled={loading}
+                    />
+                  ))}
+                  {formik.values.destination_ports.length === 0 && (
+                    <Typography variant="body2" color="text.secondary">
+                      No destination ports added yet
+                    </Typography>
+                  )}
+                </Box>
               </Grid>
 
               {/* Allowed Domains */}

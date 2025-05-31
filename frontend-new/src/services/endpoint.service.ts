@@ -1,5 +1,5 @@
 import { apiService } from './api';
-import { Endpoint, EndpointFormData } from '../types/endpoint.types';
+import { Endpoint, EndpointFormData, EndpointStats } from '../types/endpoint.types';
 
 interface EndpointResponse {
   success: boolean;
@@ -9,6 +9,11 @@ interface EndpointResponse {
 interface EndpointsResponse {
   success: boolean;
   data: Endpoint[];
+}
+
+interface EndpointStatsResponse {
+  success: boolean;
+  data: EndpointStats;
 }
 
 export const endpointService = {
@@ -30,6 +35,11 @@ export const endpointService = {
 
   updateEndpointStatus: (id: string, status: 'online' | 'offline' | 'pending' | 'error'): Promise<EndpointResponse> => {
     return apiService.patch<EndpointResponse>(`/endpoints/${id}/status`, { status });
+  },
+
+  // Get endpoint statistics
+  getEndpointStats: (): Promise<EndpointStatsResponse> => {
+    return apiService.get<EndpointStatsResponse>('/endpoints/stats');
   },
 
   deleteEndpoint: (id: string): Promise<{ success: boolean; message: string }> => {

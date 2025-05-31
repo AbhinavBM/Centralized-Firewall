@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 class ApiService {
   private api: AxiosInstance;
@@ -21,7 +21,7 @@ class ApiService {
 
   private handleRequestConfig = (config: any): any => {
     const token = localStorage.getItem('authToken');
-    if (token && config.headers) {
+    if (token && token !== 'null' && token !== 'undefined' && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -36,11 +36,11 @@ class ApiService {
   };
 
   private handleError = (error: any): Promise<never> => {
-    if (error.response && error.response.status === 401) {
-      // Handle unauthorized access
-      localStorage.removeItem('authToken');
-      window.location.href = '/login';
-    }
+    // Don't automatically redirect on 401 errors - let components handle them
+    // if (error.response && error.response.status === 401) {
+    //   localStorage.removeItem('authToken');
+    //   window.location.href = '/login';
+    // }
     return Promise.reject(error);
   };
 

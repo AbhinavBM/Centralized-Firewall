@@ -8,8 +8,17 @@ const logger = require('../utils/logger');
  */
 exports.getAllApplications = async (req, res) => {
   try {
-    const applications = await Application.find();
-    
+    const { endpointId } = req.query;
+
+    // Build query filter
+    const filter = {};
+    if (endpointId) {
+      filter.endpointId = endpointId;
+    }
+
+    const applications = await Application.find(filter)
+      .populate('endpointId', 'hostname ipAddress status');
+
     res.status(200).json({
       success: true,
       count: applications.length,
@@ -32,15 +41,16 @@ exports.getAllApplications = async (req, res) => {
  */
 exports.getApplicationById = async (req, res) => {
   try {
-    const application = await Application.findById(req.params.id);
-    
+    const application = await Application.findById(req.params.id)
+      .populate('endpointId', 'hostname ipAddress status');
+
     if (!application) {
       return res.status(404).json({
         success: false,
         message: 'Application not found'
       });
     }
-    
+
     res.status(200).json({
       success: true,
       data: application
@@ -63,40 +73,75 @@ exports.getApplicationById = async (req, res) => {
 exports.createApplication = async (req, res) => {
   try {
     const {
+      endpointId,
       name,
+      processName,
       description,
       status,
+      associated_ips,
+      source_ports,
+      destination_ports,
       allowedDomains,
       allowedIps,
       allowedProtocols,
       firewallPolicies
     } = req.body;
-    
-    // Check if application with same name already exists
-    const existingApplication = await Application.findOne({ name });
-    
-    if (existingApplication) {
+
+    if (!name) {
       return res.status(400).json({
         success: false,
-        message: 'Application with this name already exists'
+        message: 'Application name is required'
       });
     }
-    
+
+    // For frontend-created applications, endpointId might not be provided
+    // For NGFW-created applications, both endpointId and processName are required
+    if (endpointId && processName) {
+      // Check if application with same endpointId and processName already exists
+      const existingApplication = await Application.findOne({
+        endpointId,
+        processName
+      });
+
+      if (existingApplication) {
+        return res.status(400).json({
+          success: false,
+          message: 'Application with this process name already exists for this endpoint'
+        });
+      }
+    } else {
+      // Check if application with same name already exists (for frontend)
+      const existingApplication = await Application.findOne({ name });
+
+      if (existingApplication) {
+        return res.status(400).json({
+          success: false,
+          message: 'Application with this name already exists'
+        });
+      }
+    }
+
     // Create new application
     const application = new Application({
+      endpointId: endpointId || null,
       name,
+      processName: processName || name,
       description,
-      status: status || 'pending',
+      status: status || (endpointId ? 'running' : 'pending'),
+      associated_ips: associated_ips || [],
+      source_ports: source_ports || [],
+      destination_ports: destination_ports || [],
       allowedDomains: allowedDomains || [],
       allowedIps: allowedIps || [],
       allowedProtocols: allowedProtocols || [],
-      firewallPolicies: firewallPolicies || {}
+      firewallPolicies: firewallPolicies || {},
+      lastUpdated: new Date()
     });
-    
+
     await application.save();
-    
-    logger.info(`New application created: ${name}`);
-    
+
+    logger.info(`New application created: ${name}${endpointId ? ` for endpoint ${endpointId}` : ''}`);
+
     res.status(201).json({
       success: true,
       message: 'Application created successfully',
@@ -120,32 +165,37 @@ exports.createApplication = async (req, res) => {
 exports.updateApplication = async (req, res) => {
   try {
     const {
+      endpointId,
       name,
+      processName,
       description,
       status,
+      associated_ips,
+      source_ports,
+      destination_ports,
       allowedDomains,
       allowedIps,
       allowedProtocols,
       firewallPolicies
     } = req.body;
-    
+
     // Find application by ID
     let application = await Application.findById(req.params.id);
-    
+
     if (!application) {
       return res.status(404).json({
         success: false,
         message: 'Application not found'
       });
     }
-    
+
     // Check if updating to an existing name (that's not this application's)
     if (name) {
       const existingApplication = await Application.findOne({
         _id: { $ne: req.params.id },
         name
       });
-      
+
       if (existingApplication) {
         return res.status(400).json({
           success: false,
@@ -153,21 +203,30 @@ exports.updateApplication = async (req, res) => {
         });
       }
     }
-    
+
     // Update application
+    if (endpointId) application.endpointId = endpointId;
     application.name = name || application.name;
+    if (processName) application.processName = processName;
     application.description = description || application.description;
     application.status = status || application.status;
-    
+
+    // Update NGFW fields
+    if (associated_ips) application.associated_ips = associated_ips;
+    if (source_ports) application.source_ports = source_ports;
+    if (destination_ports) application.destination_ports = destination_ports;
+    application.lastUpdated = new Date();
+
+    // Update legacy frontend fields
     if (allowedDomains) application.allowedDomains = allowedDomains;
     if (allowedIps) application.allowedIps = allowedIps;
     if (allowedProtocols) application.allowedProtocols = allowedProtocols;
     if (firewallPolicies) application.firewallPolicies = firewallPolicies;
-    
+
     await application.save();
-    
+
     logger.info(`Application updated: ${application.name}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'Application updated successfully',
@@ -191,25 +250,25 @@ exports.updateApplication = async (req, res) => {
 exports.deleteApplication = async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);
-    
+
     if (!application) {
       return res.status(404).json({
         success: false,
         message: 'Application not found'
       });
     }
-    
+
     // Delete all mappings associated with this application
     await EndpointApplicationMapping.deleteMany({ applicationId: req.params.id });
-    
+
     // Delete all firewall rules associated with this application
     await FirewallRule.deleteMany({ applicationId: req.params.id });
-    
+
     // Delete the application
     await application.deleteOne();
-    
+
     logger.info(`Application deleted: ${application.name}`);
-    
+
     res.status(200).json({
       success: true,
       message: 'Application deleted successfully'
@@ -219,6 +278,86 @@ exports.deleteApplication = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error deleting application',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get applications by endpoint ID
+ * @route GET /api/applications/endpoint/:endpointId
+ * @access Private
+ */
+exports.getApplicationsByEndpoint = async (req, res) => {
+  try {
+    const { endpointId } = req.params;
+
+    const applications = await Application.find({ endpointId })
+      .populate('endpointId', 'hostname ipAddress status')
+      .sort({ lastUpdated: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: applications.length,
+      data: applications
+    });
+  } catch (error) {
+    logger.error(`Error getting applications by endpoint: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving applications',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Get application statistics
+ * @route GET /api/applications/stats
+ * @access Private
+ */
+exports.getApplicationStats = async (req, res) => {
+  try {
+    const totalApplications = await Application.countDocuments();
+
+    // Count by status
+    const statusStats = await Application.aggregate([
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+
+    // Count by endpoint
+    const endpointStats = await Application.aggregate([
+      { $match: { endpointId: { $ne: null } } },
+      { $group: { _id: '$endpointId', count: { $sum: 1 } } },
+      { $lookup: { from: 'endpoints', localField: '_id', foreignField: '_id', as: 'endpoint' } },
+      { $unwind: '$endpoint' },
+      { $project: { hostname: '$endpoint.hostname', count: 1 } }
+    ]);
+
+    // Recent applications (last 10)
+    const recentApplications = await Application.find()
+      .populate('endpointId', 'hostname ipAddress')
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select('name processName status createdAt endpointId');
+
+    res.status(200).json({
+      success: true,
+      data: {
+        total: totalApplications,
+        byStatus: statusStats.reduce((acc, item) => {
+          acc[item._id] = item.count;
+          return acc;
+        }, {}),
+        byEndpoint: endpointStats,
+        recent: recentApplications
+      }
+    });
+  } catch (error) {
+    logger.error(`Error getting application statistics: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: 'Error retrieving application statistics',
       error: error.message
     });
   }

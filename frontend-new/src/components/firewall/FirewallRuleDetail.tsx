@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -7,17 +7,10 @@ import {
   Card,
   CardContent,
   Chip,
-  Divider,
   Grid,
-  IconButton,
-  Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Refresh as RefreshIcon,
-} from '@mui/icons-material';
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import {
   fetchFirewallRuleById,
@@ -26,16 +19,14 @@ import {
 } from '../../store/slices/firewallSlice';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorAlert from '../common/ErrorAlert';
-import ConfirmDialog from '../common/ConfirmDialog';
 import PageHeader from '../common/PageHeader';
 
 const FirewallRuleDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { selectedRule, loading, error } = useSelector((state: RootState) => state.firewall);
 
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const { selectedRule, loading, error } = useSelector((state: RootState) => state.firewall);
 
   useEffect(() => {
     if (id) {
@@ -47,62 +38,29 @@ const FirewallRuleDetail: React.FC = () => {
     };
   }, [dispatch, id]);
 
-  const handleEditRule = () => {
+  const handleEdit = () => {
     navigate(`/firewall/edit/${id}`);
   };
 
-  const handleDeleteClick = () => {
-    setDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    if (id) {
-      dispatch(deleteFirewallRule(id));
-      setDeleteDialogOpen(false);
+  const handleDelete = async () => {
+    if (id && window.confirm('Are you sure you want to delete this firewall rule?')) {
+      await dispatch(deleteFirewallRule(id));
       navigate('/firewall');
     }
   };
 
-  const handleDeleteCancel = () => {
-    setDeleteDialogOpen(false);
-  };
-
-  const handleRefresh = () => {
-    if (id) {
-      dispatch(fetchFirewallRuleById(id));
-    }
-  };
-
-  if (loading && !selectedRule) {
+  if (loading) {
     return <LoadingSpinner message="Loading firewall rule details..." />;
   }
 
-  if (!selectedRule && !loading) {
+  if (error) {
+    return <ErrorAlert message={error} />;
+  }
+
+  if (!selectedRule) {
     return (
       <Box>
-        <PageHeader
-          title="Firewall Rule Not Found"
-          breadcrumbs={[
-            { label: 'Dashboard', path: '/dashboard' },
-            { label: 'Firewall Rules', path: '/firewall' },
-            { label: 'Rule Details' },
-          ]}
-        />
-        <Card>
-          <CardContent>
-            <Typography>
-              The firewall rule you are looking for does not exist or has been deleted.
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => navigate('/firewall')}
-              sx={{ mt: 2 }}
-            >
-              Back to Firewall Rules
-            </Button>
-          </CardContent>
-        </Card>
+        <Typography variant="h6">Firewall rule not found</Typography>
       </Box>
     );
   }
@@ -110,157 +68,182 @@ const FirewallRuleDetail: React.FC = () => {
   return (
     <Box>
       <PageHeader
-        title={`Firewall Rule: ${selectedRule?.name}`}
+        title={selectedRule.name || 'Firewall Rule Details'}
+        subtitle="View firewall rule information"
         breadcrumbs={[
           { label: 'Dashboard', path: '/dashboard' },
           { label: 'Firewall Rules', path: '/firewall' },
-          { label: selectedRule?.name || 'Rule Details' },
+          { label: 'Rule Details' },
         ]}
-        action={{
-          label: 'Edit Rule',
-          onClick: handleEditRule,
-          icon: <EditIcon />,
-        }}
       />
 
-      {error && <ErrorAlert message={error} onRetry={handleRefresh} />}
-
-      <Card sx={{ mb: 3 }}>
+      <Card>
         <CardContent>
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Box display="flex" alignItems="center" gap={2}>
-              <Typography variant="h6">Rule Details</Typography>
-              <Chip
-                label={selectedRule?.enabled ? 'Enabled' : 'Disabled'}
-                color={selectedRule?.enabled ? 'success' : 'default'}
-              />
-              <Chip
-                label={selectedRule?.action}
-                color={selectedRule?.action === 'ALLOW' ? 'success' : 'error'}
-              />
-            </Box>
-            <Box>
-              <Tooltip title="Refresh">
-                <IconButton onClick={handleRefresh} disabled={loading}>
-                  <RefreshIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Edit">
-                <IconButton onClick={handleEditRule} disabled={loading}>
-                  <EditIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton onClick={handleDeleteClick} disabled={loading} color="error">
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Box>
-
-          <Divider sx={{ mb: 3 }} />
-
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" color="text.secondary">
-                Name
+                Rule Name
               </Typography>
-              <Typography variant="body1">{selectedRule?.name}</Typography>
+              <Typography variant="body1" gutterBottom>
+                {selectedRule.name || 'Unnamed Rule'}
+              </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" color="text.secondary">
-                Application
+                Action
               </Typography>
-              <Typography variant="body1">
-                {selectedRule?.applicationId && typeof selectedRule.applicationId === 'object'
-                  ? selectedRule.applicationId.name
-                  : 'N/A'}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Description
-              </Typography>
-              <Typography variant="body1">{selectedRule?.description || 'No description'}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Protocol
-              </Typography>
-              <Typography variant="body1">{selectedRule?.protocol}</Typography>
+              <Box mt={1}>
+                <Chip
+                  label={selectedRule.action}
+                  color={selectedRule.action === 'allow' || selectedRule.action === 'ALLOW' ? 'success' : 'error'}
+                  size="small"
+                />
+              </Box>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" color="text.secondary">
                 Priority
               </Typography>
-              <Typography variant="body1">{selectedRule?.priority}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Source IP
-              </Typography>
-              <Typography variant="body1">{selectedRule?.sourceIp || 'Any'}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Destination IP
-              </Typography>
-              <Typography variant="body1">{selectedRule?.destinationIp || 'Any'}</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Source Port
-              </Typography>
-              <Typography variant="body1">
-                {selectedRule?.sourcePort !== null && selectedRule?.sourcePort !== undefined
-                  ? selectedRule.sourcePort
-                  : 'Any'}
+              <Typography variant="body1" gutterBottom>
+                {selectedRule.priority}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" color="text.secondary">
-                Destination Port
+                Status
               </Typography>
-              <Typography variant="body1">
-                {selectedRule?.destinationPort !== null && selectedRule?.destinationPort !== undefined
-                  ? selectedRule.destinationPort
-                  : 'Any'}
+              <Box mt={1}>
+                <Chip
+                  label={selectedRule.enabled ? 'Enabled' : 'Disabled'}
+                  color={selectedRule.enabled ? 'success' : 'default'}
+                  size="small"
+                />
+              </Box>
+            </Grid>
+
+            {/* NGFW Fields */}
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle2" color="text.secondary">
+                Endpoint
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                {typeof selectedRule.endpointId === 'object' && selectedRule.endpointId
+                  ? `${selectedRule.endpointId.hostname} (${selectedRule.endpointId.ipAddress})`
+                  : selectedRule.endpointId
+                  ? `Endpoint ID: ${selectedRule.endpointId}`
+                  : 'Frontend Only'}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="subtitle2" color="text.secondary">
-                Created At
+                Entity Type
               </Typography>
-              <Typography variant="body1">
-                {selectedRule?.createdAt
-                  ? new Date(selectedRule.createdAt).toLocaleString()
-                  : 'N/A'}
-              </Typography>
+              <Box mt={1}>
+                <Chip
+                  label={selectedRule.entity_type || 'ip'}
+                  variant="outlined"
+                  size="small"
+                />
+              </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="subtitle2" color="text.secondary">
-                Updated At
-              </Typography>
-              <Typography variant="body1">
-                {selectedRule?.updatedAt
-                  ? new Date(selectedRule.updatedAt).toLocaleString()
-                  : 'N/A'}
-              </Typography>
+            {selectedRule.processName && (
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Process Name
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {selectedRule.processName}
+                </Typography>
+              </Grid>
+            )}
+            {(selectedRule.entity_type === 'ip' || !selectedRule.entity_type) && (
+              <>
+                {selectedRule.source_ip && (
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Source IP
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {selectedRule.source_ip}
+                    </Typography>
+                  </Grid>
+                )}
+                {selectedRule.destination_ip && (
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Destination IP
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {selectedRule.destination_ip}
+                    </Typography>
+                  </Grid>
+                )}
+                {selectedRule.source_port && (
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Source Port
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {selectedRule.source_port}
+                    </Typography>
+                  </Grid>
+                )}
+                {selectedRule.destination_port && (
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Destination Port
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      {selectedRule.destination_port}
+                    </Typography>
+                  </Grid>
+                )}
+              </>
+            )}
+            {selectedRule.entity_type === 'domain' && selectedRule.domain_name && (
+              <Grid item xs={12} md={6}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Domain Name
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {selectedRule.domain_name}
+                </Typography>
+              </Grid>
+            )}
+
+            {selectedRule.description && (
+              <Grid item xs={12}>
+                <Typography variant="subtitle2" color="text.secondary">
+                  Description
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {selectedRule.description}
+                </Typography>
+              </Grid>
+            )}
+            <Grid item xs={12}>
+              <Box display="flex" gap={2} mt={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<EditIcon />}
+                  onClick={handleEdit}
+                >
+                  Edit Rule
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<DeleteIcon />}
+                  onClick={handleDelete}
+                >
+                  Delete Rule
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </CardContent>
       </Card>
-
-      <ConfirmDialog
-        open={deleteDialogOpen}
-        title="Delete Firewall Rule"
-        message="Are you sure you want to delete this firewall rule? This action cannot be undone."
-        confirmText="Delete"
-        cancelText="Cancel"
-        onConfirm={handleDeleteConfirm}
-        onCancel={handleDeleteCancel}
-        confirmColor="error"
-      />
     </Box>
   );
 };

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const endpointSchema = new mongoose.Schema({
   hostname: {
@@ -45,6 +46,28 @@ const endpointSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
+// Hash password before saving
+endpointSchema.pre('save', async function(next) {
+  // Only hash the password if it's modified (or new) and exists
+  if (!this.isModified('password') || !this.password) return next();
+
+  try {
+    // Generate a salt
+    const salt = await bcrypt.genSalt(10);
+    // Hash the password with the salt
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Method to compare passwords
+endpointSchema.methods.comparePassword = async function(candidatePassword) {
+  if (!this.password) return false;
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
 // Index for faster queries
 endpointSchema.index({ hostname: 1 });

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { firewallService } from '../../services/firewall.service';
-import { FirewallRuleState, FirewallRuleFormData } from '../../types/firewall.types';
+import { FirewallRuleState, FirewallRuleFormData, FirewallStats } from '../../types/firewall.types';
 
 const initialState: FirewallRuleState = {
   rules: [],
@@ -11,12 +11,36 @@ const initialState: FirewallRuleState = {
 
 export const fetchFirewallRules = createAsyncThunk(
   'firewall/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (filters?: { endpointId?: string; processName?: string }, { rejectWithValue }) => {
     try {
-      const response = await firewallService.getAllRules();
+      const response = await firewallService.getAllRules(filters?.endpointId, filters?.processName);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch firewall rules');
+    }
+  }
+);
+
+export const fetchFirewallRulesByEndpoint = createAsyncThunk(
+  'firewall/fetchByEndpoint',
+  async (endpointId: string, { rejectWithValue }) => {
+    try {
+      const response = await firewallService.getRulesByEndpoint(endpointId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch firewall rules by endpoint');
+    }
+  }
+);
+
+export const fetchFirewallRulesByApplication = createAsyncThunk(
+  'firewall/fetchByApplication',
+  async (applicationId: string, { rejectWithValue }) => {
+    try {
+      const response = await firewallService.getRulesByApplication(applicationId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch firewall rules by application');
     }
   }
 );
@@ -29,20 +53,6 @@ export const fetchFirewallRuleById = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch firewall rule');
-    }
-  }
-);
-
-export const fetchFirewallRulesByApplication = createAsyncThunk(
-  'firewall/fetchByApplication',
-  async (applicationId: string, { rejectWithValue }) => {
-    try {
-      const response = await firewallService.getRulesByApplication(applicationId);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || 'Failed to fetch firewall rules for application'
-      );
     }
   }
 );
@@ -61,10 +71,7 @@ export const createFirewallRule = createAsyncThunk(
 
 export const updateFirewallRule = createAsyncThunk(
   'firewall/update',
-  async (
-    { id, ruleData }: { id: string; ruleData: Partial<FirewallRuleFormData> },
-    { rejectWithValue }
-  ) => {
+  async ({ id, ruleData }: { id: string; ruleData: Partial<FirewallRuleFormData> }, { rejectWithValue }) => {
     try {
       const response = await firewallService.updateRule(id, ruleData);
       return response.data;
@@ -112,16 +119,16 @@ const firewallSlice = createSlice({
       state.error = action.payload as string;
     });
 
-    // Fetch firewall rule by ID
-    builder.addCase(fetchFirewallRuleById.pending, (state) => {
+    // Fetch firewall rules by endpoint
+    builder.addCase(fetchFirewallRulesByEndpoint.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchFirewallRuleById.fulfilled, (state, action) => {
+    builder.addCase(fetchFirewallRulesByEndpoint.fulfilled, (state, action) => {
       state.loading = false;
-      state.selectedRule = action.payload;
+      state.rules = action.payload;
     });
-    builder.addCase(fetchFirewallRuleById.rejected, (state, action) => {
+    builder.addCase(fetchFirewallRulesByEndpoint.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
@@ -136,6 +143,20 @@ const firewallSlice = createSlice({
       state.rules = action.payload;
     });
     builder.addCase(fetchFirewallRulesByApplication.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Fetch firewall rule by ID
+    builder.addCase(fetchFirewallRuleById.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchFirewallRuleById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.selectedRule = action.payload;
+    });
+    builder.addCase(fetchFirewallRuleById.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
     });
@@ -165,9 +186,7 @@ const firewallSlice = createSlice({
       if (index !== -1) {
         state.rules[index] = action.payload;
       }
-      if (state.selectedRule && state.selectedRule._id === action.payload._id) {
-        state.selectedRule = action.payload;
-      }
+      state.selectedRule = action.payload;
     });
     builder.addCase(updateFirewallRule.rejected, (state, action) => {
       state.loading = false;

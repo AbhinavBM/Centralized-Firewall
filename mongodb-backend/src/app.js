@@ -31,9 +31,15 @@ const endpointMappingRoutes = require('./routes/endpointMappingRoutes');
 const firewallRoutes = require('./routes/firewallRoutes');
 const anomalyRoutes = require('./routes/anomalyRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const ngfwRoutes = require('./routes/ngfwRoutes');
 
 // Register Routes
 app.use('/api/auth', authRoutes);
+
+// NGFW Routes (for endpoint communication) - MUST BE BEFORE PROTECTED ROUTES
+app.use('/api', ngfwRoutes);
+
+// Protected Routes
 app.use('/api/endpoints', endpointRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/logs', logRoutes);

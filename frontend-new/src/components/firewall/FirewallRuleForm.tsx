@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -27,50 +27,31 @@ import {
   clearSelectedRule,
 } from '../../store/slices/firewallSlice';
 import { fetchApplications } from '../../store/slices/applicationSlice';
+import { fetchEndpoints } from '../../store/slices/endpointSlice';
 import LoadingSpinner from '../common/LoadingSpinner';
 import ErrorAlert from '../common/ErrorAlert';
 import PageHeader from '../common/PageHeader';
 
 const validationSchema = Yup.object({
-  name: Yup.string().required('Name is required'),
-  applicationId: Yup.string().required('Application is required'),
-  entityType: Yup.string()
-    .required('Entity type is required')
-    .oneOf(['ip', 'domain'], 'Invalid entity type'),
-  domain: Yup.string().when('entityType', {
-    is: 'domain',
-    then: (schema) => schema.required('Domain is required'),
-    otherwise: (schema) => schema.nullable(),
-  }),
-  action: Yup.string()
-    .required('Action is required')
-    .oneOf(['ALLOW', 'DENY'], 'Invalid action'),
-  protocol: Yup.string()
-    .required('Protocol is required')
-    .oneOf(['TCP', 'UDP', 'ICMP', 'ANY'], 'Invalid protocol'),
-  priority: Yup.number()
-    .required('Priority is required')
-    .min(0, 'Priority must be at least 0'),
-  sourceIp: Yup.string().when('entityType', {
-    is: 'ip',
-    then: (schema) => schema.nullable(),
-    otherwise: (schema) => schema.nullable(),
-  }),
-  destinationIp: Yup.string().when('entityType', {
-    is: 'ip',
-    then: (schema) => schema.nullable(),
-    otherwise: (schema) => schema.nullable(),
-  }),
-  sourcePort: Yup.number()
+  name: Yup.string().required('Rule name is required'),
+  action: Yup.string().required('Action is required'),
+  priority: Yup.number().required('Priority is required').min(0, 'Priority must be at least 0'),
+  entity_type: Yup.string().oneOf(['ip', 'domain'], 'Invalid entity type'),
+  source_port: Yup.number()
     .nullable()
     .transform((value) => (isNaN(value) ? null : value))
     .min(0, 'Source port must be at least 0')
     .max(65535, 'Source port must be at most 65535'),
-  destinationPort: Yup.number()
+  destination_port: Yup.number()
     .nullable()
     .transform((value) => (isNaN(value) ? null : value))
     .min(0, 'Destination port must be at least 0')
     .max(65535, 'Destination port must be at most 65535'),
+  domain_name: Yup.string().when('entity_type', {
+    is: 'domain',
+    then: (schema) => schema.required('Domain is required'),
+    otherwise: (schema) => schema.nullable(),
+  }),
 });
 
 const FirewallRuleForm: React.FC = () => {
@@ -78,17 +59,19 @@ const FirewallRuleForm: React.FC = () => {
   const isEditMode = !!id;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { selectedRule, loading: ruleLoading, error: ruleError } = useSelector(
-    (state: RootState) => state.firewall
-  );
+  // Get applicationId from query parameters
+  const searchParams = new URLSearchParams(location.search);
+  const applicationIdFromQuery = searchParams.get('applicationId');
 
-  const { applications, loading: appsLoading, error: appsError } = useSelector(
-    (state: RootState) => state.applications
-  );
+  const { selectedRule, loading, error } = useSelector((state: RootState) => state.firewall);
+  const { applications, loading: appsLoading } = useSelector((state: RootState) => state.applications);
+  const { endpoints, loading: endpointsLoading } = useSelector((state: RootState) => state.endpoints);
 
   useEffect(() => {
     dispatch(fetchApplications());
+    dispatch(fetchEndpoints());
 
     if (isEditMode && id) {
       dispatch(fetchFirewallRuleById(id));
@@ -103,32 +86,47 @@ const FirewallRuleForm: React.FC = () => {
     initialValues: {
       name: selectedRule?.name || '',
       description: selectedRule?.description || '',
-      applicationId: typeof selectedRule?.applicationId === 'object' 
-        ? (selectedRule.applicationId as any)._id 
-        : selectedRule?.applicationId || '',
-      entityType: selectedRule?.entityType || 'ip',
-      domain: selectedRule?.domain || '',
-      sourceIp: selectedRule?.sourceIp || '',
-      destinationIp: selectedRule?.destinationIp || '',
-      sourcePort: selectedRule?.sourcePort || '',
-      destinationPort: selectedRule?.destinationPort || '',
-      protocol: selectedRule?.protocol || 'ANY',
-      action: selectedRule?.action || 'ALLOW',
+      action: selectedRule?.action || 'allow',
       priority: selectedRule?.priority || 0,
       enabled: selectedRule?.enabled !== undefined ? selectedRule.enabled : true,
+      // NGFW fields
+      endpointId: typeof selectedRule?.endpointId === 'object'
+        ? (selectedRule.endpointId as any)?._id
+        : selectedRule?.endpointId || '',
+      applicationId: typeof selectedRule?.applicationId === 'object'
+        ? (selectedRule.applicationId as any)?._id
+        : selectedRule?.applicationId || applicationIdFromQuery || '',
+      processName: selectedRule?.processName || '',
+      entity_type: selectedRule?.entity_type || 'ip',
+      source_ip: selectedRule?.source_ip || '',
+      destination_ip: selectedRule?.destination_ip || '',
+      source_port: selectedRule?.source_port || '',
+      destination_port: selectedRule?.destination_port || '',
+      domain_name: selectedRule?.domain_name || '',
     },
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       const ruleData = {
-        ...values,
-        entityType: values.entityType,
-        domain: values.entityType === 'domain' ? values.domain : undefined,
-        sourceIp: values.entityType === 'ip' ? values.sourceIp : undefined,
-        destinationIp: values.entityType === 'ip' ? values.destinationIp : undefined,
-        sourcePort: values.entityType === 'ip' && values.sourcePort ? Number(values.sourcePort) : undefined,
-        destinationPort: values.entityType === 'ip' && values.destinationPort ? Number(values.destinationPort) : undefined,
+        name: values.name,
+        description: values.description,
+        action: values.action as 'allow' | 'deny',
         priority: Number(values.priority),
+        enabled: values.enabled,
+        // NGFW fields
+        ...(values.endpointId && { endpointId: values.endpointId }),
+        ...(values.applicationId && { applicationId: values.applicationId }),
+        ...(values.processName && { processName: values.processName }),
+        entity_type: values.entity_type,
+        ...(values.entity_type === 'ip' && {
+          source_ip: values.source_ip || undefined,
+          destination_ip: values.destination_ip || undefined,
+          source_port: values.source_port ? Number(values.source_port) : undefined,
+          destination_port: values.destination_port ? Number(values.destination_port) : undefined,
+        }),
+        ...(values.entity_type === 'domain' && {
+          domain_name: values.domain_name || undefined,
+        }),
       };
 
       if (isEditMode && id) {
@@ -137,18 +135,27 @@ const FirewallRuleForm: React.FC = () => {
         await dispatch(createFirewallRule(ruleData));
       }
 
-      navigate('/firewall');
+      // Navigate back to application firewall rules if we came from there
+      if (applicationIdFromQuery) {
+        navigate(`/applications/${applicationIdFromQuery}/firewall`);
+      } else {
+        navigate('/firewall');
+      }
     },
   });
 
   const handleCancel = () => {
-    navigate('/firewall');
+    // Navigate back to application firewall rules if we came from there
+    if (applicationIdFromQuery) {
+      navigate(`/applications/${applicationIdFromQuery}/firewall`);
+    } else {
+      navigate('/firewall');
+    }
   };
 
-  const loading = ruleLoading || appsLoading;
-  const error = ruleError || appsError;
+  const isLoading = loading || appsLoading || endpointsLoading;
 
-  if (loading && isEditMode && !selectedRule) {
+  if (isLoading && isEditMode && !selectedRule) {
     return <LoadingSpinner message="Loading firewall rule data..." />;
   }
 
@@ -188,31 +195,21 @@ const FirewallRuleForm: React.FC = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.applicationId && Boolean(formik.errors.applicationId)}
-                  disabled={loading}
-                  required
-                >
-                  <InputLabel id="applicationId-label">Application</InputLabel>
+                <FormControl fullWidth disabled={loading} required>
+                  <InputLabel id="action-label">Action</InputLabel>
                   <Select
-                    labelId="applicationId-label"
-                    id="applicationId"
-                    name="applicationId"
-                    value={formik.values.applicationId}
-                    label="Application"
+                    labelId="action-label"
+                    id="action"
+                    name="action"
+                    value={formik.values.action}
+                    label="Action"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    error={formik.touched.action && Boolean(formik.errors.action)}
                   >
-                    {applications.map((app) => (
-                      <MenuItem key={app._id} value={app._id}>
-                        {app.name}
-                      </MenuItem>
-                    ))}
+                    <MenuItem value="allow">Allow</MenuItem>
+                    <MenuItem value="deny">Deny</MenuItem>
                   </Select>
-                  {formik.touched.applicationId && formik.errors.applicationId && (
-                    <FormHelperText>{typeof formik.errors.applicationId === 'string' ? formik.errors.applicationId : 'Application is required'}</FormHelperText>
-                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
@@ -226,169 +223,9 @@ const FirewallRuleForm: React.FC = () => {
                   value={formik.values.description}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.touched.description && formik.errors.description}
                   disabled={loading}
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.entityType && Boolean(formik.errors.entityType)}
-                  disabled={loading}
-                  required
-                >
-                  <InputLabel id="entityType-label">Entity Type</InputLabel>
-                  <Select
-                    labelId="entityType-label"
-                    id="entityType"
-                    name="entityType"
-                    value={formik.values.entityType}
-                    label="Entity Type"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                    <MenuItem value="ip">IP Address</MenuItem>
-                    <MenuItem value="domain">Domain</MenuItem>
-                  </Select>
-                  {formik.touched.entityType && formik.errors.entityType && (
-                    <FormHelperText>{formik.errors.entityType}</FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              {formik.values.entityType === 'domain' && (
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    fullWidth
-                    id="domain"
-                    name="domain"
-                    label="Domain"
-                    value={formik.values.domain}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.domain && Boolean(formik.errors.domain)}
-                    helperText={formik.touched.domain && formik.errors.domain}
-                    disabled={loading}
-                    required={formik.values.entityType === 'domain'}
-                  />
-                </Grid>
-              )}
-              <Grid item xs={12} md={6}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.action && Boolean(formik.errors.action)}
-                  disabled={loading}
-                  required
-                >
-                  <InputLabel id="action-label">Action</InputLabel>
-                  <Select
-                    labelId="action-label"
-                    id="action"
-                    name="action"
-                    value={formik.values.action}
-                    label="Action"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                    <MenuItem value="ALLOW">Allow</MenuItem>
-                    <MenuItem value="DENY">Deny</MenuItem>
-                  </Select>
-                  {formik.touched.action && formik.errors.action && (
-                    <FormHelperText>{formik.errors.action}</FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <FormControl
-                  fullWidth
-                  error={formik.touched.protocol && Boolean(formik.errors.protocol)}
-                  disabled={loading}
-                  required
-                >
-                  <InputLabel id="protocol-label">Protocol</InputLabel>
-                  <Select
-                    labelId="protocol-label"
-                    id="protocol"
-                    name="protocol"
-                    value={formik.values.protocol}
-                    label="Protocol"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                    <MenuItem value="TCP">TCP</MenuItem>
-                    <MenuItem value="UDP">UDP</MenuItem>
-                    <MenuItem value="ICMP">ICMP</MenuItem>
-                    <MenuItem value="ANY">ANY</MenuItem>
-                  </Select>
-                  {formik.touched.protocol && formik.errors.protocol && (
-                    <FormHelperText>{formik.errors.protocol}</FormHelperText>
-                  )}
-                </FormControl>
-              </Grid>
-              {formik.values.entityType === 'ip' && (
-                <>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      id="sourceIp"
-                      name="sourceIp"
-                      label="Source IP"
-                      value={formik.values.sourceIp}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.sourceIp && Boolean(formik.errors.sourceIp)}
-                      helperText={formik.touched.sourceIp && formik.errors.sourceIp}
-                      disabled={loading}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      id="destinationIp"
-                      name="destinationIp"
-                      label="Destination IP"
-                      value={formik.values.destinationIp}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.destinationIp && Boolean(formik.errors.destinationIp)}
-                      helperText={formik.touched.destinationIp && formik.errors.destinationIp}
-                      disabled={loading}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      id="sourcePort"
-                      name="sourcePort"
-                      label="Source Port"
-                      type="number"
-                      value={formik.values.sourcePort}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.sourcePort && Boolean(formik.errors.sourcePort)}
-                      helperText={formik.touched.sourcePort && formik.errors.sourcePort}
-                      disabled={loading || formik.values.protocol === 'ICMP'}
-                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      id="destinationPort"
-                      name="destinationPort"
-                      label="Destination Port"
-                      type="number"
-                      value={formik.values.destinationPort}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.destinationPort && Boolean(formik.errors.destinationPort)}
-                      helperText={formik.touched.destinationPort && formik.errors.destinationPort}
-                      disabled={loading || formik.values.protocol === 'ICMP'}
-                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
-                    />
-                  </Grid>
-                </>
-              )}
               <Grid item xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -404,11 +241,177 @@ const FirewallRuleForm: React.FC = () => {
                     (formik.touched.priority && formik.errors.priority) ||
                     'Lower values have higher priority'
                   }
-                  disabled={loading}
+                  disabled={isLoading}
                   InputProps={{ inputProps: { min: 0 } }}
                   required
                 />
               </Grid>
+
+              {/* NGFW Fields */}
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth disabled={isLoading}>
+                  <InputLabel id="endpointId-label">Endpoint (Optional)</InputLabel>
+                  <Select
+                    labelId="endpointId-label"
+                    id="endpointId"
+                    name="endpointId"
+                    value={formik.values.endpointId}
+                    label="Endpoint (Optional)"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  >
+                    <MenuItem value="">
+                      <em>None (Frontend Rule)</em>
+                    </MenuItem>
+                    {endpoints.map((endpoint) => (
+                      <MenuItem key={endpoint._id} value={endpoint._id}>
+                        {endpoint.hostname} ({endpoint.ipAddress})
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth disabled={isLoading}>
+                  <InputLabel id="applicationId-label">Application (Optional)</InputLabel>
+                  <Select
+                    labelId="applicationId-label"
+                    id="applicationId"
+                    name="applicationId"
+                    value={formik.values.applicationId}
+                    label="Application (Optional)"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  >
+                    <MenuItem value="">
+                      <em>None (Standalone Rule)</em>
+                    </MenuItem>
+                    {applications.map((app) => (
+                      <MenuItem key={app._id} value={app._id}>
+                        {app.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  fullWidth
+                  id="processName"
+                  name="processName"
+                  label="Process Name (Optional)"
+                  value={formik.values.processName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={isLoading}
+                  helperText="Process name for NGFW rules"
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth disabled={isLoading}>
+                  <InputLabel id="entity_type-label">Entity Type</InputLabel>
+                  <Select
+                    labelId="entity_type-label"
+                    id="entity_type"
+                    name="entity_type"
+                    value={formik.values.entity_type}
+                    label="Entity Type"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.entity_type && Boolean(formik.errors.entity_type)}
+                  >
+                    <MenuItem value="ip">IP Address</MenuItem>
+                    <MenuItem value="domain">Domain</MenuItem>
+                  </Select>
+                  {formik.touched.entity_type && formik.errors.entity_type && (
+                    <FormHelperText error>{formik.errors.entity_type}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+
+              {/* Conditional fields based on entity type */}
+              {formik.values.entity_type === 'ip' && (
+                <>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="source_ip"
+                      name="source_ip"
+                      label="Source IP (Optional)"
+                      value={formik.values.source_ip}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      disabled={isLoading}
+                      placeholder="e.g., 192.168.1.1"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="destination_ip"
+                      name="destination_ip"
+                      label="Destination IP (Optional)"
+                      value={formik.values.destination_ip}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      disabled={isLoading}
+                      placeholder="e.g., 10.0.0.1"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="source_port"
+                      name="source_port"
+                      label="Source Port (Optional)"
+                      type="number"
+                      value={formik.values.source_port}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.source_port && Boolean(formik.errors.source_port)}
+                      helperText={formik.touched.source_port && formik.errors.source_port}
+                      disabled={isLoading}
+                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      fullWidth
+                      id="destination_port"
+                      name="destination_port"
+                      label="Destination Port (Optional)"
+                      type="number"
+                      value={formik.values.destination_port}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={formik.touched.destination_port && Boolean(formik.errors.destination_port)}
+                      helperText={formik.touched.destination_port && formik.errors.destination_port}
+                      disabled={isLoading}
+                      InputProps={{ inputProps: { min: 0, max: 65535 } }}
+                    />
+                  </Grid>
+                </>
+              )}
+
+              {formik.values.entity_type === 'domain' && (
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    fullWidth
+                    id="domain_name"
+                    name="domain_name"
+                    label="Domain Name"
+                    value={formik.values.domain_name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.domain_name && Boolean(formik.errors.domain_name)}
+                    helperText={formik.touched.domain_name && formik.errors.domain_name}
+                    disabled={isLoading}
+                    placeholder="e.g., example.com"
+                    required
+                  />
+                </Grid>
+              )}
+
               <Grid item xs={12} md={6}>
                 <FormControlLabel
                   control={
@@ -417,7 +420,7 @@ const FirewallRuleForm: React.FC = () => {
                       name="enabled"
                       checked={formik.values.enabled}
                       onChange={formik.handleChange}
-                      disabled={loading}
+                      disabled={isLoading}
                     />
                   }
                   label="Enabled"
@@ -429,7 +432,7 @@ const FirewallRuleForm: React.FC = () => {
                     variant="outlined"
                     color="inherit"
                     onClick={handleCancel}
-                    disabled={loading}
+                    disabled={isLoading}
                   >
                     Cancel
                   </Button>
@@ -437,9 +440,9 @@ const FirewallRuleForm: React.FC = () => {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    disabled={loading || !formik.isValid}
+                    disabled={isLoading || !formik.isValid}
                   >
-                    {loading ? (
+                    {isLoading ? (
                       <LoadingSpinner />
                     ) : isEditMode ? (
                       'Update Rule'

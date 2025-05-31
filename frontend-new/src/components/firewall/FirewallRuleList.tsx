@@ -23,6 +23,7 @@ import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
+  Visibility as VisibilityIcon,
 } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../../store/store';
 import { fetchFirewallRules, deleteFirewallRule } from '../../store/slices/firewallSlice';
@@ -58,28 +59,28 @@ const FirewallRuleList: React.FC = () => {
     navigate('/firewall/create');
   };
 
-  const handleEditRule = (id: string) => {
-    navigate(`/firewall/edit/${id}`);
-  };
-
   const handleViewRule = (id: string) => {
     navigate(`/firewall/${id}`);
   };
 
-  const handleDeleteClick = (id: string) => {
+  const handleEditRule = (id: string) => {
+    navigate(`/firewall/edit/${id}`);
+  };
+
+  const handleDeleteRule = (id: string) => {
     setRuleToDelete(id);
     setDeleteDialogOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleConfirmDelete = async () => {
     if (ruleToDelete) {
-      dispatch(deleteFirewallRule(ruleToDelete));
+      await dispatch(deleteFirewallRule(ruleToDelete));
       setDeleteDialogOpen(false);
       setRuleToDelete(null);
     }
   };
 
-  const handleDeleteCancel = () => {
+  const handleCancelDelete = () => {
     setDeleteDialogOpen(false);
     setRuleToDelete(null);
   };
@@ -96,7 +97,7 @@ const FirewallRuleList: React.FC = () => {
     <Box>
       <PageHeader
         title="Firewall Rules"
-        subtitle="Manage your network firewall rules"
+        subtitle="Manage your firewall rules"
         action={{
           label: 'Add Rule',
           onClick: handleAddRule,
@@ -136,8 +137,8 @@ const FirewallRuleList: React.FC = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell>Name</TableCell>
-                      <TableCell>Application</TableCell>
-                      <TableCell>Protocol</TableCell>
+                      <TableCell>Endpoint</TableCell>
+                      <TableCell>Entity Type</TableCell>
                       <TableCell>Action</TableCell>
                       <TableCell>Priority</TableCell>
                       <TableCell>Status</TableCell>
@@ -154,17 +155,25 @@ const FirewallRuleList: React.FC = () => {
                           onClick={() => handleViewRule(rule._id)}
                           sx={{ cursor: 'pointer' }}
                         >
-                          <TableCell>{rule.name}</TableCell>
+                          <TableCell>{rule.name || 'Unnamed Rule'}</TableCell>
                           <TableCell>
-                            {rule.applicationId && typeof rule.applicationId === 'object'
-                              ? rule.applicationId.name
-                              : 'N/A'}
+                            {typeof rule.endpointId === 'object' && rule.endpointId
+                              ? rule.endpointId.hostname
+                              : rule.endpointId
+                              ? 'Endpoint ID: ' + rule.endpointId
+                              : 'Frontend Only'}
                           </TableCell>
-                          <TableCell>{rule.protocol}</TableCell>
+                          <TableCell>
+                            <Chip
+                              label={rule.entity_type || 'ip'}
+                              variant="outlined"
+                              size="small"
+                            />
+                          </TableCell>
                           <TableCell>
                             <Chip
                               label={rule.action}
-                              color={rule.action === 'ALLOW' ? 'success' : 'error'}
+                              color={rule.action === 'allow' || rule.action === 'ALLOW' ? 'success' : 'error'}
                               size="small"
                             />
                           </TableCell>
@@ -177,25 +186,35 @@ const FirewallRuleList: React.FC = () => {
                             />
                           </TableCell>
                           <TableCell align="right">
+                            <Tooltip title="View">
+                              <IconButton
+                                size="small"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleViewRule(rule._id);
+                                }}
+                              >
+                                <VisibilityIcon />
+                              </IconButton>
+                            </Tooltip>
                             <Tooltip title="Edit">
                               <IconButton
+                                size="small"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleEditRule(rule._id);
                                 }}
-                                size="small"
                               >
                                 <EditIcon />
                               </IconButton>
                             </Tooltip>
                             <Tooltip title="Delete">
                               <IconButton
+                                size="small"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleDeleteClick(rule._id);
+                                  handleDeleteRule(rule._id);
                                 }}
-                                size="small"
-                                color="error"
                               >
                                 <DeleteIcon />
                               </IconButton>
@@ -224,11 +243,8 @@ const FirewallRuleList: React.FC = () => {
         open={deleteDialogOpen}
         title="Delete Firewall Rule"
         message="Are you sure you want to delete this firewall rule? This action cannot be undone."
-        confirmText="Delete"
-        cancelText="Cancel"
-        onConfirm={handleDeleteConfirm}
-        onCancel={handleDeleteCancel}
-        confirmColor="error"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
       />
     </Box>
   );

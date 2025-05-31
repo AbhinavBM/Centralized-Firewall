@@ -1,5 +1,5 @@
 import { apiService } from './api';
-import { FirewallRule, FirewallRuleFormData } from '../types/firewall.types';
+import { FirewallRule, FirewallRuleFormData, FirewallStats } from '../types/firewall.types';
 
 interface FirewallRuleResponse {
   success: boolean;
@@ -12,9 +12,19 @@ interface FirewallRulesResponse {
   data: FirewallRule[];
 }
 
+interface FirewallStatsResponse {
+  success: boolean;
+  data: FirewallStats;
+}
+
 export const firewallService = {
-  getAllRules: (): Promise<FirewallRulesResponse> => {
-    return apiService.get<FirewallRulesResponse>('/firewall/rules');
+  // Get all rules with optional filters
+  getAllRules: (endpointId?: string, processName?: string): Promise<FirewallRulesResponse> => {
+    const params = new URLSearchParams();
+    if (endpointId) params.append('endpointId', endpointId);
+    if (processName) params.append('processName', processName);
+    const queryString = params.toString();
+    return apiService.get<FirewallRulesResponse>(`/firewall/rules${queryString ? `?${queryString}` : ''}`);
   },
 
   getRuleById: (id: string): Promise<FirewallRuleResponse> => {
@@ -23,6 +33,16 @@ export const firewallService = {
 
   getRulesByApplication: (applicationId: string): Promise<FirewallRulesResponse> => {
     return apiService.get<FirewallRulesResponse>(`/firewall/rules/application/${applicationId}`);
+  },
+
+  // Get rules by endpoint
+  getRulesByEndpoint: (endpointId: string): Promise<FirewallRulesResponse> => {
+    return apiService.get<FirewallRulesResponse>(`/firewall/rules/endpoint/${endpointId}`);
+  },
+
+  // Get firewall statistics
+  getFirewallStats: (): Promise<FirewallStatsResponse> => {
+    return apiService.get<FirewallStatsResponse>('/firewall/rules/stats');
   },
 
   createRule: (ruleData: FirewallRuleFormData): Promise<FirewallRuleResponse> => {

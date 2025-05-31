@@ -11,6 +11,9 @@ router.route('/')
   .get(endpointController.getAllEndpoints)
   .post(endpointController.createEndpoint);
 
+// Statistics route
+router.get('/stats', endpointController.getEndpointStats);
+
 router.route('/:id')
   .get(endpointController.getEndpointById)
   .put(endpointController.updateEndpoint)

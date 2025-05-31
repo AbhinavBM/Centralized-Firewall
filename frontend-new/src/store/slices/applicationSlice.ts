@@ -1,22 +1,53 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { applicationService } from '../../services/application.service';
-import { ApplicationState, ApplicationFormData } from '../../types/application.types';
+import { ApplicationState, ApplicationFormData, ApplicationStats } from '../../types/application.types';
 
-const initialState: ApplicationState = {
+interface ExtendedApplicationState extends ApplicationState {
+  stats: ApplicationStats | null;
+  statsLoading: boolean;
+}
+
+const initialState: ExtendedApplicationState = {
   applications: [],
   selectedApplication: null,
   loading: false,
   error: null,
+  stats: null,
+  statsLoading: false,
 };
 
 export const fetchApplications = createAsyncThunk(
   'applications/fetchAll',
-  async (_, { rejectWithValue }) => {
+  async (endpointId?: string, { rejectWithValue }) => {
     try {
-      const response = await applicationService.getAllApplications();
+      const response = await applicationService.getAllApplications(endpointId);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch applications');
+    }
+  }
+);
+
+export const fetchApplicationsByEndpoint = createAsyncThunk(
+  'applications/fetchByEndpoint',
+  async (endpointId: string, { rejectWithValue }) => {
+    try {
+      const response = await applicationService.getApplicationsByEndpoint(endpointId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch applications by endpoint');
+    }
+  }
+);
+
+export const fetchApplicationStats = createAsyncThunk(
+  'applications/fetchStats',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await applicationService.getApplicationStats();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch application statistics');
     }
   }
 );
@@ -157,6 +188,34 @@ const applicationSlice = createSlice({
     });
     builder.addCase(deleteApplication.rejected, (state, action) => {
       state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Fetch applications by endpoint
+    builder.addCase(fetchApplicationsByEndpoint.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchApplicationsByEndpoint.fulfilled, (state, action) => {
+      state.loading = false;
+      state.applications = action.payload;
+    });
+    builder.addCase(fetchApplicationsByEndpoint.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
+
+    // Fetch application statistics
+    builder.addCase(fetchApplicationStats.pending, (state) => {
+      state.statsLoading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchApplicationStats.fulfilled, (state, action) => {
+      state.statsLoading = false;
+      state.stats = action.payload;
+    });
+    builder.addCase(fetchApplicationStats.rejected, (state, action) => {
+      state.statsLoading = false;
       state.error = action.payload as string;
     });
   },

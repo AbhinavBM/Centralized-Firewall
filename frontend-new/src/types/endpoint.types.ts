@@ -25,3 +25,18 @@ export interface EndpointFormData {
   status: 'online' | 'offline' | 'pending' | 'error';
   password?: string;
 }
+
+// Statistics interfaces
+export interface EndpointStats {
+  total: number;
+  byStatus: Record<string, number>;
+  byOS: Record<string, number>;
+  topEndpoints: Array<{
+    _id: string;
+    hostname: string;
+    status: string;
+    lastHeartbeat: string;
+    applicationCount: number;
+  }>;
+  recent: Endpoint[];
+}

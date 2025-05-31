@@ -138,6 +138,8 @@ const ApplicationList: React.FC = () => {
                     <TableRow>
                       <TableCell>Name</TableCell>
                       <TableCell>Description</TableCell>
+                      <TableCell>Endpoint</TableCell>
+                      <TableCell>Process</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell>Created At</TableCell>
                       <TableCell align="right">Actions</TableCell>
@@ -160,12 +162,24 @@ const ApplicationList: React.FC = () => {
                               : application.description}
                           </TableCell>
                           <TableCell>
+                            {typeof application.endpointId === 'object' && application.endpointId
+                              ? application.endpointId.hostname
+                              : application.endpointId
+                              ? 'Endpoint ID: ' + application.endpointId
+                              : 'Frontend Only'}
+                          </TableCell>
+                          <TableCell>
+                            {application.processName || '-'}
+                          </TableCell>
+                          <TableCell>
                             <StatusChip
                               status={application.status}
                               statusMap={{
+                                running: { label: 'Running', color: 'success' },
+                                stopped: { label: 'Stopped', color: 'error' },
+                                pending: { label: 'Pending', color: 'warning' },
                                 allowed: { label: 'Allowed', color: 'success' },
                                 blocked: { label: 'Blocked', color: 'error' },
-                                pending: { label: 'Pending', color: 'warning' },
                                 suspended: { label: 'Suspended', color: 'error' },
                               }}
                             />

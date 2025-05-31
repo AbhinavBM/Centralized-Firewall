@@ -492,3 +492,477 @@
 2025-05-27 22:11:24 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
 2025-05-27 22:12:58 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
 2025-05-27 22:12:59 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:14:30 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:14:30 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:14:30 [info]: MongoDB connected successfully
+2025-05-31 01:14:30 [info]: MongoDB connection successful
+2025-05-31 01:14:30 [info]: Server running in development mode on port 5000
+2025-05-31 01:14:30 [info]: WebSocket server initialized
+2025-05-31 01:18:05 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:05 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:06 [info]: MongoDB connected successfully
+2025-05-31 01:18:06 [info]: MongoDB connection successful
+2025-05-31 01:18:06 [info]: Server running in development mode on port 5000
+2025-05-31 01:18:06 [info]: WebSocket server initialized
+2025-05-31 01:18:16 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:16 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:17 [info]: MongoDB connected successfully
+2025-05-31 01:18:17 [info]: MongoDB connection successful
+2025-05-31 01:18:17 [info]: Server running in development mode on port 5000
+2025-05-31 01:18:17 [info]: WebSocket server initialized
+2025-05-31 01:18:36 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:36 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:37 [info]: MongoDB connected successfully
+2025-05-31 01:18:37 [info]: MongoDB connection successful
+2025-05-31 01:18:37 [info]: Server running in development mode on port 5000
+2025-05-31 01:18:37 [info]: WebSocket server initialized
+2025-05-31 01:18:48 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:48 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:18:48 [info]: MongoDB connected successfully
+2025-05-31 01:18:48 [info]: MongoDB connection successful
+2025-05-31 01:18:48 [info]: Server running in development mode on port 5000
+2025-05-31 01:18:48 [info]: WebSocket server initialized
+2025-05-31 01:19:00 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:00 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:01 [info]: MongoDB connected successfully
+2025-05-31 01:19:01 [info]: MongoDB connection successful
+2025-05-31 01:19:01 [info]: Server running in development mode on port 5000
+2025-05-31 01:19:01 [info]: WebSocket server initialized
+2025-05-31 01:19:15 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:15 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:15 [info]: MongoDB connected successfully
+2025-05-31 01:19:15 [info]: MongoDB connection successful
+2025-05-31 01:19:15 [info]: Server running in development mode on port 5000
+2025-05-31 01:19:15 [info]: WebSocket server initialized
+2025-05-31 01:19:26 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:26 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:27 [info]: MongoDB connected successfully
+2025-05-31 01:19:27 [info]: MongoDB connection successful
+2025-05-31 01:19:27 [info]: Server running in development mode on port 5000
+2025-05-31 01:19:27 [info]: WebSocket server initialized
+2025-05-31 01:19:35 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:35 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:35 [info]: MongoDB connected successfully
+2025-05-31 01:19:35 [info]: MongoDB connection successful
+2025-05-31 01:19:35 [info]: Server running in development mode on port 5000
+2025-05-31 01:19:35 [info]: WebSocket server initialized
+2025-05-31 01:19:45 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:45 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:19:45 [info]: MongoDB connected successfully
+2025-05-31 01:19:45 [info]: MongoDB connection successful
+2025-05-31 01:19:45 [info]: Server running in development mode on port 5000
+2025-05-31 01:19:45 [info]: WebSocket server initialized
+2025-05-31 01:20:02 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:20:02 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:20:03 [info]: MongoDB connected successfully
+2025-05-31 01:20:03 [info]: MongoDB connection successful
+2025-05-31 01:20:03 [info]: Server running in development mode on port 5000
+2025-05-31 01:20:03 [info]: WebSocket server initialized
+2025-05-31 01:20:46 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:20:46 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:20:46 [info]: MongoDB connected successfully
+2025-05-31 01:20:46 [info]: MongoDB connection successful
+2025-05-31 01:20:46 [info]: Server running in development mode on port 5000
+2025-05-31 01:20:46 [info]: WebSocket server initialized
+2025-05-31 01:20:59 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:20:59 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:21:00 [info]: MongoDB connected successfully
+2025-05-31 01:21:00 [info]: MongoDB connection successful
+2025-05-31 01:21:00 [info]: Server running in development mode on port 5000
+2025-05-31 01:21:00 [info]: WebSocket server initialized
+2025-05-31 01:23:09 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:23:09 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:23:09 [info]: MongoDB connected successfully
+2025-05-31 01:23:09 [info]: MongoDB connection successful
+2025-05-31 01:23:09 [info]: Server running in development mode on port 5000
+2025-05-31 01:23:09 [info]: WebSocket server initialized
+2025-05-31 01:25:15 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:15 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:16 [info]: MongoDB connected successfully
+2025-05-31 01:25:16 [info]: MongoDB connection successful
+2025-05-31 01:25:16 [info]: Server running in development mode on port 5000
+2025-05-31 01:25:16 [info]: WebSocket server initialized
+2025-05-31 01:25:25 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:25 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:26 [info]: MongoDB connected successfully
+2025-05-31 01:25:26 [info]: MongoDB connection successful
+2025-05-31 01:25:26 [info]: Server running in development mode on port 5000
+2025-05-31 01:25:26 [info]: WebSocket server initialized
+2025-05-31 01:25:38 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:38 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:38 [info]: MongoDB connected successfully
+2025-05-31 01:25:38 [info]: MongoDB connection successful
+2025-05-31 01:25:38 [info]: Server running in development mode on port 5000
+2025-05-31 01:25:38 [info]: WebSocket server initialized
+2025-05-31 01:25:51 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:51 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:25:52 [info]: MongoDB connected successfully
+2025-05-31 01:25:52 [info]: MongoDB connection successful
+2025-05-31 01:25:52 [info]: Server running in development mode on port 5000
+2025-05-31 01:25:52 [info]: WebSocket server initialized
+2025-05-31 01:26:06 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:06 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:06 [info]: MongoDB connected successfully
+2025-05-31 01:26:06 [info]: MongoDB connection successful
+2025-05-31 01:26:06 [info]: Server running in development mode on port 5000
+2025-05-31 01:26:06 [info]: WebSocket server initialized
+2025-05-31 01:26:20 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:20 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:21 [info]: MongoDB connected successfully
+2025-05-31 01:26:21 [info]: MongoDB connection successful
+2025-05-31 01:26:21 [info]: Server running in development mode on port 5000
+2025-05-31 01:26:21 [info]: WebSocket server initialized
+2025-05-31 01:26:35 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:35 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:35 [info]: MongoDB connected successfully
+2025-05-31 01:26:35 [info]: MongoDB connection successful
+2025-05-31 01:26:35 [info]: Server running in development mode on port 5000
+2025-05-31 01:26:35 [info]: WebSocket server initialized
+2025-05-31 01:26:48 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:48 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:26:49 [info]: MongoDB connected successfully
+2025-05-31 01:26:49 [info]: MongoDB connection successful
+2025-05-31 01:26:49 [info]: Server running in development mode on port 5000
+2025-05-31 01:26:49 [info]: WebSocket server initialized
+2025-05-31 01:31:36 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:31:36 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:31:37 [info]: MongoDB connected successfully
+2025-05-31 01:31:37 [info]: MongoDB connection successful
+2025-05-31 01:31:37 [info]: Server running in development mode on port 5000
+2025-05-31 01:31:37 [info]: WebSocket server initialized
+2025-05-31 01:31:51 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:31:51 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:31:52 [info]: MongoDB connected successfully
+2025-05-31 01:31:52 [info]: MongoDB connection successful
+2025-05-31 01:31:52 [info]: Server running in development mode on port 5000
+2025-05-31 01:31:52 [info]: WebSocket server initialized
+2025-05-31 01:32:05 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:05 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:06 [info]: MongoDB connected successfully
+2025-05-31 01:32:06 [info]: MongoDB connection successful
+2025-05-31 01:32:06 [info]: Server running in development mode on port 5000
+2025-05-31 01:32:06 [info]: WebSocket server initialized
+2025-05-31 01:32:20 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:20 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:21 [info]: MongoDB connected successfully
+2025-05-31 01:32:21 [info]: MongoDB connection successful
+2025-05-31 01:32:21 [info]: Server running in development mode on port 5000
+2025-05-31 01:32:21 [info]: WebSocket server initialized
+2025-05-31 01:32:37 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:37 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:37 [info]: MongoDB connected successfully
+2025-05-31 01:32:37 [info]: MongoDB connection successful
+2025-05-31 01:32:37 [info]: Server running in development mode on port 5000
+2025-05-31 01:32:37 [info]: WebSocket server initialized
+2025-05-31 01:32:51 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:51 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:32:52 [info]: MongoDB connected successfully
+2025-05-31 01:32:52 [info]: MongoDB connection successful
+2025-05-31 01:32:52 [info]: Server running in development mode on port 5000
+2025-05-31 01:32:52 [info]: WebSocket server initialized
+2025-05-31 01:33:07 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:07 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:07 [info]: MongoDB connected successfully
+2025-05-31 01:33:07 [info]: MongoDB connection successful
+2025-05-31 01:33:07 [info]: Server running in development mode on port 5000
+2025-05-31 01:33:07 [info]: WebSocket server initialized
+2025-05-31 01:33:21 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:21 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:21 [info]: MongoDB connected successfully
+2025-05-31 01:33:21 [info]: MongoDB connection successful
+2025-05-31 01:33:21 [info]: Server running in development mode on port 5000
+2025-05-31 01:33:21 [info]: WebSocket server initialized
+2025-05-31 01:33:41 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:41 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:33:41 [info]: MongoDB connected successfully
+2025-05-31 01:33:41 [info]: MongoDB connection successful
+2025-05-31 01:33:41 [info]: Server running in development mode on port 5000
+2025-05-31 01:33:41 [info]: WebSocket server initialized
+2025-05-31 01:34:24 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:34:24 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:34:24 [info]: MongoDB connected successfully
+2025-05-31 01:34:24 [info]: MongoDB connection successful
+2025-05-31 01:34:24 [info]: Server running in development mode on port 5000
+2025-05-31 01:34:24 [info]: WebSocket server initialized
+2025-05-31 01:34:37 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:34:37 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:34:37 [info]: MongoDB connected successfully
+2025-05-31 01:34:37 [info]: MongoDB connection successful
+2025-05-31 01:34:37 [info]: Server running in development mode on port 5000
+2025-05-31 01:34:37 [info]: WebSocket server initialized
+2025-05-31 01:35:07 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:07 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:07 [info]: MongoDB connected successfully
+2025-05-31 01:35:07 [info]: MongoDB connection successful
+2025-05-31 01:35:07 [info]: Server running in development mode on port 5000
+2025-05-31 01:35:07 [info]: WebSocket server initialized
+2025-05-31 01:35:41 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:41 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:41 [info]: MongoDB connected successfully
+2025-05-31 01:35:41 [info]: MongoDB connection successful
+2025-05-31 01:35:41 [info]: Server running in development mode on port 5000
+2025-05-31 01:35:41 [info]: WebSocket server initialized
+2025-05-31 01:35:55 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:55 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:35:56 [info]: MongoDB connected successfully
+2025-05-31 01:35:56 [info]: MongoDB connection successful
+2025-05-31 01:35:56 [info]: Server running in development mode on port 5000
+2025-05-31 01:35:56 [info]: WebSocket server initialized
+2025-05-31 01:36:16 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:16 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:16 [info]: MongoDB connected successfully
+2025-05-31 01:36:16 [info]: MongoDB connection successful
+2025-05-31 01:36:16 [info]: Server running in development mode on port 5000
+2025-05-31 01:36:16 [info]: WebSocket server initialized
+2025-05-31 01:36:28 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:28 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:29 [info]: MongoDB connected successfully
+2025-05-31 01:36:29 [info]: MongoDB connection successful
+2025-05-31 01:36:29 [info]: Server running in development mode on port 5000
+2025-05-31 01:36:29 [info]: WebSocket server initialized
+2025-05-31 01:36:40 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:40 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:41 [info]: MongoDB connected successfully
+2025-05-31 01:36:41 [info]: MongoDB connection successful
+2025-05-31 01:36:41 [info]: Server running in development mode on port 5000
+2025-05-31 01:36:41 [info]: WebSocket server initialized
+2025-05-31 01:36:54 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:54 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:36:55 [info]: MongoDB connected successfully
+2025-05-31 01:36:55 [info]: MongoDB connection successful
+2025-05-31 01:36:55 [info]: Server running in development mode on port 5000
+2025-05-31 01:36:55 [info]: WebSocket server initialized
+2025-05-31 01:52:38 [info]: User logged in: abhinav@gmail.com
+2025-05-31 01:52:39 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:52:49 [info]: Endpoint deleted: RitvikBaby (192.168.1.100)
+2025-05-31 01:53:11 [info]: Endpoint deleted: SERVER01 (192.168.1.101)
+2025-05-31 01:53:27 [info]: Application deleted: chrome.exe
+2025-05-31 01:53:30 [info]: Application deleted: firefox.exe
+2025-05-31 01:53:33 [info]: Application deleted: python.exe
+2025-05-31 01:53:44 [info]: Application deleted: svchost.exe
+2025-05-31 01:54:18 [info]: Application deleted: outlook.exe
+2025-05-31 01:54:22 [info]: Application deleted: teams.exe
+2025-05-31 01:54:27 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:54:28 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:57:44 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:57:44 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:57:45 [info]: MongoDB connected successfully
+2025-05-31 01:57:45 [info]: MongoDB connection successful
+2025-05-31 01:57:45 [info]: Server running in development mode on port 5000
+2025-05-31 01:57:45 [info]: WebSocket server initialized
+2025-05-31 01:57:47 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:57:57 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:57:57 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:57:58 [info]: MongoDB connected successfully
+2025-05-31 01:57:58 [info]: MongoDB connection successful
+2025-05-31 01:57:58 [info]: Server running in development mode on port 5000
+2025-05-31 01:57:58 [info]: WebSocket server initialized
+2025-05-31 01:58:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:58:07 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:58:07 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:58:08 [info]: MongoDB connected successfully
+2025-05-31 01:58:08 [info]: MongoDB connection successful
+2025-05-31 01:58:08 [info]: Server running in development mode on port 5000
+2025-05-31 01:58:08 [info]: WebSocket server initialized
+2025-05-31 01:58:10 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:58:21 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:58:21 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:58:21 [info]: MongoDB connected successfully
+2025-05-31 01:58:21 [info]: MongoDB connection successful
+2025-05-31 01:58:21 [info]: Server running in development mode on port 5000
+2025-05-31 01:58:21 [info]: WebSocket server initialized
+2025-05-31 01:58:23 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 01:59:48 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:59:48 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 01:59:49 [info]: MongoDB connected successfully
+2025-05-31 02:00:14 [info]: New endpoint created: server-01 (192.12.32.13)
+2025-05-31 02:00:19 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:00:20 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:02:42 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:02:42 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:02:42 [info]: MongoDB connected successfully
+2025-05-31 02:02:42 [info]: MongoDB connection successful
+2025-05-31 02:02:42 [info]: Server running in development mode on port 5000
+2025-05-31 02:02:42 [info]: WebSocket server initialized
+2025-05-31 02:02:44 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:03:44 [info]: NGFW endpoint authenticated: server-01 (683a15569694e4a4513cbaff)
+2025-05-31 02:04:01 [info]: Applications submitted for endpoint server-01: 2 applications processed
+2025-05-31 02:04:07 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:04:11 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:04:40 [info]: New mapping created: Endpoint server-01 to Application chrome.exe
+2025-05-31 02:04:47 [info]: New mapping created: Endpoint server-01 to Application msedgewebview2.exe
+2025-05-31 02:05:13 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:06:07 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:06:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:06:14 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:08:46 [info]: Firewall rules fetched for endpoint server-01: 0 rules
+2025-05-31 02:17:09 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:17:10 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:17:14 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:17:42 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:17:42 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:17:44 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:19:39 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:19:39 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:19:40 [info]: MongoDB connected successfully
+2025-05-31 02:19:40 [info]: MongoDB connection successful
+2025-05-31 02:19:40 [info]: Server running in development mode on port 5000
+2025-05-31 02:19:40 [info]: WebSocket server initialized
+2025-05-31 02:19:51 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:19:51 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:19:51 [info]: MongoDB connected successfully
+2025-05-31 02:19:51 [info]: MongoDB connection successful
+2025-05-31 02:19:52 [info]: Server running in development mode on port 5000
+2025-05-31 02:19:52 [info]: WebSocket server initialized
+2025-05-31 02:20:03 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:03 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:04 [info]: MongoDB connected successfully
+2025-05-31 02:20:04 [info]: MongoDB connection successful
+2025-05-31 02:20:04 [info]: Server running in development mode on port 5000
+2025-05-31 02:20:04 [info]: WebSocket server initialized
+2025-05-31 02:20:26 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:26 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:26 [info]: MongoDB connected successfully
+2025-05-31 02:20:26 [info]: MongoDB connection successful
+2025-05-31 02:20:26 [info]: Server running in development mode on port 5000
+2025-05-31 02:20:26 [info]: WebSocket server initialized
+2025-05-31 02:20:35 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:35 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:20:36 [info]: MongoDB connected successfully
+2025-05-31 02:20:36 [info]: MongoDB connection successful
+2025-05-31 02:20:36 [info]: Server running in development mode on port 5000
+2025-05-31 02:20:36 [info]: WebSocket server initialized
+2025-05-31 02:22:31 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:22:31 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:22:31 [info]: MongoDB connected successfully
+2025-05-31 02:22:31 [info]: MongoDB connection successful
+2025-05-31 02:22:31 [info]: Server running in development mode on port 5000
+2025-05-31 02:22:31 [info]: WebSocket server initialized
+2025-05-31 02:22:52 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:22:52 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:22:52 [info]: MongoDB connected successfully
+2025-05-31 02:24:02 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:24:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:24:07 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:25:26 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:25:27 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:25:40 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:05 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:06 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:06 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:25 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:25 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:33:25 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:36:06 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:36:11 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:40:04 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:40:04 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:40:09 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:41:13 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:41:14 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:41:25 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:41:25 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:41:25 [info]: MongoDB connected successfully
+2025-05-31 02:41:25 [info]: MongoDB connection successful
+2025-05-31 02:41:25 [info]: Server running in development mode on port 5001
+2025-05-31 02:41:25 [info]: WebSocket server initialized
+2025-05-31 02:42:00 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:05 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:05 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:16 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:16 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:16 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:20 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:20 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:42:20 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:50 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:50 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:54 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:54 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:59 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:45:59 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:46:01 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:46:01 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:49:47 [info]: User logged in: abhinav@gmail.com
+2025-05-31 02:49:48 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:50:13 [info]: NGFW log received: firewall/info - Domain allowed
+2025-05-31 02:50:23 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:50:24 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:52:40 [info]: New mapping created: Endpoint SERVER 01 to Application chrome.exe
+2025-05-31 02:56:07 [info]: New NGFW firewall rule created for server-01:chrome.exe - allow
+2025-05-31 02:56:40 [info]: Firewall rules fetched for endpoint server-01: 1 rules
+2025-05-31 02:57:33 [info]: New NGFW firewall rule created for server-01:chrome.exe - allow
+2025-05-31 02:57:43 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:57:44 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:57:51 [info]: Firewall rules fetched for endpoint server-01: 2 rules
+2025-05-31 02:59:40 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:59:40 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 02:59:41 [info]: MongoDB connected successfully
+2025-05-31 02:59:41 [info]: MongoDB connection successful
+2025-05-31 02:59:41 [info]: Server running in development mode on port 5000
+2025-05-31 02:59:41 [info]: WebSocket server initialized
+2025-05-31 02:59:41 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:59:42 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:59:42 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 02:59:42 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:01:48 [info]: Firewall rules fetched for endpoint server-01: 2 rules
+2025-05-31 03:01:54 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:01:56 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:02:02 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 03:02:02 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 03:02:03 [info]: MongoDB connected successfully
+2025-05-31 03:02:03 [info]: MongoDB connection successful
+2025-05-31 03:02:03 [info]: Server running in development mode on port 5000
+2025-05-31 03:02:03 [info]: WebSocket server initialized
+2025-05-31 03:02:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:02:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:02:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:02:03 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:07 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 03:14:07 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 03:14:08 [info]: MongoDB connected successfully
+2025-05-31 03:14:08 [info]: MongoDB connection successful
+2025-05-31 03:14:08 [info]: Server running in development mode on port 5000
+2025-05-31 03:14:08 [info]: WebSocket server initialized
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:14:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:21:08 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:59:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:59:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:59:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:59:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 03:59:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:09 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:09 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:14 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:04:16 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:09:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 04:42:35 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 06:06:46 [error]: WebSocket connection error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
