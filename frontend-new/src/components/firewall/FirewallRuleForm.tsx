@@ -137,7 +137,7 @@ const FirewallRuleForm: React.FC = () => {
 
       // Navigate back to application firewall rules if we came from there
       if (applicationIdFromQuery) {
-        navigate(`/applications/${applicationIdFromQuery}/firewall`);
+        navigate(`/applications/${applicationIdFromQuery}/firewall-rules`);
       } else {
         navigate('/firewall');
       }
@@ -147,7 +147,7 @@ const FirewallRuleForm: React.FC = () => {
   const handleCancel = () => {
     // Navigate back to application firewall rules if we came from there
     if (applicationIdFromQuery) {
-      navigate(`/applications/${applicationIdFromQuery}/firewall`);
+      navigate(`/applications/${applicationIdFromQuery}/firewall-rules`);
     } else {
       navigate('/firewall');
     }
