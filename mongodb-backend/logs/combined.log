@@ -1189,3 +1189,9 @@
 2025-06-02 21:13:37 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
 2025-06-02 21:13:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
 2025-06-02 21:13:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 21:20:19 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 21:20:19 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 21:20:20 [info]: MongoDB connected successfully
+2025-06-02 21:20:20 [info]: MongoDB connection successful
+2025-06-02 21:20:20 [info]: Server running in development mode on port 5000
+2025-06-02 21:20:20 [info]: WebSocket server initialized
