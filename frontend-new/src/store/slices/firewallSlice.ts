@@ -81,6 +81,18 @@ export const updateFirewallRule = createAsyncThunk(
   }
 );
 
+export const fetchFirewallRulesByEndpoint = createAsyncThunk(
+  'firewall/fetchByEndpoint',
+  async (endpointId: string, { rejectWithValue }) => {
+    try {
+      const response = await firewallService.getRulesByEndpoint(endpointId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to fetch firewall rules by endpoint');
+    }
+  }
+);
+
 export const deleteFirewallRule = createAsyncThunk(
   'firewall/delete',
   async (id: string, { rejectWithValue }) => {

@@ -966,3 +966,226 @@
 2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
 2025-05-31 06:06:46 [error]: JWT verification error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
 2025-05-31 06:06:46 [error]: WebSocket connection error: getaddrinfo ENOTFOUND ac-tg8u5c6-shard-00-01.yhpeljt.mongodb.net
+2025-05-31 12:37:57 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 12:37:57 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 12:38:00 [info]: MongoDB connected successfully
+2025-05-31 12:38:00 [info]: MongoDB connection successful
+2025-05-31 12:38:00 [info]: Server running in development mode on port 5000
+2025-05-31 12:38:00 [info]: WebSocket server initialized
+2025-05-31 12:39:40 [info]: User logged in: abhinav@gmail.com
+2025-05-31 12:39:45 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 12:40:28 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-05-31 12:40:38 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 12:40:38 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-31 12:40:40 [info]: MongoDB connected successfully
+2025-05-31 12:40:40 [info]: MongoDB connection successful
+2025-05-31 12:40:40 [info]: Server running in development mode on port 5000
+2025-05-31 12:40:40 [info]: WebSocket server initialized
+2025-06-01 14:17:59 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 14:17:59 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 14:18:00 [info]: MongoDB connected successfully
+2025-06-01 14:18:00 [info]: MongoDB connection successful
+2025-06-01 14:18:00 [info]: Server running in development mode on port 5000
+2025-06-01 14:18:00 [info]: WebSocket server initialized
+2025-06-01 14:33:13 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 14:33:13 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 14:33:13 [info]: NGFW log received: firewall/info - Test log from NGFW integration
+2025-06-01 14:33:33 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 14:33:42 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 14:33:42 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 14:33:42 [info]: NGFW log received: firewall/info - Test log from NGFW integration
+2025-06-01 14:39:13 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 14:39:13 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 14:39:13 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 14:39:14 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-01 14:39:19 [info]: NGFW batch logs processed: 3/3 valid logs saved
+2025-06-01 14:39:51 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 14:39:51 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 14:39:51 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 14:39:52 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-01 14:40:22 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-01 17:37:39 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 17:37:39 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 17:37:40 [info]: MongoDB connected successfully
+2025-06-01 17:37:40 [info]: MongoDB connection successful
+2025-06-01 17:37:40 [info]: Server running in development mode on port 5000
+2025-06-01 17:37:40 [info]: WebSocket server initialized
+2025-06-01 17:39:44 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 17:39:44 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 17:39:45 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 17:39:45 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-01 17:52:32 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 17:52:32 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 17:52:32 [info]: NGFW log received: firewall/info - Test log from NGFW integration
+2025-06-01 17:52:59 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 17:52:59 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 17:53:00 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 17:53:00 [info]: Applications submitted for endpoint SERVER 01: 15 applications processed
+2025-06-01 17:53:05 [info]: NGFW batch logs processed: 3/3 valid logs saved
+2025-06-01 17:53:53 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 17:53:54 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 17:53:54 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 17:53:54 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 17:53:55 [info]: Applications submitted for endpoint SERVER 01: 16 applications processed
+2025-06-01 22:41:36 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 22:41:36 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-01 22:41:37 [info]: MongoDB connected successfully
+2025-06-01 22:41:37 [info]: MongoDB connection successful
+2025-06-01 22:41:37 [info]: Server running in development mode on port 5000
+2025-06-01 22:41:37 [info]: WebSocket server initialized
+2025-06-01 22:44:18 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 22:44:18 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:44:18 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 22:44:19 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 22:44:19 [info]: Applications submitted for endpoint SERVER 01: 16 applications processed
+2025-06-01 22:44:48 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-01 22:45:19 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:46:19 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:47:19 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:47:37 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 22:47:37 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:47:38 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 22:47:38 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 22:47:38 [info]: Applications submitted for endpoint SERVER 01: 15 applications processed
+2025-06-01 22:47:43 [info]: NGFW batch logs processed: 3/3 valid logs saved
+2025-06-01 22:48:19 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:49:19 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 22:49:19 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 22:49:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:49:20 [info]: Applications submitted for endpoint SERVER 01: 15 applications processed
+2025-06-01 22:49:20 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-01 22:50:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:50:26 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-01 22:50:26 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:50:26 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 22:50:27 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 22:50:27 [info]: Applications submitted for endpoint SERVER 01: 14 applications processed
+2025-06-01 22:50:32 [info]: NGFW batch logs processed: 3/3 valid logs saved
+2025-06-01 22:51:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:52:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:53:03 [error]: JWT verification error: jwt expired
+2025-06-01 22:53:06 [info]: User logged in: abhinav@gmail.com
+2025-06-01 22:53:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-01 22:53:15 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-01 22:53:15 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-01 22:53:16 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-01 22:53:16 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-01 22:53:21 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-01 22:54:20 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-01 22:54:20 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-01 22:54:20 [info]: Applications submitted for endpoint SERVER 01: 14 applications processed
+2025-06-01 22:54:21 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-01 22:54:21 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:26:57 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 08:26:57 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 08:26:59 [info]: MongoDB connected successfully
+2025-06-02 08:26:59 [info]: MongoDB connection successful
+2025-06-02 08:26:59 [info]: Server running in development mode on port 5000
+2025-06-02 08:26:59 [info]: WebSocket server initialized
+2025-06-02 08:27:51 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:27:51 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:28:47 [info]: NGFW endpoint authenticated: SERVER 01 (6839f6d9ad8651d078262b03)
+2025-06-02 08:28:48 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:28:49 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 08:28:50 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 08:29:13 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:29:18 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 08:29:51 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:30:52 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:31:52 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:32:53 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:33:51 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 08:33:52 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 08:33:53 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 08:33:53 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 08:33:54 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:34:54 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:35:56 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:36:56 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:37:11 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:37:11 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:37:11 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:43:25 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:43:25 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:43:25 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:44:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:44:59 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 08:44:59 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 08:44:59 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 08:44:59 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 08:45:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:46:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:46:42 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:46:45 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:46:45 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:47:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:48:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:49:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:49:59 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 08:49:59 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 08:49:59 [info]: Applications submitted for endpoint SERVER 01: 14 applications processed
+2025-06-02 08:49:59 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 08:50:02 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:51:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:51:27 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:52:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:53:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:54:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:55:00 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 08:55:00 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 08:55:00 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 08:55:00 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 08:55:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:56:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:57:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:58:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 08:58:52 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:58:55 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:58:55 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 08:59:03 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:00:00 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 09:00:00 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 09:00:01 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 09:00:01 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 09:00:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:00:06 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:00:06 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:00:06 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:00:06 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:01:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:02:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:03:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:04:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:05:01 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 09:05:01 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 09:05:01 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 09:05:01 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 09:05:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:06:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:07:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:08:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:09:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:10:01 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 09:10:01 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 09:10:02 [info]: Applications submitted for endpoint SERVER 01: 13 applications processed
+2025-06-02 09:10:02 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 09:10:04 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:10:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:10:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:11:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:11:21 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:11:21 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:12:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:13:20 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 09:13:33 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 09:13:33 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 21:12:14 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 21:12:14 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 21:12:37 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 21:13:34 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 21:13:34 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 21:13:34 [info]: Applications submitted for endpoint SERVER 01: 15 applications processed
+2025-06-02 21:13:34 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 21:13:37 [info]: Firewall rules fetched for endpoint SERVER 01: 0 rules
+2025-06-02 21:13:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 21:13:55 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
