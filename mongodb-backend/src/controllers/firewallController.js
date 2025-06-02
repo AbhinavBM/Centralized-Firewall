@@ -207,6 +207,7 @@ exports.updateRule = async (req, res) => {
   try {
     const {
       endpointId,
+      applicationId,
       processName,
       name,
       description,
@@ -240,9 +241,24 @@ exports.updateRule = async (req, res) => {
       });
     }
 
+    // Check if application exists (only if applicationId is provided)
+    let application = null;
+    if (applicationId !== undefined) {
+      if (applicationId) {
+        application = await Application.findById(applicationId);
+        if (!application) {
+          return res.status(404).json({
+            success: false,
+            message: 'Application not found'
+          });
+        }
+      }
+    }
+
     // Update rule with unified fields
     if (endpointId !== undefined) rule.endpointId = endpointId;
-    if (processName !== undefined) rule.processName = processName;
+    if (applicationId !== undefined) rule.applicationId = applicationId;
+    if (processName !== undefined) rule.processName = processName || (application ? application.processName : null);
     if (name) rule.name = name;
     if (description !== undefined) rule.description = description;
 
@@ -302,7 +318,7 @@ exports.updateRule = async (req, res) => {
 
     await rule.save();
 
-    logger.info(`Firewall rule updated: ${rule.name}`);
+    logger.info(`Firewall rule updated: ${rule.name}${application ? ` for application ${application.name}` : rule.applicationId ? ' (application association updated)' : ' (standalone rule)'}`);
 
     res.status(200).json({
       success: true,
@@ -482,12 +498,52 @@ exports.batchUpdateRules = async (req, res) => {
         // Update rule fields
         if (ruleData.name) rule.name = ruleData.name;
         if (ruleData.description !== undefined) rule.description = ruleData.description;
-        if (ruleData.entityType) rule.entityType = ruleData.entityType;
-        if (ruleData.domain !== undefined) rule.domain = ruleData.domain;
-        if (ruleData.sourceIp !== undefined) rule.sourceIp = ruleData.sourceIp;
-        if (ruleData.destinationIp !== undefined) rule.destinationIp = ruleData.destinationIp;
-        if (ruleData.sourcePort !== undefined) rule.sourcePort = ruleData.sourcePort;
-        if (ruleData.destinationPort !== undefined) rule.destinationPort = ruleData.destinationPort;
+        if (ruleData.applicationId !== undefined) rule.applicationId = ruleData.applicationId;
+        if (ruleData.endpointId !== undefined) rule.endpointId = ruleData.endpointId;
+        if (ruleData.processName !== undefined) rule.processName = ruleData.processName;
+        // NGFW fields
+        if (ruleData.entity_type !== undefined) {
+          rule.entity_type = ruleData.entity_type;
+          rule.entityType = ruleData.entity_type; // Keep legacy field in sync
+        } else if (ruleData.entityType) {
+          rule.entityType = ruleData.entityType;
+          rule.entity_type = ruleData.entityType; // Keep NGFW field in sync
+        }
+        if (ruleData.domain_name !== undefined) {
+          rule.domain_name = ruleData.domain_name;
+          rule.domain = ruleData.domain_name; // Keep legacy field in sync
+        } else if (ruleData.domain !== undefined) {
+          rule.domain = ruleData.domain;
+          rule.domain_name = ruleData.domain; // Keep NGFW field in sync
+        }
+        if (ruleData.source_ip !== undefined) {
+          rule.source_ip = ruleData.source_ip;
+          rule.sourceIp = ruleData.source_ip; // Keep legacy field in sync
+        } else if (ruleData.sourceIp !== undefined) {
+          rule.sourceIp = ruleData.sourceIp;
+          rule.source_ip = ruleData.sourceIp; // Keep NGFW field in sync
+        }
+        if (ruleData.destination_ip !== undefined) {
+          rule.destination_ip = ruleData.destination_ip;
+          rule.destinationIp = ruleData.destination_ip; // Keep legacy field in sync
+        } else if (ruleData.destinationIp !== undefined) {
+          rule.destinationIp = ruleData.destinationIp;
+          rule.destination_ip = ruleData.destinationIp; // Keep NGFW field in sync
+        }
+        if (ruleData.source_port !== undefined) {
+          rule.source_port = ruleData.source_port;
+          rule.sourcePort = ruleData.source_port; // Keep legacy field in sync
+        } else if (ruleData.sourcePort !== undefined) {
+          rule.sourcePort = ruleData.sourcePort;
+          rule.source_port = ruleData.sourcePort; // Keep NGFW field in sync
+        }
+        if (ruleData.destination_port !== undefined) {
+          rule.destination_port = ruleData.destination_port;
+          rule.destinationPort = ruleData.destination_port; // Keep legacy field in sync
+        } else if (ruleData.destinationPort !== undefined) {
+          rule.destinationPort = ruleData.destinationPort;
+          rule.destination_port = ruleData.destinationPort; // Keep NGFW field in sync
+        }
         if (ruleData.protocol) rule.protocol = ruleData.protocol;
         if (ruleData.action) rule.action = ruleData.action;
         if (ruleData.priority !== undefined) rule.priority = ruleData.priority;

@@ -1324,3 +1324,126 @@
 2025-06-02 22:43:07 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
 2025-06-02 22:43:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
 2025-06-02 22:43:07 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 22:55:20 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:55:20 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:55:21 [info]: MongoDB connected successfully
+2025-06-02 22:55:21 [info]: MongoDB connection successful
+2025-06-02 22:55:21 [info]: Server running in development mode on port 5000
+2025-06-02 22:55:21 [info]: WebSocket server initialized
+2025-06-02 22:56:08 [info]: User logged in: abhinav@gmail.com
+2025-06-02 22:56:09 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:00:36 [info]: NGFW endpoint authenticated: server-01 (683a15569694e4a4513cbaff)
+2025-06-02 23:01:05 [info]: Applications submitted for endpoint server-01: 2 applications processed
+2025-06-02 23:01:59 [info]: NGFW log received: firewall/info - Packet allowed
+2025-06-02 23:10:50 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:10:50 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:10:51 [info]: MongoDB connected successfully
+2025-06-02 23:10:51 [info]: MongoDB connection successful
+2025-06-02 23:10:51 [info]: Server running in development mode on port 5000
+2025-06-02 23:10:51 [info]: WebSocket server initialized
+2025-06-02 23:10:53 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:11:02 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:02 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:02 [info]: MongoDB connected successfully
+2025-06-02 23:11:02 [info]: MongoDB connection successful
+2025-06-02 23:11:02 [info]: Server running in development mode on port 5000
+2025-06-02 23:11:02 [info]: WebSocket server initialized
+2025-06-02 23:11:04 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:11:12 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:12 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:13 [info]: MongoDB connected successfully
+2025-06-02 23:11:13 [info]: MongoDB connection successful
+2025-06-02 23:11:13 [info]: Server running in development mode on port 5000
+2025-06-02 23:11:13 [info]: WebSocket server initialized
+2025-06-02 23:11:14 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:11:31 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:31 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:31 [info]: MongoDB connected successfully
+2025-06-02 23:11:31 [info]: MongoDB connection successful
+2025-06-02 23:11:32 [info]: Server running in development mode on port 5000
+2025-06-02 23:11:32 [info]: WebSocket server initialized
+2025-06-02 23:11:33 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:11:53 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:53 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:11:58 [info]: MongoDB connected successfully
+2025-06-02 23:11:58 [info]: MongoDB connection successful
+2025-06-02 23:11:58 [info]: Server running in development mode on port 5000
+2025-06-02 23:11:58 [info]: WebSocket server initialized
+2025-06-02 23:12:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:12:03 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:12:03 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:12:04 [info]: MongoDB connected successfully
+2025-06-02 23:12:04 [info]: MongoDB connection successful
+2025-06-02 23:12:04 [info]: Server running in development mode on port 5000
+2025-06-02 23:12:04 [info]: WebSocket server initialized
+2025-06-02 23:12:07 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:12:55 [info]: New firewall rule created: chrme rule for application chrome.exe
+2025-06-02 23:12:59 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:13:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:18:22 [info]: Firewall rules fetched for endpoint server-01: 3 rules
+2025-06-02 23:19:01 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:05 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:08 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:11 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:15 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:19 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:22 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:26 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:28 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:31 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:35 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:38 [info]: Firewall rule deleted: undefined
+2025-06-02 23:19:41 [info]: Firewall rule deleted: chrme rule
+2025-06-02 23:19:48 [info]: Application deleted: chrome.exe
+2025-06-02 23:19:52 [info]: Application deleted: msedgewebview2.exe
+2025-06-02 23:19:55 [info]: Application deleted: vmware-authd.exe
+2025-06-02 23:19:59 [info]: Application deleted: svchost.exe
+2025-06-02 23:20:02 [info]: Application deleted: lsass.exe
+2025-06-02 23:20:21 [info]: Application deleted: jhi_service.exe
+2025-06-02 23:20:26 [info]: Application deleted: System
+2025-06-02 23:20:30 [info]: Application deleted: spoolsv.exe
+2025-06-02 23:20:34 [info]: Application deleted: services.exe
+2025-06-02 23:20:37 [info]: Application deleted: AdobeCollabSync.exe
+2025-06-02 23:20:40 [info]: Application deleted: postgres.exe
+2025-06-02 23:20:44 [info]: Application deleted: python.exe
+2025-06-02 23:20:49 [info]: Application deleted: MsMpEng.exe
+2025-06-02 23:20:57 [info]: Application deleted: node.exe
+2025-06-02 23:20:59 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:21:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:21:04 [info]: Application deleted: mysqld.exe
+2025-06-02 23:21:08 [info]: Application deleted: wininit.exe
+2025-06-02 23:21:11 [info]: Application deleted: Cursor.exe
+2025-06-02 23:21:14 [info]: Application deleted: MpDefenderCoreService.exe
+2025-06-02 23:21:28 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:21:30 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:21:33 [info]: Application deleted: updater.exe
+2025-06-02 23:21:37 [info]: Application deleted: Code.exe
+2025-06-02 23:21:41 [info]: Application deleted: Widgets.exe
+2025-06-02 23:21:45 [info]: Application deleted: SystemSettings.exe
+2025-06-02 23:21:53 [info]: Application deleted: powershell.exe
+2025-06-02 23:21:53 [info]: Application deleted: OneDriveStandaloneUpdater.exe
+2025-06-02 23:22:08 [info]: Endpoint deleted: SERVER 01 (192.168.1.100)
+2025-06-02 23:22:14 [info]: Endpoint deleted: RitvikBaby (192.168.1.100)
+2025-06-02 23:22:22 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:22:24 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:27:51 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:27:52 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:27:56 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:27:58 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:27:58 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:28:00 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:28:27 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:28:28 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:31:08 [info]: New firewall rule created: Block axisbank.com for application chrome.exe
+2025-06-02 23:31:47 [info]: Firewall rules fetched for endpoint server-01: 1 rules
+2025-06-02 23:34:52 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:36:22 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:36:22 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:36:41 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:36:41 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 23:36:42 [info]: MongoDB connected successfully
+2025-06-02 23:36:42 [info]: MongoDB connection successful
+2025-06-02 23:36:42 [info]: Server running in development mode on port 5000
+2025-06-02 23:36:42 [info]: WebSocket server initialized
+2025-06-02 23:36:43 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 23:36:43 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
