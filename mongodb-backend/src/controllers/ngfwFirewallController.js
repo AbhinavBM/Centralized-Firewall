@@ -13,7 +13,7 @@ exports.getEndpointRules = async (req, res) => {
     if (!endpointId) {
       return res.status(401).json({
         success: false,
-        message: 'X-Endpoint-ID header is required'
+        message: 'X-Endpoint-ID header is required for NGFW endpoint authentication'
       });
     }
 

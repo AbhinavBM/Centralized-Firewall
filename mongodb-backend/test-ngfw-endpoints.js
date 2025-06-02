@@ -101,7 +101,7 @@ async function testEndpoints() {
 
     // Test 3: Firewall Rules Fetching (Flow Step 2.1)
     console.log('3️⃣ Testing Firewall Rules Fetching (Flow 2.1)...');
-    const rulesResponse = await axios.get(`${BASE_URL}/firewall/rules`, {
+    const rulesResponse = await axios.get(`${BASE_URL}/ngfw/firewall/rules`, {
       headers: {
         'X-Endpoint-ID': endpointId
         // No password needed for rule fetching

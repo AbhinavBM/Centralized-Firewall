@@ -13,7 +13,7 @@ router.post('/endpoints/authenticate', ngfwController.authenticateEndpoint);
 router.post('/endpoints/applications', ngfwController.submitApplications);
 
 // Firewall rules fetching (uses endpoint headers for auth)
-router.get('/firewall/rules', ngfwFirewallController.getEndpointRules);
+router.get('/ngfw/firewall/rules', ngfwFirewallController.getEndpointRules);
 
 // Logging endpoints
 router.post('/logs', ngfwLogsController.createLog);
@@ -27,6 +27,6 @@ router.get('/logs/stats', ngfwLogsController.getLogStats);
 router.use(authMiddleware.protect);
 
 // Admin firewall rule management
-router.post('/firewall/rules', ngfwFirewallController.createEndpointRule);
+router.post('/ngfw/firewall/rules', ngfwFirewallController.createEndpointRule);
 
 module.exports = router;

@@ -1195,3 +1195,132 @@
 2025-06-02 21:20:20 [info]: MongoDB connection successful
 2025-06-02 21:20:20 [info]: Server running in development mode on port 5000
 2025-06-02 21:20:20 [info]: WebSocket server initialized
+2025-06-02 22:00:11 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:00:11 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:00:12 [info]: MongoDB connected successfully
+2025-06-02 22:00:12 [info]: MongoDB connection successful
+2025-06-02 22:00:12 [info]: Server running in development mode on port 5000
+2025-06-02 22:00:12 [info]: WebSocket server initialized
+2025-06-02 22:02:05 [info]: NGFW endpoint authenticated: RitvikBaby (683dd01e1643432db33b21a7)
+2025-06-02 22:02:05 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:02:05 [error]: Error processing application python.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "python.exe" }
+2025-06-02 22:02:05 [error]: Error processing application mysqld.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "mysqld.exe" }
+2025-06-02 22:02:05 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 22:02:05 [error]: Error processing application node.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "node.exe" }
+2025-06-02 22:02:06 [error]: Error processing application svchost.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "svchost.exe" }
+2025-06-02 22:02:06 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 22:02:06 [error]: Error processing application System: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "System" }
+2025-06-02 22:02:06 [error]: Error processing application lsass.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "lsass.exe" }
+2025-06-02 22:02:06 [error]: Error processing application wininit.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "wininit.exe" }
+2025-06-02 22:02:06 [error]: Error processing application services.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "services.exe" }
+2025-06-02 22:02:06 [error]: Error processing application spoolsv.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "spoolsv.exe" }
+2025-06-02 22:02:06 [error]: Error processing application jhi_service.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "jhi_service.exe" }
+2025-06-02 22:02:06 [error]: Error processing application vmware-authd.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "vmware-authd.exe" }
+2025-06-02 22:02:06 [error]: Error processing application postgres.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "postgres.exe" }
+2025-06-02 22:02:06 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
+2025-06-02 22:02:19 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 22:02:36 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 22:03:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:04:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:05:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:06:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:07:06 [error]: Error processing application mysqld.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "mysqld.exe" }
+2025-06-02 22:07:06 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 22:07:06 [error]: Error processing application svchost.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "svchost.exe" }
+2025-06-02 22:07:06 [error]: Error processing application python.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "python.exe" }
+2025-06-02 22:07:06 [error]: Error processing application node.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "node.exe" }
+2025-06-02 22:07:06 [error]: Error processing application lsass.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "lsass.exe" }
+2025-06-02 22:07:06 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 22:07:06 [error]: Error processing application System: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "System" }
+2025-06-02 22:07:06 [error]: Error processing application vmware-authd.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "vmware-authd.exe" }
+2025-06-02 22:07:06 [error]: Error processing application spoolsv.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "spoolsv.exe" }
+2025-06-02 22:07:06 [error]: Error processing application wininit.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "wininit.exe" }
+2025-06-02 22:07:06 [error]: Error processing application services.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "services.exe" }
+2025-06-02 22:07:06 [error]: Error processing application postgres.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "postgres.exe" }
+2025-06-02 22:07:06 [error]: Error processing application jhi_service.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "jhi_service.exe" }
+2025-06-02 22:07:06 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
+2025-06-02 22:07:06 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 22:07:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:08:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:09:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:17:15 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:17:15 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:17:16 [info]: MongoDB connected successfully
+2025-06-02 22:17:16 [info]: MongoDB connection successful
+2025-06-02 22:17:16 [info]: Server running in development mode on port 5000
+2025-06-02 22:17:16 [info]: WebSocket server initialized
+2025-06-02 22:17:41 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 22:17:59 [info]: NGFW endpoint authenticated: RitvikBaby (683dd01e1643432db33b21a7)
+2025-06-02 22:17:59 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:17:59 [error]: Error processing application python.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "python.exe" }
+2025-06-02 22:17:59 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 22:17:59 [error]: Error processing application svchost.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "svchost.exe" }
+2025-06-02 22:17:59 [error]: Error processing application mysqld.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "mysqld.exe" }
+2025-06-02 22:17:59 [error]: Error processing application System: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "System" }
+2025-06-02 22:17:59 [error]: Error processing application node.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "node.exe" }
+2025-06-02 22:17:59 [error]: Error processing application postgres.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "postgres.exe" }
+2025-06-02 22:17:59 [error]: Error processing application msedgewebview2.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "msedgewebview2.exe" }
+2025-06-02 22:17:59 [error]: Error processing application wininit.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "wininit.exe" }
+2025-06-02 22:17:59 [error]: Error processing application lsass.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "lsass.exe" }
+2025-06-02 22:17:59 [error]: Error processing application services.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "services.exe" }
+2025-06-02 22:17:59 [error]: Error processing application vmware-authd.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "vmware-authd.exe" }
+2025-06-02 22:17:59 [error]: Error processing application spoolsv.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "spoolsv.exe" }
+2025-06-02 22:17:59 [error]: Error processing application jhi_service.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "jhi_service.exe" }
+2025-06-02 22:17:59 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
+2025-06-02 22:18:30 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 22:19:00 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:20:00 [info]: Firewall rules fetched for endpoint RitvikBaby: 0 rules
+2025-06-02 22:22:12 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:22:12 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:22:13 [info]: MongoDB connected successfully
+2025-06-02 22:22:13 [info]: MongoDB connection successful
+2025-06-02 22:22:13 [info]: Server running in development mode on port 5000
+2025-06-02 22:22:13 [info]: WebSocket server initialized
+2025-06-02 22:36:55 [info]: Attempting to connect to MongoDB at: mongodb+srv://roadsidecoder:yCeoaaLmLmYgxpK1@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:36:55 [info]: Connecting to MongoDB with URI: mongodb+srv://roadsidecoder:****@cluster0.yhpeljt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-06-02 22:36:55 [info]: MongoDB connected successfully
+2025-06-02 22:36:55 [info]: MongoDB connection successful
+2025-06-02 22:36:55 [info]: Server running in development mode on port 5000
+2025-06-02 22:36:55 [info]: WebSocket server initialized
+2025-06-02 22:37:17 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 22:38:06 [info]: NGFW endpoint authenticated: RitvikBaby (683dd01e1643432db33b21a7)
+2025-06-02 22:38:06 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:38:06 [error]: Error processing application svchost.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "svchost.exe" }
+2025-06-02 22:38:06 [error]: Error processing application System: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "System" }
+2025-06-02 22:38:06 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 22:38:07 [error]: Error processing application node.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "node.exe" }
+2025-06-02 22:38:07 [error]: Error processing application python.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "python.exe" }
+2025-06-02 22:38:07 [error]: Error processing application mysqld.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "mysqld.exe" }
+2025-06-02 22:38:07 [error]: Error processing application services.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "services.exe" }
+2025-06-02 22:38:07 [error]: Error processing application spoolsv.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "spoolsv.exe" }
+2025-06-02 22:38:07 [error]: Error processing application MpDefenderCoreService.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "MpDefenderCoreService.exe" }
+2025-06-02 22:38:07 [error]: Error processing application vmware-authd.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "vmware-authd.exe" }
+2025-06-02 22:38:07 [error]: Error processing application postgres.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "postgres.exe" }
+2025-06-02 22:38:07 [error]: Error processing application jhi_service.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "jhi_service.exe" }
+2025-06-02 22:38:07 [error]: Error processing application lsass.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "lsass.exe" }
+2025-06-02 22:38:07 [error]: Error processing application wininit.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "wininit.exe" }
+2025-06-02 22:38:07 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
+2025-06-02 22:38:37 [info]: NGFW batch logs processed: 1/1 valid logs saved
+2025-06-02 22:39:05 [info]: WebSocket client disconnected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 22:39:06 [info]: WebSocket client connected: abhinav@gmail.com (682c02150ea91afea37b10b2)
+2025-06-02 22:39:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:40:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:41:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:42:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:43:07 [error]: Error processing application python.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "python.exe" }
+2025-06-02 22:43:07 [error]: Error processing application svchost.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "svchost.exe" }
+2025-06-02 22:43:07 [error]: Error processing application node.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "node.exe" }
+2025-06-02 22:43:07 [error]: Error processing application System: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "System" }
+2025-06-02 22:43:07 [error]: Error processing application chrome.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "chrome.exe" }
+2025-06-02 22:43:07 [error]: Error processing application mysqld.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "mysqld.exe" }
+2025-06-02 22:43:07 [error]: Error processing application MpDefenderCoreService.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "MpDefenderCoreService.exe" }
+2025-06-02 22:43:07 [error]: Error processing application services.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "services.exe" }
+2025-06-02 22:43:07 [error]: Error processing application spoolsv.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "spoolsv.exe" }
+2025-06-02 22:43:07 [error]: Error processing application vmware-authd.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "vmware-authd.exe" }
+2025-06-02 22:43:07 [error]: Error processing application postgres.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "postgres.exe" }
+2025-06-02 22:43:07 [error]: Error processing application jhi_service.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "jhi_service.exe" }
+2025-06-02 22:43:07 [error]: Error processing application lsass.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "lsass.exe" }
+2025-06-02 22:43:07 [error]: Error processing application wininit.exe: Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: test.applications index: name_1 dup key: { name: "wininit.exe" }
+2025-06-02 22:43:07 [info]: Applications submitted for endpoint RitvikBaby: 1 applications processed
+2025-06-02 22:43:07 [info]: Firewall rules fetched for endpoint RitvikBaby: 7 rules
+2025-06-02 22:43:07 [info]: NGFW batch logs processed: 1/1 valid logs saved
